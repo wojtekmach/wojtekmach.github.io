@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Wojtek Mach]]></title>
-  <link href="http://wojtekmach.github.com/atom.xml" rel="self"/>
-  <link href="http://wojtekmach.github.com/"/>
-  <updated>2012-06-21T11:46:40+02:00</updated>
-  <id>http://wojtekmach.github.com/</id>
+  <link href="http://wojtekmach.pl/atom.xml" rel="self"/>
+  <link href="http://wojtekmach.pl/"/>
+  <updated>2012-06-24T23:04:59+02:00</updated>
+  <id>http://wojtekmach.pl/</id>
   <author>
     <name><![CDATA[Wojtek Mach]]></name>
     
