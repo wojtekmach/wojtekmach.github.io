@@ -9,7 +9,8 @@
   <meta name="author" content="Wojtek Mach">
 
   
-  <meta name="description" content="Blog Archives Recent Posts GitHub Repos Status updating&#8230; @wojtekmach on GitHub $.domReady(function(){ if (!window.jXHR){ var jxhr = document. &hellip;">
+  <meta name="description" content="What is Liskov Principle? In layman&#8217;s terms Liskov Substitution Principle says that if class Foo inherits
+from class Bar, then you should be &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -37,7 +38,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Wojtek Mach</a></h1>
   
-    <h2>Ruby & Rails.</h2>
+    <h2>On Ruby & Rails.</h2>
   
 </hgroup>
 
@@ -65,6 +66,355 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/17/liskov-principle-and-minitest/">Liskov Principle &amp; MiniTest</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-17T22:28:00+02:00" pubdate data-updated="true">Jul 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>What is Liskov Principle?</h2>
+
+<p>In layman&#8217;s terms Liskov Substitution Principle says that if class <code>Foo</code> inherits
+from class <code>Bar</code>, then you should be able to use (<em>substitute</em>) derived class in
+every place that the base class is used. For a better definition and further
+references check out <a href="http://www.objectmentor.com/resources/articles/lsp.pdf">The Liskov Substitution Principle</a> by Uncle Bob.</p>
+
+<h2>Testing LSP with MiniTest</h2>
+
+<p>MiniTest has a really simple design. A test case is a class and an example
+is a method of that class. After requiring <code>minitest/autorun</code> every
+subclass of <code>MiniTest::Unit::TestCase</code> is instantiated and test methods are executed
+one by one.</p>
+
+<p>One very nice result of this design, which is kind of obvious when
+you think about it, is that you can not only inherit helper methods
+(eg. you
+subclass <code>ActionController::TestCase</code> to have <code>get</code>, <code>post</code> etc) but you
+may as well inherit whole <em>examples</em>! This is a perfect way to test LSP
+because, again, you should be able to substitute base class with a
+derived class.</p>
+
+<h2>Example</h2>
+
+<p>Let&#8217;s re-implement Ruby&#8217;s built-in <code>Set</code> class. I&#8217;ll write a test first:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">SetTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>    <span class="vi">@set</span> <span class="o">=</span> <span class="no">Set</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_size</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="vi">@set</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">42</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="vi">@set</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_include?</span>
+</span><span class='line'>    <span class="n">refute</span> <span class="vi">@set</span><span class="o">.</span><span class="n">include?</span> <span class="mi">42</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">42</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="vi">@set</span><span class="o">.</span><span class="n">include?</span> <span class="mi">42</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_add</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">13</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">13</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="vi">@set</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_to_a</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">4</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ary</span> <span class="o">=</span> <span class="vi">@set</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">3</span><span class="p">,</span> <span class="n">ary</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="n">ary</span><span class="o">.</span><span class="n">include?</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="n">ary</span><span class="o">.</span><span class="n">include?</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="n">ary</span><span class="o">.</span><span class="n">include?</span> <span class="mi">4</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note I didn&#8217;t write the exact result of <code>Set#to_a</code> because a
+cannonical set is unordered. A Ruby 1.9  built-in <code>Set</code> is actually
+ordered, it simply preserves the order of insertion.</p>
+
+<p>A basic implementation is very easy using <code>Hash</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Set</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Enumerable</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>    <span class="vi">@hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">size</span>
+</span><span class='line'>    <span class="vi">@hash</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@hash</span><span class="o">[</span><span class="n">obj</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">include?</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@hash</span><span class="o">.</span><span class="n">include?</span> <span class="n">obj</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@hash</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&#8217;s run it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~% ruby set.rb
+</span><span class='line'>Run options: --seed 59316
+</span><span class='line'>
+</span><span class='line'><span class="c"># Running tests:</span>
+</span><span class='line'>
+</span><span class='line'>....
+</span><span class='line'>
+</span><span class='line'>Finished tests in 0.000589s, 6791.1715 tests/s, 15280.1358 assertions/s.
+</span><span class='line'>
+</span><span class='line'>4 tests, 9 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, let&#8217;s write a <code>SortedSet</code> that will keep values sorted. Again let&#8217;s
+write a test and run it first:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~% ruby set.rb
+</span><span class='line'>Run options: --seed 54235
+</span><span class='line'>
+</span><span class='line'><span class="c"># Running tests:</span>
+</span><span class='line'>
+</span><span class='line'>........
+</span><span class='line'>
+</span><span class='line'>Finished tests in 0.000944s, 8474.5763 tests/s, 19067.7966 assertions/s.
+</span><span class='line'>
+</span><span class='line'>8 tests, 18 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We now have exactly twice assertions because all test
+methods have been inherited. Let&#8217;s now build a simple <code>SortedSet</code> class
+and adjust the test so that we actually use the derived class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>    <span class="vi">@set</span> <span class="o">=</span> <span class="no">SortedSet</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">SortedSet</span> <span class="o">&lt;</span> <span class="no">Set</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@hash</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sure enough all tests passes and we&#8217;re now certain that a <code>Set</code> object can
+be substituted with a <code>SortedSet</code> object.</p>
+
+<p>Let&#8217;s also test the unique behaviour of the <code>SortedSet</code>. We won&#8217;t just
+define <code>test_to_a</code> method, because we would overwrite assertions from
+the base test. We&#8217;ll pick a different name instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>    <span class="vi">@set</span> <span class="o">=</span> <span class="no">SortedSet</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_to_a_sorted</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">4</span>
+</span><span class='line'>    <span class="vi">@set</span><span class="o">.</span><span class="n">add</span> <span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span><span class="p">,</span> <span class="vi">@set</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, we could stop it right here, but you propably noticed some duplication
+between <code>test_to_a</code> and <code>test_to_a_sorted</code>. Again, because we&#8217;re using
+just classes and methods, we can actually write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>    <span class="vi">@set</span> <span class="o">=</span> <span class="no">SortedSet</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_to_a</span>
+</span><span class='line'>    <span class="k">super</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span><span class="p">,</span> <span class="vi">@set</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&#8217;m not sure if it&#8217;s that useful and you should use it, but
+you must agree it&#8217;s pretty neat!</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -76,6 +426,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/17/liskov-principle-and-minitest/">Liskov Principle &amp; MiniTest</a>
+      </li>
     
   </ul>
 </section>
