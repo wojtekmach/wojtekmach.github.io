@@ -4,7 +4,7 @@
   <title><![CDATA[Wojtek Mach]]></title>
   <link href="http://wojtekmach.pl/atom.xml" rel="self"/>
   <link href="http://wojtekmach.pl/"/>
-  <updated>2012-07-17T23:57:22+02:00</updated>
+  <updated>2012-07-18T00:17:22+02:00</updated>
   <id>http://wojtekmach.pl/</id>
   <author>
     <name><![CDATA[Wojtek Mach]]></name>
@@ -240,7 +240,7 @@ write a test and run it first:</p>
 
 <p>We now have exactly twice assertions because all test
 methods have been inherited. Let&#8217;s now build a simple <code>SortedSet</code> class
-and adjust the test so that we actually use the derived class:</p>
+and adjust the test, so that we actually use the derived class:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
