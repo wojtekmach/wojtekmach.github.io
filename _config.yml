@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://wojtekmach.pl
+title: Wojtek Mach
+subtitle: On Ruby & Rails.
+author: Wojtek Mach
 simple_search: http://google.com/search
 description:
 
@@ -90,8 +90,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name: wojtekmach
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:
