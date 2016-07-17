@@ -1,120 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Wojtek Mach</title>
-  <meta name="author" content="Wojtek Mach">
-
-  
-  <meta name="description" content="In the last few blog posts I wrote about my experiments with Minitest in the last few years.
-For today&rsquo;s blog post I thought I&rsquo;d write &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://wojtekmach.github.io">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Wojtek Mach" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-52962301-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Wojtek Mach</a></h1>
-  
-    <h2>On Ruby & Rails</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:wojtekmach.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Wojtek Mach]]></title>
+  <link href="http://wojtekmach.github.io/atom.xml" rel="self"/>
+  <link href="http://wojtekmach.github.io/"/>
+  <updated>2016-07-17T23:46:00+00:00</updated>
+  <id>http://wojtekmach.github.io/</id>
+  <author>
+    <name><![CDATA[Wojtek Mach]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2016/07/17/4-plus-years-of-using-minitest/">4+ Years of Using Minitest</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2016-07-17T19:21:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2016</time>
-        
-         | <a href="/blog/2016/07/17/4-plus-years-of-using-minitest/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In the <a href="/blog/2015/07/17/testing-shape-of-data">last</a> <a href="/blog/2014/07/17/integration-testing-on-different-levels/">few</a> <a href="/blog/2013/07/17/sharing-examples-in-minitest/">blog</a> <a href="/blog/2012/07/17/liskov-principle-and-minitest/">posts</a> I wrote about my experiments with Minitest in the last few years.
+  <entry>
+    <title type="html"><![CDATA[4+ Years of Using Minitest]]></title>
+    <link href="http://wojtekmach.github.io/blog/2016/07/17/4-plus-years-of-using-minitest/"/>
+    <updated>2016-07-17T19:21:00+00:00</updated>
+    <id>http://wojtekmach.github.io/blog/2016/07/17/4-plus-years-of-using-minitest</id>
+    <content type="html"><![CDATA[<p>In the <a href="http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data">last</a> <a href="http://wojtekmach.github.io/blog/2014/07/17/integration-testing-on-different-levels/">few</a> <a href="http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/">blog</a> <a href="http://wojtekmach.github.io/blog/2012/07/17/liskov-principle-and-minitest/">posts</a> I wrote about my experiments with Minitest in the last few years.
 For today&rsquo;s blog post I thought I&rsquo;d write how some of Minitest&rsquo;s design decision affected how I write tests these days and in general how my approach to testing have changed.</p>
 
 <h2>Test cases</h2>
 
-<p>As I wrote in <a href="/blog/2013/07/17/sharing-examples-in-minitest/">Sharing Examples in Minitest</a>, in Minitest we usually write test cases by inheriting from base classes like <code>Minitest::Test</code>, <code>ActionController::TestCase</code> etc.</p>
+<p>As I wrote in <a href="http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/">Sharing Examples in Minitest</a>, in Minitest we usually write test cases by inheriting from base classes like <code>Minitest::Test</code>, <code>ActionController::TestCase</code> etc.</p>
 
 <p>In my projects I often needed to add some customizations to the tests, e.g. using a Minitest plugin or custom assertions. I used to add these extensions to <code>test/test_helper.rb</code> like this:</p>
 
@@ -294,44 +203,15 @@ In other cases, especially in larger methods when there&rsquo;s some data being 
 <li>&ldquo;fail test when there&rsquo;re no assertions&rdquo; (can&rsquo;t find a link)</li>
 </ul>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/17/testing-shape-of-data/">Testing Shape of Data</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-17T09:00:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2015</time>
-        
-         | <a href="/blog/2015/07/17/testing-shape-of-data/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/blog/2014/07/17/integration-testing-on-different-levels/">Last time</a> I wrote about integration testing on different levels and in this post I want to explore topic that&rsquo;s somewhat related to integration testing.</p>
+  <entry>
+    <title type="html"><![CDATA[Testing Shape of Data]]></title>
+    <link href="http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data/"/>
+    <updated>2015-07-17T09:00:00+00:00</updated>
+    <id>http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data</id>
+    <content type="html"><![CDATA[<p><a href="http://wojtekmach.github.io/blog/2014/07/17/integration-testing-on-different-levels/">Last time</a> I wrote about integration testing on different levels and in this post I want to explore topic that&rsquo;s somewhat related to integration testing.</p>
 
 <p>When testing code that integrates with DBs and JSON APIs I often find myself only caring about (and wanting to test) a subset of data. To give a concrete example, let&rsquo;s say we&rsquo;re integration testing a simple Rails controller with <code>/items</code> endpoint.</p>
 
@@ -490,44 +370,15 @@ In other cases, especially in larger methods when there&rsquo;s some data being 
 <h2>Conclusion</h2>
 
 <p>In this post I described a different approach to testing data structures where in some cases the exact value isn&rsquo;t as important as long as some property of that value is being checked. One could say that testing for type (and not for actual value) is kind of weak and languages with static types are solving this &ldquo;by design&rdquo; and I tend to agree. However, what I&rsquo;m trying to show here is testing for &ldquo;shape&rdquo; of data (which is very useful in JSON APIs) and avoiding adding complexity in test code by extracting only a subset of attributes that matter. I was inspired by ideas from property-based testing to write this blog post, but I&rsquo;m not sure people would say these two techniques are related. If anything, one could say that instead of bringing the best of both worlds (exact values from example-based testing and checking properties against random data from propert-based testing) I&rsquo;m showing the worst of both worlds :&ndash;) Let me know what you think in the comments!</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/17/integration-testing-on-different-levels/">Integration Testing on Different Levels</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-17T23:17:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/07/17/integration-testing-on-different-levels/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/blog/2013/07/17/sharing-examples-in-minitest/">Last time</a> I wrote about sharing examples in Minitest. This time I want to show an idea I had for a long time about reusing the same test to verify system&rsquo;s behavior on different levels.</p>
+  <entry>
+    <title type="html"><![CDATA[Integration testing on different levels]]></title>
+    <link href="http://wojtekmach.github.io/blog/2014/07/17/integration-testing-on-different-levels/"/>
+    <updated>2014-07-17T23:17:00+00:00</updated>
+    <id>http://wojtekmach.github.io/blog/2014/07/17/integration-testing-on-different-levels</id>
+    <content type="html"><![CDATA[<p><a href="http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/">Last time</a> I wrote about sharing examples in Minitest. This time I want to show an idea I had for a long time about reusing the same test to verify system&rsquo;s behavior on different levels.</p>
 
 <p>Let&rsquo;s say we&rsquo;re building a simple signup application. We may end up with a test like this:</p>
 
@@ -916,44 +767,15 @@ Here&rsquo;s one approach; I write it as a module that will be later included in
 <p>This test design also forced us to write mostly production (albeit not used by the production app) code and just a little bit of simple test code. A nice side effect of this is I think you&rsquo;d generally keep this code more organized if it&rsquo;s not a part of the test suite. More importantly though as a way of testing the app we built client libraries to access API (See <a href="http://robots.thoughtbot.com/how-to-test-sinatra-based-web-services">http://robots.thoughtbot.com/how-to-test-sinatra-based-web-services</a>) and the Web UI. If you&rsquo;re lucky enough to have a dedicated QA team they may appreciate that they can drive the app using quite convenient interface yet still be able to access raw features of capybara etc.</p>
 
 <p>Finally, there&rsquo;s one more thing maybe worth mentioning. If we have 2 instances of the app running on <code>app1.example.com</code> and <code>app2.example.com</code> it&rsquo;s entirely possible to configure <code>app1</code>&rsquo;s controllers to use <code>APIClient</code> (instead of simply <code>App</code>) pointed to <code>app2.example.com</code> without a single change in the application code. Again, probably not that useful but I think it&rsquo;s pretty cool :&ndash;)</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/17/sharing-examples-in-minitest/">Sharing Examples in Minitest</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-17T22:26:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/17/sharing-examples-in-minitest/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/blog/2012/07/17/liskov-principle-and-minitest/">Last time</a> I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can&rsquo;t inherit test methods because the framework forces us to inherit from a test case class like:</p>
+  <entry>
+    <title type="html"><![CDATA[Sharing examples in Minitest]]></title>
+    <link href="http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/"/>
+    <updated>2013-07-17T22:26:00+00:00</updated>
+    <id>http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest</id>
+    <content type="html"><![CDATA[<p><a href="http://wojtekmach.github.io/blog/2012/07/17/liskov-principle-and-minitest/">Last time</a> I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can&rsquo;t inherit test methods because the framework forces us to inherit from a test case class like:</p>
 
 <ul>
 <li><code>ActiveSupport::TestCase</code></li>
@@ -1217,44 +1039,15 @@ Here&rsquo;s one approach; I write it as a module that will be later included in
 <h2>Conclusion</h2>
 
 <p>Minitest&rsquo;s simple design allows us to extend it with standard tools we use in day to day ruby programming. We can use the same exact constructs like classes, modules, inheritance &amp; mixins for both the production &amp; test code. As a consequence of this design writing minitest extensions is imho pretty easy too!</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/17/liskov-principle-and-minitest/">Liskov Principle & MiniTest</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-17T22:26:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/17/liskov-principle-and-minitest/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>What is Liskov Principle?</h2>
+  <entry>
+    <title type="html"><![CDATA[Liskov Principle & MiniTest]]></title>
+    <link href="http://wojtekmach.github.io/blog/2012/07/17/liskov-principle-and-minitest/"/>
+    <updated>2012-07-17T22:26:00+00:00</updated>
+    <id>http://wojtekmach.github.io/blog/2012/07/17/liskov-principle-and-minitest</id>
+    <content type="html"><![CDATA[<h2>What is Liskov Principle?</h2>
 
 <p>In layman’s terms Liskov Substitution Principle says that if class <code>Foo</code> inherits from class <code>Bar</code>, then you should be able to use (<em>substitute</em>) derived class in every place that the base class is used. For a better definition and further references check out <a href="http://www.objectmentor.com/resources/articles/lsp.pdf">The Liskov Substitution Principle</a> by Uncle Bob.</p>
 
@@ -1545,97 +1338,7 @@ Here&rsquo;s one approach; I write it as a module that will be later included in
 
 
 <p>I’m not sure if it’s that useful and you should use it, but you must agree it’s pretty neat!</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2016/07/17/4-plus-years-of-using-minitest/">4+ Years of Using Minitest</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/17/testing-shape-of-data/">Testing Shape of Data</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/17/integration-testing-on-different-levels/">Integration Testing on Different Levels</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/17/sharing-examples-in-minitest/">Sharing Examples in Minitest</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/17/liskov-principle-and-minitest/">Liskov Principle & MiniTest</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Wojtek Mach -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'wojtekmach';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

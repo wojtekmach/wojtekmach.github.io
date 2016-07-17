@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Testing Shape of Data - Wojtek Mach</title>
+  <meta name="author" content="Wojtek Mach">
+
+  
+  <meta name="description" content="Last time I wrote about integration testing on different levels and in this post I want to explore topic that&rsquo;s somewhat related to integration &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wojtek Mach" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-52962301-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wojtek Mach</a></h1>
+  
+    <h2>On Ruby & Rails</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wojtekmach.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Testing Shape of Data</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-17T09:00:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2015</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="/blog/2014/07/17/integration-testing-on-different-levels/">Last time</a> I wrote about integration testing on different levels and in this post I want to explore topic that&rsquo;s somewhat related to integration testing.</p>
+
+<p>When testing code that integrates with DBs and JSON APIs I often find myself only caring about (and wanting to test) a subset of data. To give a concrete example, let&rsquo;s say we&rsquo;re integration testing a simple Rails controller with <code>/items</code> endpoint.</p>
+
+<p>The simplest possible test for that could be just:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_create</span>
+</span><span class='line'>  <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s2">&quot;/items&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="o">[</span>
+</span><span class='line'>    <span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">},</span>
+</span><span class='line'>  <span class="o">]</span><span class="p">,</span> <span class="no">JSON</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s a problem with this test and it&rsquo;s the hardcoded ids (this is even more painful with things like <code>created_at</code>). This can be pretty easily solved by introducing local variables:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_create</span>
+</span><span class='line'>  <span class="n">item1</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">item2</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s2">&quot;/items&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="o">[</span>
+</span><span class='line'>    <span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">item1</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">item2</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">},</span>
+</span><span class='line'>  <span class="o">]</span><span class="p">,</span> <span class="no">JSON</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I think this introduced some complexity into the test code and decreased readability a bit. Also, I don&rsquo;t really care what are the ids that have been auto-generated by my DB. My <strong>intent</strong> is to test the <code>name</code> attribute was correctly saved, and the <code>id</code> attribute is just an accidental detail.</p>
+
+<p>Another way of addressing this problem is introducing even more complexity into the test code, by extracting only the fields I care about:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_create</span>
+</span><span class='line'>  <span class="n">item1</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">item2</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s2">&quot;/items&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="o">[</span>
+</span><span class='line'>    <span class="s2">&quot;Item 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">]</span><span class="p">,</span> <span class="no">JSON</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="o">|</span> <span class="n">h</span><span class="o">[</span><span class="s1">&#39;name&#39;</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I think this is really hard to read. Moreover, when this test grows I&rsquo;d be concerned about a possibility of introducing a bug in my <em>test code</em>.</p>
+
+<p>As mentioned above, my intent is to test the <code>name</code> attribute and I don&rsquo;t really care what&rsquo;s the <code>id</code> attribute &ndash; it can be <strong>any</strong> integer, as far as I&rsquo;m concerned in this test. This is the test I&rsquo;d like to write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_create</span>
+</span><span class='line'>  <span class="n">item1</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">item2</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s2">&quot;/items&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="o">[</span>
+</span><span class='line'>    <span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">any_integer</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span><span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">any_integer</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Item 2&quot;</span><span class="p">},</span>
+</span><span class='line'>  <span class="o">]</span><span class="p">,</span> <span class="no">JSON</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and let me show you how this can be achieved.</p>
+
+<h2>Building <code>any_integer</code></h2>
+
+<p>Let&rsquo;s break down the test above into the simplest possible code we could discuss. It boils down to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert_equal</span> <span class="o">[</span><span class="n">any_integer</span><span class="p">,</span> <span class="n">any_integer</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Minitest&rsquo;s <code>assert_equal</code> uses Ruby&rsquo;s equality operator <code>==</code> to do the comparison. In this case, we&rsquo;re equaling two <code>Array</code>s and <a href="http://ruby-doc.org/core-2.2.0/Array.html#method-i-3D-3D">per documentation</a> &ldquo;Two arrays are equal if they contain the same number of elements and if each element is equal to (according to Object#==)&rdquo;</p>
+
+<p>So, all we need to do is to implement the <code>==</code> method on the <code>any_integer</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AnyInteger</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">==</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">other</span><span class="o">.</span><span class="n">is_a?</span> <span class="nb">Integer</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">any_integer</span>
+</span><span class='line'>  <span class="no">AnyInteger</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">[</span><span class="n">any_integer</span><span class="p">,</span> <span class="n">any_integer</span><span class="o">]</span> <span class="o">==</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>    <span class="c1"># =&gt; true</span>
+</span><span class='line'><span class="o">[</span><span class="n">any_integer</span><span class="p">,</span> <span class="n">any_integer</span><span class="o">]</span> <span class="o">==</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:bad</span><span class="o">]</span> <span class="c1"># =&gt; false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>any_integer</code> and many other methods (as well as ways to <em>compose</em> them) is available on GitHub: <a href="https://github.com/wojtekmach/anything">https://github.com/wojtekmach/anything</a>, <a href="https://github.com/wojtekmach/anything/blob/master/test/anything_test.rb">https://github.com/wojtekmach/anything/blob/master/test/anything_test.rb</a></p>
+
+<h2>Conclusion</h2>
+
+<p>In this post I described a different approach to testing data structures where in some cases the exact value isn&rsquo;t as important as long as some property of that value is being checked. One could say that testing for type (and not for actual value) is kind of weak and languages with static types are solving this &ldquo;by design&rdquo; and I tend to agree. However, what I&rsquo;m trying to show here is testing for &ldquo;shape&rdquo; of data (which is very useful in JSON APIs) and avoiding adding complexity in test code by extracting only a subset of attributes that matter. I was inspired by ideas from property-based testing to write this blog post, but I&rsquo;m not sure people would say these two techniques are related. If anything, one could say that instead of bringing the best of both worlds (exact values from example-based testing and checking properties against random data from propert-based testing) I&rsquo;m showing the worst of both worlds :&ndash;) Let me know what you think in the comments!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wojtek Mach</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-17T09:00:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data/" data-via="" data-counturl="http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/17/integration-testing-on-different-levels/" title="Previous Post: Integration testing on different levels">&laquo; Integration testing on different levels</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/07/17/4-plus-years-of-using-minitest/" title="Next Post: 4+ Years of Using Minitest">4+ Years of Using Minitest &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/17/4-plus-years-of-using-minitest/">4+ Years of Using Minitest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/testing-shape-of-data/">Testing Shape of Data</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/17/integration-testing-on-different-levels/">Integration Testing on Different Levels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/17/sharing-examples-in-minitest/">Sharing Examples in Minitest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/17/liskov-principle-and-minitest/">Liskov Principle & MiniTest</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Wojtek Mach -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'wojtekmach';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data/';
+        var disqus_url = 'http://wojtekmach.github.io/blog/2015/07/17/testing-shape-of-data/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

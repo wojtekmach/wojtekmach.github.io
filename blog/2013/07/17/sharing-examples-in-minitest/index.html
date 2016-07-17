@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sharing examples in Minitest - Wojtek Mach</title>
+  <meta name="author" content="Wojtek Mach">
+
+  
+  <meta name="description" content="Last time I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wojtek Mach" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-52962301-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wojtek Mach</a></h1>
+  
+    <h2>On Ruby & Rails</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wojtekmach.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Sharing Examples in Minitest</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-17T22:26:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="/blog/2012/07/17/liskov-principle-and-minitest/">Last time</a> I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can&rsquo;t inherit test methods because the framework forces us to inherit from a test case class like:</p>
+
+<ul>
+<li><code>ActiveSupport::TestCase</code></li>
+<li><code>ActionDispatch::IntegrationTest</code></li>
+</ul>
+
+
+<p>etc. In these cases we need to find some other way to share behavior and with Minitest&rsquo;s design the answer is pretty simple &ndash; modules.</p>
+
+<h2>Example</h2>
+
+<p>Let&rsquo;s write a simple data store library inspired by <a href="https://github.com/minad/moneta">Moneta</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DataStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@adapter</span> <span class="o">=</span> <span class="n">adapter</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@adapter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@adapter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s write an adapter:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DataStore</span><span class="o">::</span><span class="no">InMemoryAdapter</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>    <span class="vi">@hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@hash</span><span class="o">[</span><span class="n">key</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@hash</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s write a test for this. Knowing we will later reuse test methods, we start with a module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">DataStore::AdapterTest</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_get_not_found</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="kp">nil</span><span class="p">,</span> <span class="vi">@adapter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">:invalid</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_set</span>
+</span><span class='line'>    <span class="vi">@adapter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="ss">:foo</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">42</span><span class="p">,</span> <span class="vi">@adapter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now the actual <code>DataStore::InMemoryAdapter</code> test (note, I&rsquo;m using <code>Minitest::Test</code> which comes from minitest 5):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DataStore</span><span class="o">::</span><span class="no">InMemoryAdapterTest</span> <span class="o">&lt;</span> <span class="ss">Minitest</span><span class="p">:</span><span class="ss">:Test</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="ss">DataStore</span><span class="p">:</span><span class="ss">:AdapterTest</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>    <span class="vi">@adapter</span> <span class="o">=</span> <span class="ss">DataStore</span><span class="p">:</span><span class="ss">:InMemoryAdapter</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Running this we see that two examples have been &ldquo;inherited&rdquo; from the shared module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~% ruby shared.rb
+</span><span class='line'>Run options: --seed 18221
+</span><span class='line'>
+</span><span class='line'><span class="c"># Running:</span>
+</span><span class='line'>
+</span><span class='line'>..
+</span><span class='line'>
+</span><span class='line'>Finished in 0.001126s, 1776.1989 runs/s, 1776.1989 assertions/s.
+</span><span class='line'>
+</span><span class='line'>2 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this foundation it&rsquo;s pretty easy to add new adapters and we don&rsquo;t really have to write new tests. Including shared module in the test is enough to have confidence that an adapter is conforming to an interface.</p>
+
+<p>Let&rsquo;s say we package the data store as a gem. We can ship the <code>AdapterTest</code> as an integral part of the gem distribution and let the users write their own application specific adapters. Just as Rails ships with <code>ActionDsipatch::IntegrationTest</code>.</p>
+
+<h2>minitest/spec</h2>
+
+<p>It&rsquo;s actually pretty easy to use shared modules with minitest/spec. It&rsquo;s simple because minitest/spec is really just a DSL on top of minitest/test (minitest/unit). A <code>describe</code> block creates a new <code>Minitest::Test</code> class, an <code>it</code> block defines a new <code>test_</code> method. With this in mind we can start with our custom DSL like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">DataStore::AdapterSpec</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;returns nil for an invalid key&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@adapter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">:invalid</span><span class="p">)</span><span class="o">.</span><span class="n">must_equal</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;can set a value&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@adapter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="ss">:foo</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@adapter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span><span class="o">.</span><span class="n">must_equal</span> <span class="mi">42</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the spec:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="ss">DataStore</span><span class="p">:</span><span class="ss">:InMemoryAdapter</span> <span class="k">do</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="ss">DataStore</span><span class="p">:</span><span class="ss">:AdapterSpec</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@adapter</span> <span class="o">=</span> <span class="ss">DataStore</span><span class="p">:</span><span class="ss">:InMemoryAdapter</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Running this will result in error like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;module:AdapterSpec&gt;: undefined method <span class="s1">&#39;it&#39;</span> <span class="k">for </span>DataStore::AdapterSpec:Module <span class="o">(</span>NoMethodError<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s fix this; we basically have to implement <code>Module#it</code> for it to work:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Module</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">it</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;test_</span><span class="si">#{</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Tests should be passing now.</p>
+
+<p>I mentioned before that minitest/spec is just a DSL. In fact, there&rsquo;s literally a <a href="https://github.com/seattlerb/minitest/blob/363ff3fe7c0144f6d02d04dabad9ceee5d252fa7/lib/minitest/spec.rb#L96">Minitest::Spec::DSL module</a> that <code>Minitest::Spec</code> is including. The DSL module is so good in fact that it can be included both in classes and in other modules:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Module</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="ss">Minitest</span><span class="p">:</span><span class="ss">:Spec</span><span class="o">::</span><span class="no">DSL</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and it just works! We now can do stuff like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SomeTest</span>
+</span><span class='line'>  <span class="n">before</span> <span class="p">{</span> <span class="s2">&quot;...&quot;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">after</span> <span class="p">{</span> <span class="s2">&quot;...&quot;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">let</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;...&quot;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;returns this&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;returns that&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>etc.</p>
+
+<p>The way <code>Minitest::Spec::DSL</code> is implemented is actually pretty simple. It doesn&rsquo;t do anything special; it just defines a bunch of methods like <code>setup</code>, <code>teardown</code>, <code>foo</code>, <code>test_returns_this</code> etc. It means that after the &ldquo;DSL&rdquo; phase we end up with just a ruby module that we can include (or not), and nothing is evaluated until the module is included somewhere.</p>
+
+<h2>Conclusion</h2>
+
+<p>Minitest&rsquo;s simple design allows us to extend it with standard tools we use in day to day ruby programming. We can use the same exact constructs like classes, modules, inheritance &amp; mixins for both the production &amp; test code. As a consequence of this design writing minitest extensions is imho pretty easy too!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wojtek Mach</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-17T22:26:00+00:00" pubdate data-updated="true">Jul 17<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/" data-via="" data-counturl="http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/07/17/liskov-principle-and-minitest/" title="Previous Post: Liskov Principle & MiniTest">&laquo; Liskov Principle & MiniTest</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/07/17/integration-testing-on-different-levels/" title="Next Post: Integration testing on different levels">Integration testing on different levels &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/17/4-plus-years-of-using-minitest/">4+ Years of Using Minitest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/17/testing-shape-of-data/">Testing Shape of Data</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/17/integration-testing-on-different-levels/">Integration Testing on Different Levels</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/17/sharing-examples-in-minitest/">Sharing Examples in Minitest</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/17/liskov-principle-and-minitest/">Liskov Principle & MiniTest</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Wojtek Mach -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'wojtekmach';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/';
+        var disqus_url = 'http://wojtekmach.github.io/blog/2013/07/17/sharing-examples-in-minitest/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
