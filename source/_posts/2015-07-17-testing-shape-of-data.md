@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Testing shape of data and nested data structures"
+title: "Testing Shape of Data"
 date: 2015-07-17 09:00
 comments: true
 ---
 
-[Last time](http://localhost:4000/blog/2014/07/17/integration-testing-on-different-levels/) I wrote about integration testing on different levels and in this post I want to explore topic that's somewhat related to integration testing.
+[Last time](/blog/2014/07/17/integration-testing-on-different-levels/) I wrote about integration testing on different levels and in this post I want to explore topic that's somewhat related to integration testing.
 
 When testing code that integrates with DBs and JSON APIs I often find myself only caring about (and wanting to test) a subset of data. To give a concrete example, let's say we're integration testing a simple Rails controller with `/items` endpoint.
 

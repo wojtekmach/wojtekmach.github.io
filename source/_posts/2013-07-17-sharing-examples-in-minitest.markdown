@@ -5,7 +5,7 @@ date: 2013-07-17 22:26
 comments: true
 ---
 
-[Last time](http://wojtekmach.pl/blog/2012/07/17/liskov-principle-and-minitest/) I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can't inherit test methods because the framework forces us to inherit from a test case class like:
+[Last time](/blog/2012/07/17/liskov-principle-and-minitest/) I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can't inherit test methods because the framework forces us to inherit from a test case class like:
 
 * `ActiveSupport::TestCase`
 * `ActionDispatch::IntegrationTest`

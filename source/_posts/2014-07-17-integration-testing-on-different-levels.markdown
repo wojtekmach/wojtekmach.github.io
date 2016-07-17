@@ -5,7 +5,7 @@ date: 2014-07-17 23:17
 comments: true
 ---
 
-[Last time](http://wojtekmach.pl/blog/2013/07/17/sharing-examples-in-minitest/) I wrote about sharing examples in Minitest. This time I want to show an idea I had for a long time about reusing the same test to verify system's behavior on different levels.
+[Last time](/blog/2013/07/17/sharing-examples-in-minitest/) I wrote about sharing examples in Minitest. This time I want to show an idea I had for a long time about reusing the same test to verify system's behavior on different levels.
 
 Let's say we're building a simple signup application. We may end up with a test like this:
 
