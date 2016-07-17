@@ -120,7 +120,7 @@ In other cases, especially in larger methods when there's some data being calcul
 
 ## Tooling & Practices
 
-I'm constantly impressed how Minitest community is pushing for better tooling and practices. Perhaps tools/ideas things haven't originated in Minitest, but it's where I first encountered them:
+I'm constantly impressed how Minitest community is pushing for better tooling and practices. Perhaps the tools/ideas below have not originated in Minitest, but it's where I first encountered them:
 
 - randomize tests by default
 - [assert_nothing_tested](http://www.zenspider.com/ruby/2012/01/assert_nothing_tested.html)
