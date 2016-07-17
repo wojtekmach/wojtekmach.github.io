@@ -4,7 +4,7 @@
   <title><![CDATA[Wojtek Mach]]></title>
   <link href="http://wojtekmach.github.io/atom.xml" rel="self"/>
   <link href="http://wojtekmach.github.io/"/>
-  <updated>2016-07-17T23:49:02+00:00</updated>
+  <updated>2016-07-17T23:51:37+00:00</updated>
   <id>http://wojtekmach.github.io/</id>
   <author>
     <name><![CDATA[Wojtek Mach]]></name>
@@ -193,7 +193,7 @@ In other cases, especially in larger methods when there&rsquo;s some data being 
 
 <h2>Tooling &amp; Practices</h2>
 
-<p>I&rsquo;m constantly impressed how Minitest community is pushing for better tooling and practices. Perhaps tools/ideas things haven&rsquo;t originated in Minitest, but it&rsquo;s where I first encountered them:</p>
+<p>I&rsquo;m constantly impressed how Minitest community is pushing for better tooling and practices. Perhaps the tools/ideas below have not originated in Minitest, but it&rsquo;s where I first encountered them:</p>
 
 <ul>
 <li>randomize tests by default</li>
