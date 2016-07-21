@@ -122,7 +122,7 @@ In other cases, especially in larger methods when there's some data being calcul
 
 I'm constantly impressed how Minitest community is pushing for better tooling and practices. Perhaps the tools/ideas below have not originated in Minitest, but it's where I first heard about them. For each item I added the year when it was added/considered in Minitest:
 
-- [heckle](https://github.com/seattlerb/heckle) - mutation testing support for minitest. (2006)
+- [heckle](https://github.com/seattlerb/heckle) - mutation testing library. (2006)
 - Randomize tests by default. (2008)
 - [assert_nothing_tested](http://www.zenspider.com/ruby/2012/01/assert_nothing_tested.html) - Minitest doesn't have `assert_nothing_raised`. Instead of asserting that nothing failed, we should assert what the code is actually doing. (2012)
 - [minitest-bisect](https://github.com/seattlerb/minitest-bisect) - finds the smallest amount of tests to run (in a particular order) to reproduce an order-dependant test failure. (2014)
