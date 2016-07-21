@@ -4,7 +4,7 @@
   <title><![CDATA[Wojtek Mach]]></title>
   <link href="http://wojtekmach.github.io/atom.xml" rel="self"/>
   <link href="http://wojtekmach.github.io/"/>
-  <updated>2016-07-17T23:51:37+00:00</updated>
+  <updated>2016-07-21T21:47:19+00:00</updated>
   <id>http://wojtekmach.github.io/</id>
   <author>
     <name><![CDATA[Wojtek Mach]]></name>
@@ -193,14 +193,22 @@ In other cases, especially in larger methods when there&rsquo;s some data being 
 
 <h2>Tooling &amp; Practices</h2>
 
-<p>I&rsquo;m constantly impressed how Minitest community is pushing for better tooling and practices. Perhaps the tools/ideas below have not originated in Minitest, but it&rsquo;s where I first encountered them:</p>
+<p>I&rsquo;m constantly impressed how Minitest community is pushing for better tooling and practices. Perhaps the tools/ideas below have not originated in Minitest, but it&rsquo;s where I first heard about them. For each item I added the year when it was added/considered in Minitest:</p>
 
 <ul>
-<li>randomize tests by default</li>
-<li><a href="http://www.zenspider.com/ruby/2012/01/assert_nothing_tested.html">assert_nothing_tested</a></li>
-<li><a href="https://github.com/seattlerb/minitest-bisect">minitest-bisect</a></li>
-<li><a href="https://github.com/seattlerb/minitest/pull/626"><code>assert_equal</code> should not allow <code>nil</code> for &ldquo;expected&rdquo;</a></li>
-<li>&ldquo;fail test when there&rsquo;re no assertions&rdquo; (can&rsquo;t find a link)</li>
+<li><a href="https://github.com/seattlerb/heckle">heckle</a> &ndash; mutation testing support for minitest. (2006)</li>
+<li>Randomize tests by default. (2008)</li>
+<li><a href="http://www.zenspider.com/ruby/2012/01/assert_nothing_tested.html">assert_nothing_tested</a> &ndash; Minitest doesn&rsquo;t have <code>assert_nothing_raised</code>. Instead of asserting that nothing failed, we should assert what the code is actually doing. (2012)</li>
+<li><a href="https://github.com/seattlerb/minitest-bisect">minitest-bisect</a> &ndash; finds the smallest amount of tests to run (in a particular order) to reproduce an order-dependant test failure. (2014)</li>
+<li><a href="https://github.com/seattlerb/minitest-proveit">minitest-proveit</a> &ndash; forces all tests to prove success (via at least one assertion) rather than rely on the absence of failure. (2016)</li>
+<li><a href="https://github.com/seattlerb/minitest/pull/626"><code>assert_equal</code> should not allow <code>nil</code> for &ldquo;expected&rdquo;</a> &ndash; if your code expects a <code>nil</code> then explicitly use <code>assert_nil</code>, otherwise you might have a <code>nil</code> value and not even know about it. (2016)</li>
+</ul>
+
+
+<h2>Updates</h2>
+
+<ul>
+<li>updated &ldquo;Tooling &amp; Practices&rdquo; section by adding description, mentioning heckle, and a link to <code>minitest-proveit</code> (thanks @splattael!)</li>
 </ul>
 
 ]]></content>
