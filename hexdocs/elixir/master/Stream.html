@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Stream – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Stream.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Stream        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Functions for creating and composing streams.</p>
+<p>Streams are composable, lazy enumerables (for an introduction on
+enumerables, see the <a href="Enum.html"><code class="inline">Enum</code></a> module). Any enumerable that generates
+items one by one during enumeration is called a stream. For example,
+Elixir’s <a href="Range.html"><code class="inline">Range</code></a> is a stream:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">5</span><span class="w">
+</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">5</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="0850554176-1">(</span><span class="n">range</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="0850554176-2">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0850554176-2">)</span><span class="p" data-group-id="0850554176-1">)</span><span class="w">
+</span><span class="p" data-group-id="0850554176-3">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="0850554176-3">]</span></code></pre>
+<p>In the example above, as we mapped over the range, the elements being
+enumerated were created one by one, during enumeration. The <a href="Stream.html#content"><code class="inline">Stream</code></a>
+module allows us to map the range, without triggering its enumeration:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">3</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="4995617989-1">(</span><span class="n">range</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="4995617989-2">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4995617989-2">)</span><span class="p" data-group-id="4995617989-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="4995617989-3">(</span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="4995617989-4">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4995617989-4">)</span><span class="p" data-group-id="4995617989-3">)</span><span class="w">
+</span><span class="p" data-group-id="4995617989-5">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p" data-group-id="4995617989-5">]</span></code></pre>
+<p>Notice we started with a range and then we created a stream that is
+meant to multiply each item in the range by 2. At this point, no
+computation was done. Only when <a href="Enum.html#map/2"><code class="inline">Enum.map/2</code></a> is called we actually
+enumerate over each item in the range, multiplying it by 2 and adding 1.
+We say the functions in <a href="Stream.html#content"><code class="inline">Stream</code></a> are <em>lazy</em> and the functions in <a href="Enum.html"><code class="inline">Enum</code></a>
+are <em>eager</em>.</p>
+<p>Due to their laziness, streams are useful when working with large
+(or even infinite) collections. When chaining many operations with <a href="Enum.html"><code class="inline">Enum</code></a>,
+intermediate lists are created, while <a href="Stream.html#content"><code class="inline">Stream</code></a> creates a recipe of
+computations that are executed at a later moment. Let’s see another
+example:</p>
+<pre><code class="nohighlight makeup elixir"><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">3</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="5496929018-1">(</span><span class="o">&amp;</span><span class="nc">IO</span><span class="o">.</span><span class="n">inspect</span><span class="p" data-group-id="5496929018-2">(</span><span class="ni">&amp;1</span><span class="p" data-group-id="5496929018-2">)</span><span class="p" data-group-id="5496929018-1">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="5496929018-3">(</span><span class="o">&amp;</span><span class="p" data-group-id="5496929018-4">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5496929018-4">)</span><span class="p" data-group-id="5496929018-3">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="5496929018-5">(</span><span class="o">&amp;</span><span class="nc">IO</span><span class="o">.</span><span class="n">inspect</span><span class="p" data-group-id="5496929018-6">(</span><span class="ni">&amp;1</span><span class="p" data-group-id="5496929018-6">)</span><span class="p" data-group-id="5496929018-5">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="mi">3</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="mi">4</span><span class="w">
+</span><span class="mi">6</span><span class="w">
+</span><span class="c1">#=&gt; [2, 4, 6]</span></code></pre>
+<p>Notice that we first printed each item in the list, then multiplied each
+element by 2 and finally printed each new value. In this example, the list
+was enumerated three times. Let’s see an example with streams:</p>
+<pre><code class="nohighlight makeup elixir"><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">3</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="2051579818-1">(</span><span class="o">&amp;</span><span class="nc">IO</span><span class="o">.</span><span class="n">inspect</span><span class="p" data-group-id="2051579818-2">(</span><span class="ni">&amp;1</span><span class="p" data-group-id="2051579818-2">)</span><span class="p" data-group-id="2051579818-1">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="2051579818-3">(</span><span class="o">&amp;</span><span class="p" data-group-id="2051579818-4">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2051579818-4">)</span><span class="p" data-group-id="2051579818-3">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="2051579818-5">(</span><span class="o">&amp;</span><span class="nc">IO</span><span class="o">.</span><span class="n">inspect</span><span class="p" data-group-id="2051579818-6">(</span><span class="ni">&amp;1</span><span class="p" data-group-id="2051579818-6">)</span><span class="p" data-group-id="2051579818-5">)</span><span class="w">
+</span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="2051579818-7">(</span><span class="n">stream</span><span class="p" data-group-id="2051579818-7">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="mi">4</span><span class="w">
+</span><span class="mi">3</span><span class="w">
+</span><span class="mi">6</span><span class="w">
+</span><span class="c1">#=&gt; [2, 4, 6]</span></code></pre>
+<p>Although the end result is the same, the order in which the items were
+printed changed! With streams, we print the first item and then print
+its double. In this example, the list was enumerated just once!</p>
+<p>That’s what we meant when we said earlier that streams are composable,
+lazy enumerables. Notice we could call <a href="Stream.html#map/2"><code class="inline">Stream.map/2</code></a> multiple times,
+effectively composing the streams and keeping them lazy. The computations
+are only performed when you call a function from the <a href="Enum.html"><code class="inline">Enum</code></a> module.</p>
+<h2 id="module-creating-streams" class="section-heading">
+  <a href="#module-creating-streams" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Creating Streams
+</h2>
+
+<p>There are many functions in Elixir’s standard library that return
+streams, some examples are:</p>
+<ul>
+<li><a href="IO.html#stream/2"><code class="inline">IO.stream/2</code></a>         - streams input lines, one by one
+</li>
+<li><a href="URI.html#query_decoder/1"><code class="inline">URI.query_decoder/1</code></a> - decodes a query string, pair by pair
+</li>
+</ul>
+<p>This module also provides many convenience functions for creating streams,
+like <a href="Stream.html#cycle/1"><code class="inline">Stream.cycle/1</code></a>, <a href="Stream.html#unfold/2"><code class="inline">Stream.unfold/2</code></a>, <a href="Stream.html#resource/3"><code class="inline">Stream.resource/3</code></a> and more.</p>
+<p>Note the functions in this module are guaranteed to return enumerables.
+Since enumerables can have different shapes (structs, anonymous functions,
+and so on), the functions in this module may return any of those shapes
+and this may change at any time. For example, a function that today
+returns an anonymous function may return a struct in future releases.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:acc/0">acc()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:default/0">default()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:element/0">element()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:index/0">index()</a>
+  </div>
+    <div class="summary-synopsis"><p>Zero-based index</p>
+</div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#chunk_by/2">chunk_by(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Chunks the <code class="inline">enum</code> by buffering elements for which <code class="inline">fun</code> returns the same value</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#chunk_every/2">chunk_every(enum, count)</a>
+  </div>
+    <div class="summary-synopsis"><p>Shortcut to <code class="inline">chunk_every(enum, count, count)</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#chunk_every/4">chunk_every(enum, count, step, leftover \\ [])</a>
+  </div>
+    <div class="summary-synopsis"><p>Streams the enumerable in chunks, containing <code class="inline">count</code> items each,
+where each new chunk starts <code class="inline">step</code> elements into the enumerable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#chunk_while/4">chunk_while(enum, acc, chunk_fun, after_fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Chunks the <code class="inline">enum</code> with fine grained control when every chunk is emitted</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#concat/1">concat(enumerables)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that enumerates each enumerable in an enumerable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#concat/2">concat(first, second)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that enumerates the first argument, followed by the second</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#cycle/1">cycle(enumerable)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that cycles through the given enumerable,
+infinitely</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#dedup/1">dedup(enum)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that only emits elements if they are different from the last emitted element</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#dedup_by/2">dedup_by(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that only emits elements if the result of calling <code class="inline">fun</code> on the element is
+different from the (stored) result of calling <code class="inline">fun</code> on the last emitted element</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#drop/2">drop(enum, n)</a>
+  </div>
+    <div class="summary-synopsis"><p>Lazily drops the next <code class="inline">n</code> items from the enumerable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#drop_every/2">drop_every(enum, nth)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that drops every <code class="inline">nth</code> item from the enumerable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#drop_while/2">drop_while(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Lazily drops elements of the enumerable while the given
+function returns a truthy value</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#each/2">each(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Executes the given function for each item</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#filter/2">filter(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that filters elements according to
+the given function on enumeration</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#flat_map/2">flat_map(enum, mapper)</a>
+  </div>
+    <div class="summary-synopsis"><p>Maps the given <code class="inline">fun</code> over <code class="inline">enumerable</code> and flattens the result</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#intersperse/2">intersperse(enumerable, intersperse_element)</a>
+  </div>
+    <div class="summary-synopsis"><p>Lazily intersperses <code class="inline">intersperse_element</code> between each element of the enumeration</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#interval/1">interval(n)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that emits a value after the given period <code class="inline">n</code>
+in milliseconds</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#into/3">into(enum, collectable, transform \\ fn x -&gt; x end)</a>
+  </div>
+    <div class="summary-synopsis"><p>Injects the stream values into the given collectable as a side-effect</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#iterate/2">iterate(start_value, next_fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Emits a sequence of values, starting with <code class="inline">start_value</code>. Successive
+values are generated by calling <code class="inline">next_fun</code> on the previous value</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#map/2">map(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that will apply the given function on
+enumeration</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#map_every/3">map_every(enum, nth, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that will apply the given function on
+every <code class="inline">nth</code> item from the enumerable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#reject/2">reject(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that will reject elements according to
+the given function on enumeration</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#repeatedly/1">repeatedly(generator_fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a stream generated by calling <code class="inline">generator_fun</code> repeatedly</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#resource/3">resource(start_fun, next_fun, after_fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Emits a sequence of values for the given resource</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#run/1">run(stream)</a>
+  </div>
+    <div class="summary-synopsis"><p>Runs the given stream</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#scan/2">scan(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that applies the given function to each
+element, emits the result and uses the same result as the accumulator
+for the next computation. Uses the first element in the enumerable
+as the starting value</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#scan/3">scan(enum, acc, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that applies the given function to each
+element, emits the result and uses the same result as the accumulator
+for the next computation. Uses the given <code class="inline">acc</code> as the starting value</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#take/2">take(enum, count)</a>
+  </div>
+    <div class="summary-synopsis"><p>Lazily takes the next <code class="inline">count</code> items from the enumerable and stops
+enumeration</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#take_every/2">take_every(enum, nth)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that takes every <code class="inline">nth</code> item from the enumerable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#take_while/2">take_while(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Lazily takes elements of the enumerable while the given
+function returns a truthy value</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#timer/1">timer(n)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that emits a single value after <code class="inline">n</code> milliseconds</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#transform/3">transform(enum, acc, reducer)</a>
+  </div>
+    <div class="summary-synopsis"><p>Transforms an existing stream</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#transform/4">transform(enum, start_fun, reducer, after_fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Transforms an existing stream with function-based start and finish</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#unfold/2">unfold(next_acc, next_fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Emits a sequence of values for the given accumulator</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#uniq/1">uniq(enum)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that only emits elements if they are unique</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#uniq_by/2">uniq_by(enum, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream that only emits elements if they are unique, by removing the
+elements for which function <code class="inline">fun</code> returned duplicate items</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#with_index/2">with_index(enum, offset \\ 0)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a stream where each item in the enumerable will
+be wrapped in a tuple alongside its index</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#zip/1">zip(enumerables)</a>
+  </div>
+    <div class="summary-synopsis"><p>Zips corresponding elements from a finite collection of enumerables
+into one stream of tuples</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#zip/2">zip(left, right)</a>
+  </div>
+    <div class="summary-synopsis"><p>Zips two collections together, lazily</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:acc/0">
+    <div class="detail-header">
+    <a href="#t:acc/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">acc()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L96" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>acc() :: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:default/0">
+    <div class="detail-header">
+    <a href="#t:default/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">default()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L102" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>default() :: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:element/0">
+    <div class="detail-header">
+    <a href="#t:element/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">element()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L97" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>element() :: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:index/0">
+    <div class="detail-header">
+    <a href="#t:index/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">index()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L100" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>index() :: <a href="typespecs.html#basic-types">non_neg_integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Zero-based index.</p>
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="chunk_by/2">
+    <div class="detail-header">
+    <a href="#chunk_by/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">chunk_by(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L206" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>chunk_by(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#basic-types">any</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Chunks the <code class="inline">enum</code> by buffering elements for which <code class="inline">fun</code> returns the same value.</p>
+<p>Elements are only emitted when <code class="inline">fun</code> returns a new value or the <code class="inline">enum</code> finishes.</p>
+<h2 id="chunk_by/2-examples" class="section-heading">
+  <a href="#chunk_by/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">chunk_by</span><span class="p" data-group-id="5272969518-1">(</span><span class="p" data-group-id="5272969518-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p" data-group-id="5272969518-2">]</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="5272969518-3">(</span><span class="n">rem</span><span class="p" data-group-id="5272969518-4">(</span><span class="ni">&amp;1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5272969518-4">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5272969518-3">)</span><span class="p" data-group-id="5272969518-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="5272969518-5">(</span><span class="n">stream</span><span class="p" data-group-id="5272969518-5">)</span><span class="w">
+</span><span class="p" data-group-id="5272969518-6">[</span><span class="p" data-group-id="5272969518-7">[</span><span class="mi">1</span><span class="p" data-group-id="5272969518-7">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5272969518-8">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5272969518-8">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5272969518-9">[</span><span class="mi">3</span><span class="p" data-group-id="5272969518-9">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5272969518-10">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="5272969518-10">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5272969518-11">[</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p" data-group-id="5272969518-11">]</span><span class="p" data-group-id="5272969518-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="chunk_every/2">
+    <div class="detail-header">
+    <a href="#chunk_every/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">chunk_every(enum, count)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L153" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>chunk_every(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">pos_integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Shortcut to <code class="inline">chunk_every(enum, count, count)</code>.</p>
+  </section>
+</div>
+<div class="detail" id="chunk_every/4">
+  
+    <span id="chunk_every/3"></span>
+  <div class="detail-header">
+    <a href="#chunk_every/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">chunk_every(enum, count, step, leftover \\ [])</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L188" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>chunk_every(
+  <a href="Enumerable.html#t:t/0">Enumerable.t</a>(),
+  <a href="typespecs.html#basic-types">pos_integer</a>(),
+  <a href="typespecs.html#basic-types">pos_integer</a>(),
+  <a href="Enumerable.html#t:t/0">Enumerable.t</a>() | :discard
+) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Streams the enumerable in chunks, containing <code class="inline">count</code> items each,
+where each new chunk starts <code class="inline">step</code> elements into the enumerable.</p>
+<p><code class="inline">step</code> is optional and, if not passed, defaults to <code class="inline">count</code>, i.e.
+chunks do not overlap.</p>
+<p>If the last chunk does not have <code class="inline">count</code> elements to fill the chunk,
+elements are taken from <code class="inline">leftover</code> to fill in the chunk. If <code class="inline">leftover</code>
+does not have enough elements to fill the chunk, then a partial chunk
+is returned with less than <code class="inline">count</code> elements.</p>
+<p>If <code class="inline">:discard</code> is given in <code class="inline">leftover</code>, the last chunk is discarded
+unless it has exactly <code class="inline">count</code> elements.</p>
+<h2 id="chunk_every/4-examples" class="section-heading">
+  <a href="#chunk_every/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">chunk_every</span><span class="p" data-group-id="2139752457-1">(</span><span class="p" data-group-id="2139752457-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="2139752457-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2139752457-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="2139752457-3">(</span><span class="p" data-group-id="2139752457-3">)</span><span class="w">
+</span><span class="p" data-group-id="2139752457-4">[</span><span class="p" data-group-id="2139752457-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2139752457-5">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-6">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="2139752457-6">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-7">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="2139752457-7">]</span><span class="p" data-group-id="2139752457-4">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">chunk_every</span><span class="p" data-group-id="2139752457-8">(</span><span class="p" data-group-id="2139752457-9">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="2139752457-9">]</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:discard</span><span class="p" data-group-id="2139752457-8">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="2139752457-10">(</span><span class="p" data-group-id="2139752457-10">)</span><span class="w">
+</span><span class="p" data-group-id="2139752457-11">[</span><span class="p" data-group-id="2139752457-12">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2139752457-12">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-13">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="2139752457-13">]</span><span class="p" data-group-id="2139752457-11">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">chunk_every</span><span class="p" data-group-id="2139752457-14">(</span><span class="p" data-group-id="2139752457-15">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="2139752457-15">]</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-16">[</span><span class="mi">7</span><span class="p" data-group-id="2139752457-16">]</span><span class="p" data-group-id="2139752457-14">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="2139752457-17">(</span><span class="p" data-group-id="2139752457-17">)</span><span class="w">
+</span><span class="p" data-group-id="2139752457-18">[</span><span class="p" data-group-id="2139752457-19">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2139752457-19">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-20">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="2139752457-20">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-21">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p" data-group-id="2139752457-21">]</span><span class="p" data-group-id="2139752457-18">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">chunk_every</span><span class="p" data-group-id="2139752457-22">(</span><span class="p" data-group-id="2139752457-23">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="2139752457-23">]</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-24">[</span><span class="p" data-group-id="2139752457-24">]</span><span class="p" data-group-id="2139752457-22">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="2139752457-25">(</span><span class="p" data-group-id="2139752457-25">)</span><span class="w">
+</span><span class="p" data-group-id="2139752457-26">[</span><span class="p" data-group-id="2139752457-27">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2139752457-27">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2139752457-28">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="2139752457-28">]</span><span class="p" data-group-id="2139752457-26">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="chunk_while/4">
+    <div class="detail-header">
+    <a href="#chunk_while/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">chunk_while(enum, acc, chunk_fun, after_fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L247" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>chunk_while(
+  <a href="Enumerable.html#t:t/0">Enumerable.t</a>(),
+  <a href="#t:acc/0">acc</a>(),
+  (<a href="#t:element/0">element</a>(), <a href="#t:acc/0">acc</a>() ->
+     {:cont, chunk, <a href="#t:acc/0">acc</a>()} | {:cont, <a href="#t:acc/0">acc</a>()} | {:halt, <a href="#t:acc/0">acc</a>()}),
+  (<a href="#t:acc/0">acc</a>() -> {:cont, chunk, <a href="#t:acc/0">acc</a>()} | {:cont, <a href="#t:acc/0">acc</a>()})
+) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()
+when chunk: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Chunks the <code class="inline">enum</code> with fine grained control when every chunk is emitted.</p>
+<p><code class="inline">chunk_fun</code> receives the current element and the accumulator and
+must return <code class="inline">{:cont, element, acc}</code> to emit the given chunk and
+continue with accumulator or <code class="inline">{:cont, acc}</code> to not emit any chunk
+and continue with the return accumulator.</p>
+<p><code class="inline">after_fun</code> is invoked when iteration is done and must also return
+<code class="inline">{:cont, element, acc}</code> or <code class="inline">{:cont, acc}</code>.</p>
+<h2 id="chunk_while/4-examples" class="section-heading">
+  <a href="#chunk_while/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">chunk_fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="0969530996-1">fn</span><span class="w"> </span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">rem</span><span class="p" data-group-id="0969530996-2">(</span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0969530996-2">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k" data-group-id="0969530996-3">do</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">    </span><span class="p" data-group-id="0969530996-4">{</span><span class="ss">:cont</span><span class="p">,</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">reverse</span><span class="p" data-group-id="0969530996-5">(</span><span class="p" data-group-id="0969530996-6">[</span><span class="n">item</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">acc</span><span class="p" data-group-id="0969530996-6">]</span><span class="p" data-group-id="0969530996-5">)</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-7">[</span><span class="p" data-group-id="0969530996-7">]</span><span class="p" data-group-id="0969530996-4">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="k" data-group-id="0969530996-3">else</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">    </span><span class="p" data-group-id="0969530996-8">{</span><span class="ss">:cont</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-9">[</span><span class="n">item</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">acc</span><span class="p" data-group-id="0969530996-9">]</span><span class="p" data-group-id="0969530996-8">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="k" data-group-id="0969530996-3">end</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="0969530996-1">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">after_fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="0969530996-10">fn</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="p" data-group-id="0969530996-11">[</span><span class="p" data-group-id="0969530996-11">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="0969530996-12">{</span><span class="ss">:cont</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-13">[</span><span class="p" data-group-id="0969530996-13">]</span><span class="p" data-group-id="0969530996-12">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">acc</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="0969530996-14">{</span><span class="ss">:cont</span><span class="p">,</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">reverse</span><span class="p" data-group-id="0969530996-15">(</span><span class="n">acc</span><span class="p" data-group-id="0969530996-15">)</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-16">[</span><span class="p" data-group-id="0969530996-16">]</span><span class="p" data-group-id="0969530996-14">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="0969530996-10">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">chunk_while</span><span class="p" data-group-id="0969530996-17">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-18">[</span><span class="p" data-group-id="0969530996-18">]</span><span class="p">,</span><span class="w"> </span><span class="n">chunk_fun</span><span class="p">,</span><span class="w"> </span><span class="n">after_fun</span><span class="p" data-group-id="0969530996-17">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="0969530996-19">(</span><span class="n">stream</span><span class="p" data-group-id="0969530996-19">)</span><span class="w">
+</span><span class="p" data-group-id="0969530996-20">[</span><span class="p" data-group-id="0969530996-21">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0969530996-21">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-22">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="0969530996-22">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-23">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="0969530996-23">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-24">[</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p" data-group-id="0969530996-24">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0969530996-25">[</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="0969530996-25">]</span><span class="p" data-group-id="0969530996-20">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="concat/1">
+    <div class="detail-header">
+    <a href="#concat/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">concat(enumerables)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1063" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>concat(<a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that enumerates each enumerable in an enumerable.</p>
+<h2 id="concat/1-examples" class="section-heading">
+  <a href="#concat/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">concat</span><span class="p" data-group-id="1021822452-1">(</span><span class="p" data-group-id="1021822452-2">[</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="o">.</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="o">.</span><span class="o">.</span><span class="mi">9</span><span class="p" data-group-id="1021822452-2">]</span><span class="p" data-group-id="1021822452-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="1021822452-3">(</span><span class="n">stream</span><span class="p" data-group-id="1021822452-3">)</span><span class="w">
+</span><span class="p" data-group-id="1021822452-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p" data-group-id="1021822452-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="concat/2">
+    <div class="detail-header">
+    <a href="#concat/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">concat(first, second)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1084" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>concat(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that enumerates the first argument, followed by the second.</p>
+<h2 id="concat/2-examples" class="section-heading">
+  <a href="#concat/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">concat</span><span class="p" data-group-id="0468872108-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="o">.</span><span class="o">.</span><span class="mi">6</span><span class="p" data-group-id="0468872108-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="0468872108-2">(</span><span class="n">stream</span><span class="p" data-group-id="0468872108-2">)</span><span class="w">
+</span><span class="p" data-group-id="0468872108-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="0468872108-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">cycle</span><span class="p" data-group-id="0468872108-4">(</span><span class="p" data-group-id="0468872108-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0468872108-5">]</span><span class="p" data-group-id="0468872108-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">cycle</span><span class="p" data-group-id="0468872108-6">(</span><span class="p" data-group-id="0468872108-7">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="0468872108-7">]</span><span class="p" data-group-id="0468872108-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">concat</span><span class="p" data-group-id="0468872108-8">(</span><span class="n">stream1</span><span class="p">,</span><span class="w"> </span><span class="n">stream2</span><span class="p" data-group-id="0468872108-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="0468872108-9">(</span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="0468872108-9">)</span><span class="w">
+</span><span class="p" data-group-id="0468872108-10">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0468872108-10">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="cycle/1">
+    <div class="detail-header">
+    <a href="#cycle/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">cycle(enumerable)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1230" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>cycle(<a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that cycles through the given enumerable,
+infinitely.</p>
+<h2 id="cycle/1-examples" class="section-heading">
+  <a href="#cycle/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">cycle</span><span class="p" data-group-id="2191255450-1">(</span><span class="p" data-group-id="2191255450-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2191255450-2">]</span><span class="p" data-group-id="2191255450-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="2191255450-3">(</span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="2191255450-3">)</span><span class="w">
+</span><span class="p" data-group-id="2191255450-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2191255450-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="dedup/1">
+    <div class="detail-header">
+    <a href="#dedup/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">dedup(enum)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L298" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>dedup(<a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that only emits elements if they are different from the last emitted element.</p>
+<p>This function only ever needs to store the last emitted element.</p>
+<p>Elements are compared using <a href="Kernel.html#===/2"><code class="inline">===/2</code></a>.</p>
+<h2 id="dedup/1-examples" class="section-heading">
+  <a href="#dedup/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">dedup</span><span class="p" data-group-id="8416061198-1">(</span><span class="p" data-group-id="8416061198-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8416061198-2">]</span><span class="p" data-group-id="8416061198-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="8416061198-3">(</span><span class="p" data-group-id="8416061198-3">)</span><span class="w">
+</span><span class="p" data-group-id="8416061198-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8416061198-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="dedup_by/2">
+    <div class="detail-header">
+    <a href="#dedup_by/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">dedup_by(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L313" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>dedup_by(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#built-in-types">term</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that only emits elements if the result of calling <code class="inline">fun</code> on the element is
+different from the (stored) result of calling <code class="inline">fun</code> on the last emitted element.</p>
+<h2 id="dedup_by/2-examples" class="section-heading">
+  <a href="#dedup_by/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">dedup_by</span><span class="p" data-group-id="4817455106-1">(</span><span class="p" data-group-id="4817455106-2">[</span><span class="p" data-group-id="4817455106-3">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:x</span><span class="p" data-group-id="4817455106-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4817455106-4">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:y</span><span class="p" data-group-id="4817455106-4">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4817455106-5">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:z</span><span class="p" data-group-id="4817455106-5">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4817455106-6">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:x</span><span class="p" data-group-id="4817455106-6">}</span><span class="p" data-group-id="4817455106-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="4817455106-7">fn</span><span class="w"> </span><span class="p" data-group-id="4817455106-8">{</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="4817455106-8">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k" data-group-id="4817455106-7">end</span><span class="p" data-group-id="4817455106-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="4817455106-9">(</span><span class="p" data-group-id="4817455106-9">)</span><span class="w">
+</span><span class="p" data-group-id="4817455106-10">[</span><span class="p" data-group-id="4817455106-11">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:x</span><span class="p" data-group-id="4817455106-11">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4817455106-12">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:y</span><span class="p" data-group-id="4817455106-12">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4817455106-13">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:x</span><span class="p" data-group-id="4817455106-13">}</span><span class="p" data-group-id="4817455106-10">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="drop/2">
+    <div class="detail-header">
+    <a href="#drop/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">drop(enum, n)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L337" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>drop(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Lazily drops the next <code class="inline">n</code> items from the enumerable.</p>
+<p>If a negative <code class="inline">n</code> is given, it will drop the last <code class="inline">n</code> items from
+the collection. Note that the mechanism by which this is implemented
+will delay the emission of any item until <code class="inline">n</code> additional items have
+been emitted by the enum.</p>
+<h2 id="drop/2-examples" class="section-heading">
+  <a href="#drop/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">drop</span><span class="p" data-group-id="1824645933-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="1824645933-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="1824645933-2">(</span><span class="n">stream</span><span class="p" data-group-id="1824645933-2">)</span><span class="w">
+</span><span class="p" data-group-id="1824645933-3">[</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="1824645933-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">drop</span><span class="p" data-group-id="1824645933-4">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="p" data-group-id="1824645933-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="1824645933-5">(</span><span class="n">stream</span><span class="p" data-group-id="1824645933-5">)</span><span class="w">
+</span><span class="p" data-group-id="1824645933-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="1824645933-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="drop_every/2">
+    <div class="detail-header">
+    <a href="#drop_every/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">drop_every(enum, nth)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L390" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>drop_every(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that drops every <code class="inline">nth</code> item from the enumerable.</p>
+<p>The first item is always dropped, unless <code class="inline">nth</code> is 0.</p>
+<p><code class="inline">nth</code> must be a non-negative integer.</p>
+<h2 id="drop_every/2-examples" class="section-heading">
+  <a href="#drop_every/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">drop_every</span><span class="p" data-group-id="3785062278-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3785062278-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3785062278-2">(</span><span class="n">stream</span><span class="p" data-group-id="3785062278-2">)</span><span class="w">
+</span><span class="p" data-group-id="3785062278-3">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="3785062278-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">drop_every</span><span class="p" data-group-id="3785062278-4">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3785062278-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3785062278-5">(</span><span class="n">stream</span><span class="p" data-group-id="3785062278-5">)</span><span class="w">
+</span><span class="p" data-group-id="3785062278-6">[</span><span class="p" data-group-id="3785062278-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">drop_every</span><span class="p" data-group-id="3785062278-7">(</span><span class="p" data-group-id="3785062278-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="3785062278-8">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="3785062278-7">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3785062278-9">(</span><span class="n">stream</span><span class="p" data-group-id="3785062278-9">)</span><span class="w">
+</span><span class="p" data-group-id="3785062278-10">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="3785062278-10">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="drop_while/2">
+    <div class="detail-header">
+    <a href="#drop_while/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">drop_while(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L410" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>drop_while(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#built-in-types">as_boolean</a>(<a href="typespecs.html#built-in-types">term</a>()))) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Lazily drops elements of the enumerable while the given
+function returns a truthy value.</p>
+<h2 id="drop_while/2-examples" class="section-heading">
+  <a href="#drop_while/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">drop_while</span><span class="p" data-group-id="9714561575-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="9714561575-2">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="9714561575-2">)</span><span class="p" data-group-id="9714561575-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="9714561575-3">(</span><span class="n">stream</span><span class="p" data-group-id="9714561575-3">)</span><span class="w">
+</span><span class="p" data-group-id="9714561575-4">[</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="9714561575-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="each/2">
+    <div class="detail-header">
+    <a href="#each/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">each(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L432" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>each(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#built-in-types">term</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Executes the given function for each item.</p>
+<p>Useful for adding side effects (like printing) to a stream.</p>
+<h2 id="each/2-examples" class="section-heading">
+  <a href="#each/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">each</span><span class="p" data-group-id="5780908546-1">(</span><span class="p" data-group-id="5780908546-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5780908546-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="5780908546-3">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">send</span><span class="p" data-group-id="5780908546-4">(</span><span class="n">self</span><span class="p" data-group-id="5780908546-5">(</span><span class="p" data-group-id="5780908546-5">)</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p" data-group-id="5780908546-4">)</span><span class="w"> </span><span class="k" data-group-id="5780908546-3">end</span><span class="p" data-group-id="5780908546-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="5780908546-6">(</span><span class="n">stream</span><span class="p" data-group-id="5780908546-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="k">receive</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5780908546-7">(</span><span class="n">x</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_integer</span><span class="p" data-group-id="5780908546-8">(</span><span class="n">x</span><span class="p" data-group-id="5780908546-8">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="p" data-group-id="5780908546-7">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="k">receive</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5780908546-9">(</span><span class="n">x</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_integer</span><span class="p" data-group-id="5780908546-10">(</span><span class="n">x</span><span class="p" data-group-id="5780908546-10">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="p" data-group-id="5780908546-9">)</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="k">receive</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5780908546-11">(</span><span class="n">x</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_integer</span><span class="p" data-group-id="5780908546-12">(</span><span class="n">x</span><span class="p" data-group-id="5780908546-12">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="p" data-group-id="5780908546-11">)</span><span class="w">
+</span><span class="mi">3</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="filter/2">
+    <div class="detail-header">
+    <a href="#filter/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">filter(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L475" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>filter(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#built-in-types">as_boolean</a>(<a href="typespecs.html#built-in-types">term</a>()))) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that filters elements according to
+the given function on enumeration.</p>
+<h2 id="filter/2-examples" class="section-heading">
+  <a href="#filter/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">filter</span><span class="p" data-group-id="3405602445-1">(</span><span class="p" data-group-id="3405602445-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3405602445-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="3405602445-3">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">rem</span><span class="p" data-group-id="3405602445-4">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3405602445-4">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k" data-group-id="3405602445-3">end</span><span class="p" data-group-id="3405602445-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3405602445-5">(</span><span class="n">stream</span><span class="p" data-group-id="3405602445-5">)</span><span class="w">
+</span><span class="p" data-group-id="3405602445-6">[</span><span class="mi">2</span><span class="p" data-group-id="3405602445-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="flat_map/2">
+    <div class="detail-header">
+    <a href="#flat_map/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">flat_map(enum, mapper)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L459" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>flat_map(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="Enumerable.html#t:t/0">Enumerable.t</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Maps the given <code class="inline">fun</code> over <code class="inline">enumerable</code> and flattens the result.</p>
+<p>This function returns a new stream built by appending the result of invoking <code class="inline">fun</code>
+on each element of <code class="inline">enumerable</code> together.</p>
+<h2 id="flat_map/2-examples" class="section-heading">
+  <a href="#flat_map/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">flat_map</span><span class="p" data-group-id="1847226152-1">(</span><span class="p" data-group-id="1847226152-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1847226152-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="1847226152-3">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="1847226152-4">[</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1847226152-4">]</span><span class="w"> </span><span class="k" data-group-id="1847226152-3">end</span><span class="p" data-group-id="1847226152-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="1847226152-5">(</span><span class="n">stream</span><span class="p" data-group-id="1847226152-5">)</span><span class="w">
+</span><span class="p" data-group-id="1847226152-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="1847226152-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">flat_map</span><span class="p" data-group-id="1847226152-7">(</span><span class="p" data-group-id="1847226152-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1847226152-8">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="1847226152-9">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="1847226152-10">[</span><span class="p" data-group-id="1847226152-11">[</span><span class="n">x</span><span class="p" data-group-id="1847226152-11">]</span><span class="p" data-group-id="1847226152-10">]</span><span class="w"> </span><span class="k" data-group-id="1847226152-9">end</span><span class="p" data-group-id="1847226152-7">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="1847226152-12">(</span><span class="n">stream</span><span class="p" data-group-id="1847226152-12">)</span><span class="w">
+</span><span class="p" data-group-id="1847226152-13">[</span><span class="p" data-group-id="1847226152-14">[</span><span class="mi">1</span><span class="p" data-group-id="1847226152-14">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1847226152-15">[</span><span class="mi">2</span><span class="p" data-group-id="1847226152-15">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1847226152-16">[</span><span class="mi">3</span><span class="p" data-group-id="1847226152-16">]</span><span class="p" data-group-id="1847226152-13">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="intersperse/2">
+    <div class="detail-header">
+    <a href="#intersperse/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">intersperse(enumerable, intersperse_element)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1520" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+    
+      <div class="specs">
+          <pre>intersperse(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">any</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Lazily intersperses <code class="inline">intersperse_element</code> between each element of the enumeration.</p>
+<h2 id="intersperse/2-examples" class="section-heading">
+  <a href="#intersperse/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="7676378056-1">(</span><span class="p" data-group-id="7676378056-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7676378056-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7676378056-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7676378056-3">(</span><span class="p" data-group-id="7676378056-3">)</span><span class="w">
+</span><span class="p" data-group-id="7676378056-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7676378056-4">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="7676378056-5">(</span><span class="p" data-group-id="7676378056-6">[</span><span class="mi">1</span><span class="p" data-group-id="7676378056-6">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7676378056-5">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7676378056-7">(</span><span class="p" data-group-id="7676378056-7">)</span><span class="w">
+</span><span class="p" data-group-id="7676378056-8">[</span><span class="mi">1</span><span class="p" data-group-id="7676378056-8">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">intersperse</span><span class="p" data-group-id="7676378056-9">(</span><span class="p" data-group-id="7676378056-10">[</span><span class="p" data-group-id="7676378056-10">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7676378056-9">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7676378056-11">(</span><span class="p" data-group-id="7676378056-11">)</span><span class="w">
+</span><span class="p" data-group-id="7676378056-12">[</span><span class="p" data-group-id="7676378056-12">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="interval/1">
+    <div class="detail-header">
+    <a href="#interval/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">interval(n)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L505" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>interval(<a href="typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that emits a value after the given period <code class="inline">n</code>
+in milliseconds.</p>
+<p>The values emitted are an increasing counter starting at <code class="inline">0</code>.
+This operation will block the caller by the given interval
+every time a new item is streamed.</p>
+<p>Do not use this function to generate a sequence of numbers.
+If blocking the caller process is not necessary, use
+<code class="inline">Stream.iterate(0, &amp; &amp;1 + 1)</code> instead.</p>
+<h2 id="interval/1-examples" class="section-heading">
+  <a href="#interval/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">interval</span><span class="p" data-group-id="6811671675-1">(</span><span class="mi">10</span><span class="p" data-group-id="6811671675-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="6811671675-2">(</span><span class="mi">10</span><span class="p" data-group-id="6811671675-2">)</span><span class="w">
+</span><span class="p" data-group-id="6811671675-3">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p" data-group-id="6811671675-3">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="into/3">
+  
+    <span id="into/2"></span>
+  <div class="detail-header">
+    <a href="#into/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">into(enum, collectable, transform \\ fn x -&gt; x end)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L519" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>into(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="Collectable.html#t:t/0">Collectable.t</a>(), (<a href="typespecs.html#built-in-types">term</a>() -> <a href="typespecs.html#built-in-types">term</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Injects the stream values into the given collectable as a side-effect.</p>
+<p>This function is often used with <a href="#run/1"><code class="inline">run/1</code></a> since any evaluation
+is delayed until the stream is executed. See <a href="#run/1"><code class="inline">run/1</code></a> for an example.</p>
+  </section>
+</div>
+<div class="detail" id="iterate/2">
+    <div class="detail-header">
+    <a href="#iterate/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">iterate(start_value, next_fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1305" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>iterate(<a href="#t:element/0">element</a>(), (<a href="#t:element/0">element</a>() -> <a href="#t:element/0">element</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Emits a sequence of values, starting with <code class="inline">start_value</code>. Successive
+values are generated by calling <code class="inline">next_fun</code> on the previous value.</p>
+<h2 id="iterate/2-examples" class="section-heading">
+  <a href="#iterate/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">iterate</span><span class="p" data-group-id="5660224046-1">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="5660224046-2">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5660224046-2">)</span><span class="p" data-group-id="5660224046-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="5660224046-3">(</span><span class="mi">5</span><span class="p" data-group-id="5660224046-3">)</span><span class="w">
+</span><span class="p" data-group-id="5660224046-4">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="5660224046-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="map/2">
+    <div class="detail-header">
+    <a href="#map/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">map(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L564" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>map(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#basic-types">any</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that will apply the given function on
+enumeration.</p>
+<h2 id="map/2-examples" class="section-heading">
+  <a href="#map/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="8265147782-1">(</span><span class="p" data-group-id="8265147782-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8265147782-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="8265147782-3">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k" data-group-id="8265147782-3">end</span><span class="p" data-group-id="8265147782-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="8265147782-4">(</span><span class="n">stream</span><span class="p" data-group-id="8265147782-4">)</span><span class="w">
+</span><span class="p" data-group-id="8265147782-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8265147782-5">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="map_every/3">
+    <div class="detail-header">
+    <a href="#map_every/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">map_every(enum, nth, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L593" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>map_every(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#basic-types">any</a>())) ::
+  <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that will apply the given function on
+every <code class="inline">nth</code> item from the enumerable.</p>
+<p>The first item is always passed to the given function.</p>
+<p><code class="inline">nth</code> must be a non-negative integer.</p>
+<h2 id="map_every/3-examples" class="section-heading">
+  <a href="#map_every/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map_every</span><span class="p" data-group-id="0287657266-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="0287657266-2">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k" data-group-id="0287657266-2">end</span><span class="p" data-group-id="0287657266-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="0287657266-3">(</span><span class="n">stream</span><span class="p" data-group-id="0287657266-3">)</span><span class="w">
+</span><span class="p" data-group-id="0287657266-4">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="0287657266-4">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map_every</span><span class="p" data-group-id="0287657266-5">(</span><span class="p" data-group-id="0287657266-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="0287657266-6">]</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="0287657266-7">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k" data-group-id="0287657266-7">end</span><span class="p" data-group-id="0287657266-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="0287657266-8">(</span><span class="n">stream</span><span class="p" data-group-id="0287657266-8">)</span><span class="w">
+</span><span class="p" data-group-id="0287657266-9">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="0287657266-9">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map_every</span><span class="p" data-group-id="0287657266-10">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="0287657266-11">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k" data-group-id="0287657266-11">end</span><span class="p" data-group-id="0287657266-10">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="0287657266-12">(</span><span class="n">stream</span><span class="p" data-group-id="0287657266-12">)</span><span class="w">
+</span><span class="p" data-group-id="0287657266-13">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="0287657266-13">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="reject/2">
+    <div class="detail-header">
+    <a href="#reject/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">reject(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L615" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>reject(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#built-in-types">as_boolean</a>(<a href="typespecs.html#built-in-types">term</a>()))) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that will reject elements according to
+the given function on enumeration.</p>
+<h2 id="reject/2-examples" class="section-heading">
+  <a href="#reject/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">reject</span><span class="p" data-group-id="3400772146-1">(</span><span class="p" data-group-id="3400772146-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3400772146-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="3400772146-3">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">rem</span><span class="p" data-group-id="3400772146-4">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3400772146-4">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k" data-group-id="3400772146-3">end</span><span class="p" data-group-id="3400772146-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3400772146-5">(</span><span class="n">stream</span><span class="p" data-group-id="3400772146-5">)</span><span class="w">
+</span><span class="p" data-group-id="3400772146-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3400772146-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="repeatedly/1">
+    <div class="detail-header">
+    <a href="#repeatedly/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">repeatedly(generator_fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1328" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>repeatedly((() -> <a href="#t:element/0">element</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a stream generated by calling <code class="inline">generator_fun</code> repeatedly.</p>
+<h2 id="repeatedly/1-examples" class="section-heading">
+  <a href="#repeatedly/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="c1"># Although not necessary, let&#39;s seed the random algorithm</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="ss">:rand</span><span class="o">.</span><span class="n">seed</span><span class="p" data-group-id="4661839050-1">(</span><span class="ss">:exsplus</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4661839050-2">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4661839050-2">}</span><span class="p" data-group-id="4661839050-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">repeatedly</span><span class="p" data-group-id="4661839050-3">(</span><span class="o">&amp;</span><span class="ss">:rand</span><span class="o">.</span><span class="n">uniform</span><span class="o">/</span><span class="mi">0</span><span class="p" data-group-id="4661839050-3">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="4661839050-4">(</span><span class="mi">3</span><span class="p" data-group-id="4661839050-4">)</span><span class="w">
+</span><span class="p" data-group-id="4661839050-5">[</span><span class="mf">0.40502929729990744</span><span class="p">,</span><span class="w"> </span><span class="mf">0.45336720247823126</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04094511692041057</span><span class="p" data-group-id="4661839050-5">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="resource/3">
+    <div class="detail-header">
+    <a href="#resource/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">resource(start_fun, next_fun, after_fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1376" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>resource(
+  (() -> <a href="#t:acc/0">acc</a>()),
+  (<a href="#t:acc/0">acc</a>() -> {[<a href="#t:element/0">element</a>()], <a href="#t:acc/0">acc</a>()} | {:halt, <a href="#t:acc/0">acc</a>()}),
+  (<a href="#t:acc/0">acc</a>() -> <a href="typespecs.html#built-in-types">term</a>())
+) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Emits a sequence of values for the given resource.</p>
+<p>Similar to <a href="#transform/3"><code class="inline">transform/3</code></a> but the initial accumulated value is
+computed lazily via <code class="inline">start_fun</code> and executes an <code class="inline">after_fun</code> at
+the end of enumeration (both in cases of success and failure).</p>
+<p>Successive values are generated by calling <code class="inline">next_fun</code> with the
+previous accumulator (the initial value being the result returned
+by <code class="inline">start_fun</code>) and it must return a tuple containing a list
+of items to be emitted and the next accumulator. The enumeration
+finishes if it returns <code class="inline">{:halt, acc}</code>.</p>
+<p>As the name says, this function is useful to stream values from
+resources.</p>
+<h2 id="resource/3-examples" class="section-heading">
+  <a href="#resource/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="nc">Stream</span><span class="o">.</span><span class="n">resource</span><span class="p" data-group-id="5809535043-1">(</span><span class="w">
+  </span><span class="k" data-group-id="5809535043-2">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">File</span><span class="o">.</span><span class="n">open!</span><span class="p" data-group-id="5809535043-3">(</span><span class="s">&quot;sample&quot;</span><span class="p" data-group-id="5809535043-3">)</span><span class="w"> </span><span class="k" data-group-id="5809535043-2">end</span><span class="p">,</span><span class="w">
+  </span><span class="k" data-group-id="5809535043-4">fn</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="nc">IO</span><span class="o">.</span><span class="n">read</span><span class="p" data-group-id="5809535043-5">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="ss">:line</span><span class="p" data-group-id="5809535043-5">)</span><span class="w"> </span><span class="k" data-group-id="5809535043-6">do</span><span class="w">
+      </span><span class="n">data</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_binary</span><span class="p" data-group-id="5809535043-7">(</span><span class="n">data</span><span class="p" data-group-id="5809535043-7">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="5809535043-8">{</span><span class="p" data-group-id="5809535043-9">[</span><span class="n">data</span><span class="p" data-group-id="5809535043-9">]</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="p" data-group-id="5809535043-8">}</span><span class="w">
+      </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="5809535043-10">{</span><span class="ss">:halt</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="p" data-group-id="5809535043-10">}</span><span class="w">
+    </span><span class="k" data-group-id="5809535043-6">end</span><span class="w">
+  </span><span class="k" data-group-id="5809535043-4">end</span><span class="p">,</span><span class="w">
+  </span><span class="k" data-group-id="5809535043-11">fn</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">File</span><span class="o">.</span><span class="n">close</span><span class="p" data-group-id="5809535043-12">(</span><span class="n">file</span><span class="p" data-group-id="5809535043-12">)</span><span class="w"> </span><span class="k" data-group-id="5809535043-11">end</span><span class="w">
+</span><span class="p" data-group-id="5809535043-1">)</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="run/1">
+    <div class="detail-header">
+    <a href="#run/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">run(stream)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L639" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>run(<a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: :ok</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Runs the given stream.</p>
+<p>This is useful when a stream needs to be run, for side effects,
+and there is no interest in its return result.</p>
+<h2 id="run/1-examples" class="section-heading">
+  <a href="#run/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<p>Open up a file, replace all <code class="inline">#</code> by <code class="inline">%</code> and stream to another file
+without loading the whole file in memory:</p>
+<pre><code class="nohighlight makeup elixir"><span class="nc">File</span><span class="o">.</span><span class="n">stream!</span><span class="p" data-group-id="6166925475-1">(</span><span class="s">&quot;/path/to/file&quot;</span><span class="p" data-group-id="6166925475-1">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">map</span><span class="p" data-group-id="6166925475-2">(</span><span class="o">&amp;</span><span class="nc">String</span><span class="o">.</span><span class="n">replace</span><span class="p" data-group-id="6166925475-3">(</span><span class="ni">&amp;1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%&quot;</span><span class="p" data-group-id="6166925475-3">)</span><span class="p" data-group-id="6166925475-2">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">into</span><span class="p" data-group-id="6166925475-4">(</span><span class="nc">File</span><span class="o">.</span><span class="n">stream!</span><span class="p" data-group-id="6166925475-5">(</span><span class="s">&quot;/path/to/other/file&quot;</span><span class="p" data-group-id="6166925475-5">)</span><span class="p" data-group-id="6166925475-4">)</span><span class="w">
+</span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">run</span><span class="p" data-group-id="6166925475-6">(</span><span class="p" data-group-id="6166925475-6">)</span></code></pre>
+<p>No computation will be done until we call one of the <a href="Enum.html"><code class="inline">Enum</code></a> functions
+or <a href="#run/1"><code class="inline">run/1</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="scan/2">
+    <div class="detail-header">
+    <a href="#scan/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">scan(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L658" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>scan(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>(), <a href="#t:acc/0">acc</a>() -> <a href="typespecs.html#basic-types">any</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that applies the given function to each
+element, emits the result and uses the same result as the accumulator
+for the next computation. Uses the first element in the enumerable
+as the starting value.</p>
+<h2 id="scan/2-examples" class="section-heading">
+  <a href="#scan/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">scan</span><span class="p" data-group-id="7587953940-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="7587953940-2">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ni">&amp;2</span><span class="p" data-group-id="7587953940-2">)</span><span class="p" data-group-id="7587953940-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7587953940-3">(</span><span class="n">stream</span><span class="p" data-group-id="7587953940-3">)</span><span class="w">
+</span><span class="p" data-group-id="7587953940-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="7587953940-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="scan/3">
+    <div class="detail-header">
+    <a href="#scan/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">scan(enum, acc, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L675" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>scan(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="#t:acc/0">acc</a>(), (<a href="#t:element/0">element</a>(), <a href="#t:acc/0">acc</a>() -> <a href="typespecs.html#basic-types">any</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that applies the given function to each
+element, emits the result and uses the same result as the accumulator
+for the next computation. Uses the given <code class="inline">acc</code> as the starting value.</p>
+<h2 id="scan/3-examples" class="section-heading">
+  <a href="#scan/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">scan</span><span class="p" data-group-id="2825080967-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="2825080967-2">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ni">&amp;2</span><span class="p" data-group-id="2825080967-2">)</span><span class="p" data-group-id="2825080967-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="2825080967-3">(</span><span class="n">stream</span><span class="p" data-group-id="2825080967-3">)</span><span class="w">
+</span><span class="p" data-group-id="2825080967-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="2825080967-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="take/2">
+    <div class="detail-header">
+    <a href="#take/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">take(enum, count)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L705" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>take(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Lazily takes the next <code class="inline">count</code> items from the enumerable and stops
+enumeration.</p>
+<p>If a negative <code class="inline">count</code> is given, the last <code class="inline">count</code> values will be taken.
+For such, the collection is fully enumerated keeping up to <code class="inline">2 * count</code>
+elements in memory. Once the end of the collection is reached,
+the last <code class="inline">count</code> elements will be executed. Therefore, using
+a negative <code class="inline">count</code> on an infinite collection will never return.</p>
+<h2 id="take/2-examples" class="section-heading">
+  <a href="#take/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="3501274833-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="3501274833-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3501274833-2">(</span><span class="n">stream</span><span class="p" data-group-id="3501274833-2">)</span><span class="w">
+</span><span class="p" data-group-id="3501274833-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="3501274833-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="3501274833-4">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="p" data-group-id="3501274833-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3501274833-5">(</span><span class="n">stream</span><span class="p" data-group-id="3501274833-5">)</span><span class="w">
+</span><span class="p" data-group-id="3501274833-6">[</span><span class="mi">96</span><span class="p">,</span><span class="w"> </span><span class="mi">97</span><span class="p">,</span><span class="w"> </span><span class="mi">98</span><span class="p">,</span><span class="w"> </span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p" data-group-id="3501274833-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">cycle</span><span class="p" data-group-id="3501274833-7">(</span><span class="p" data-group-id="3501274833-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3501274833-8">]</span><span class="p" data-group-id="3501274833-7">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="3501274833-9">(</span><span class="mi">5</span><span class="p" data-group-id="3501274833-9">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3501274833-10">(</span><span class="n">stream</span><span class="p" data-group-id="3501274833-10">)</span><span class="w">
+</span><span class="p" data-group-id="3501274833-11">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3501274833-11">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="take_every/2">
+    <div class="detail-header">
+    <a href="#take_every/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">take_every(enum, nth)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L739" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>take_every(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that takes every <code class="inline">nth</code> item from the enumerable.</p>
+<p>The first item is always included, unless <code class="inline">nth</code> is 0.</p>
+<p><code class="inline">nth</code> must be a non-negative integer.</p>
+<h2 id="take_every/2-examples" class="section-heading">
+  <a href="#take_every/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">take_every</span><span class="p" data-group-id="7002865055-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="7002865055-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7002865055-2">(</span><span class="n">stream</span><span class="p" data-group-id="7002865055-2">)</span><span class="w">
+</span><span class="p" data-group-id="7002865055-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p" data-group-id="7002865055-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">take_every</span><span class="p" data-group-id="7002865055-4">(</span><span class="p" data-group-id="7002865055-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="7002865055-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7002865055-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7002865055-6">(</span><span class="n">stream</span><span class="p" data-group-id="7002865055-6">)</span><span class="w">
+</span><span class="p" data-group-id="7002865055-7">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="7002865055-7">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">take_every</span><span class="p" data-group-id="7002865055-8">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7002865055-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7002865055-9">(</span><span class="n">stream</span><span class="p" data-group-id="7002865055-9">)</span><span class="w">
+</span><span class="p" data-group-id="7002865055-10">[</span><span class="p" data-group-id="7002865055-10">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="take_while/2">
+    <div class="detail-header">
+    <a href="#take_while/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">take_while(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L759" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>take_while(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#built-in-types">as_boolean</a>(<a href="typespecs.html#built-in-types">term</a>()))) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Lazily takes elements of the enumerable while the given
+function returns a truthy value.</p>
+<h2 id="take_while/2-examples" class="section-heading">
+  <a href="#take_while/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">take_while</span><span class="p" data-group-id="7795426891-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="7795426891-2">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="7795426891-2">)</span><span class="p" data-group-id="7795426891-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7795426891-3">(</span><span class="n">stream</span><span class="p" data-group-id="7795426891-3">)</span><span class="w">
+</span><span class="p" data-group-id="7795426891-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="7795426891-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="timer/1">
+    <div class="detail-header">
+    <a href="#timer/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">timer(n)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L776" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>timer(<a href="typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that emits a single value after <code class="inline">n</code> milliseconds.</p>
+<p>The value emitted is <code class="inline">0</code>. This operation will block the caller by
+the given time until the item is streamed.</p>
+<h2 id="timer/1-examples" class="section-heading">
+  <a href="#timer/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">timer</span><span class="p" data-group-id="2071569479-1">(</span><span class="mi">10</span><span class="p" data-group-id="2071569479-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="2071569479-2">(</span><span class="p" data-group-id="2071569479-2">)</span><span class="w">
+</span><span class="p" data-group-id="2071569479-3">[</span><span class="mi">0</span><span class="p" data-group-id="2071569479-3">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="transform/3">
+    <div class="detail-header">
+    <a href="#transform/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">transform(enum, acc, reducer)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L810" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>transform(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), acc, fun) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()
+when fun: (<a href="#t:element/0">element</a>(), acc -> {<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), acc} | {:halt, acc}), acc: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Transforms an existing stream.</p>
+<p>It expects an accumulator and a function that receives each stream item
+and an accumulator, and must return a tuple containing a new stream
+(often a list) with the new accumulator or a tuple with <code class="inline">:halt</code> as first
+element and the accumulator as second.</p>
+<p>Note: this function is similar to <a href="Enum.html#flat_map_reduce/3"><code class="inline">Enum.flat_map_reduce/3</code></a> except the
+latter returns both the flat list and accumulator, while this one returns
+only the stream.</p>
+<h2 id="transform/3-examples" class="section-heading">
+  <a href="#transform/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<p><a href="Stream.html#transform/3"><code class="inline">Stream.transform/3</code></a> is useful as it can be used as the basis to implement
+many of the functions defined in this module. For example, we can implement
+<code class="inline">Stream.take(enum, n)</code> as follows:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">enum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">100</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">transform</span><span class="p" data-group-id="3762415039-1">(</span><span class="n">enum</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="3762415039-2">fn</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3762415039-3">{</span><span class="p" data-group-id="3762415039-4">[</span><span class="n">i</span><span class="p" data-group-id="3762415039-4">]</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3762415039-3">}</span><span class="p">,</span><span class="w"> </span><span class="ss">else</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3762415039-5">{</span><span class="ss">:halt</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="p" data-group-id="3762415039-5">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="3762415039-2">end</span><span class="p" data-group-id="3762415039-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="3762415039-6">(</span><span class="n">stream</span><span class="p" data-group-id="3762415039-6">)</span><span class="w">
+</span><span class="p" data-group-id="3762415039-7">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3762415039-7">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="transform/4">
+    <div class="detail-header">
+    <a href="#transform/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">transform(enum, start_fun, reducer, after_fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L827" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>transform(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (() -> acc), fun, (acc -> <a href="typespecs.html#built-in-types">term</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()
+when fun: (<a href="#t:element/0">element</a>(), acc -> {<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), acc} | {:halt, acc}), acc: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Transforms an existing stream with function-based start and finish.</p>
+<p>The accumulator is only calculated when transformation starts. It also
+allows an after function to be given which is invoked when the stream
+halts or completes.</p>
+<p>This function can be seen as a combination of <a href="Stream.html#resource/3"><code class="inline">Stream.resource/3</code></a> with
+<a href="Stream.html#transform/3"><code class="inline">Stream.transform/3</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="unfold/2">
+    <div class="detail-header">
+    <a href="#unfold/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">unfold(next_acc, next_fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1484" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>unfold(<a href="#t:acc/0">acc</a>(), (<a href="#t:acc/0">acc</a>() -> {<a href="#t:element/0">element</a>(), <a href="#t:acc/0">acc</a>()} | nil)) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Emits a sequence of values for the given accumulator.</p>
+<p>Successive values are generated by calling <code class="inline">next_fun</code> with the previous
+accumulator and it must return a tuple with the current value and next
+accumulator. The enumeration finishes if it returns <code class="inline">nil</code>.</p>
+<h2 id="unfold/2-examples" class="section-heading">
+  <a href="#unfold/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">unfold</span><span class="p" data-group-id="7783953197-1">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="7783953197-2">fn</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="no">nil</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="7783953197-3">{</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7783953197-3">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="7783953197-2">end</span><span class="p" data-group-id="7783953197-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7783953197-4">(</span><span class="p" data-group-id="7783953197-4">)</span><span class="w">
+</span><span class="p" data-group-id="7783953197-5">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7783953197-5">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="uniq/1">
+    <div class="detail-header">
+    <a href="#uniq/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">uniq(enum)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L991" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>uniq(<a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that only emits elements if they are unique.</p>
+<p>Keep in mind that, in order to know if an element is unique
+or not, this function needs to store all unique values emitted
+by the stream. Therefore, if the stream is infinite, the number
+of items stored will grow infinitely, never being garbage-collected.</p>
+<h2 id="uniq/1-examples" class="section-heading">
+  <a href="#uniq/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">uniq</span><span class="p" data-group-id="7529422472-1">(</span><span class="p" data-group-id="7529422472-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7529422472-2">]</span><span class="p" data-group-id="7529422472-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7529422472-3">(</span><span class="p" data-group-id="7529422472-3">)</span><span class="w">
+</span><span class="p" data-group-id="7529422472-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7529422472-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="uniq_by/2">
+    <div class="detail-header">
+    <a href="#uniq_by/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">uniq_by(enum, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1024" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>uniq_by(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), (<a href="#t:element/0">element</a>() -> <a href="typespecs.html#built-in-types">term</a>())) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream that only emits elements if they are unique, by removing the
+elements for which function <code class="inline">fun</code> returned duplicate items.</p>
+<p>The function <code class="inline">fun</code> maps every element to a term which is used to
+determine if two elements are duplicates.</p>
+<p>Keep in mind that, in order to know if an element is unique
+or not, this function needs to store all unique values emitted
+by the stream. Therefore, if the stream is infinite, the number
+of items stored will grow infinitely, never being garbage-collected.</p>
+<h2 id="uniq_by/2-example" class="section-heading">
+  <a href="#uniq_by/2-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">uniq_by</span><span class="p" data-group-id="9464802734-1">(</span><span class="p" data-group-id="9464802734-2">[</span><span class="p" data-group-id="9464802734-3">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:x</span><span class="p" data-group-id="9464802734-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9464802734-4">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:y</span><span class="p" data-group-id="9464802734-4">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9464802734-5">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:z</span><span class="p" data-group-id="9464802734-5">}</span><span class="p" data-group-id="9464802734-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9464802734-6">fn</span><span class="w"> </span><span class="p" data-group-id="9464802734-7">{</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="bp">_</span><span class="p" data-group-id="9464802734-7">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k" data-group-id="9464802734-6">end</span><span class="p" data-group-id="9464802734-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="9464802734-8">(</span><span class="p" data-group-id="9464802734-8">)</span><span class="w">
+</span><span class="p" data-group-id="9464802734-9">[</span><span class="p" data-group-id="9464802734-10">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:x</span><span class="p" data-group-id="9464802734-10">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9464802734-11">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:y</span><span class="p" data-group-id="9464802734-11">}</span><span class="p" data-group-id="9464802734-9">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">uniq_by</span><span class="p" data-group-id="9464802734-12">(</span><span class="p" data-group-id="9464802734-13">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9464802734-14">{</span><span class="ss">:tea</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9464802734-14">}</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9464802734-15">{</span><span class="ss">:tea</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9464802734-15">}</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9464802734-16">{</span><span class="ss">:coffee</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9464802734-16">}</span><span class="p" data-group-id="9464802734-13">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9464802734-17">fn</span><span class="w"> </span><span class="p" data-group-id="9464802734-18">{</span><span class="bp">_</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p" data-group-id="9464802734-18">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="k" data-group-id="9464802734-17">end</span><span class="p" data-group-id="9464802734-12">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="9464802734-19">(</span><span class="p" data-group-id="9464802734-19">)</span><span class="w">
+</span><span class="p" data-group-id="9464802734-20">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9464802734-21">{</span><span class="ss">:tea</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9464802734-21">}</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9464802734-22">{</span><span class="ss">:coffee</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9464802734-22">}</span><span class="p" data-group-id="9464802734-20">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="with_index/2">
+  
+    <span id="with_index/1"></span>
+  <div class="detail-header">
+    <a href="#with_index/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">with_index(enum, offset \\ 0)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1046" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>with_index(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="typespecs.html#basic-types">integer</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a stream where each item in the enumerable will
+be wrapped in a tuple alongside its index.</p>
+<p>If an <code class="inline">offset</code> is given, we will index from the given offset instead of from zero.</p>
+<h2 id="with_index/2-examples" class="section-heading">
+  <a href="#with_index/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">with_index</span><span class="p" data-group-id="7490158608-1">(</span><span class="p" data-group-id="7490158608-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7490158608-2">]</span><span class="p" data-group-id="7490158608-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7490158608-3">(</span><span class="n">stream</span><span class="p" data-group-id="7490158608-3">)</span><span class="w">
+</span><span class="p" data-group-id="7490158608-4">[</span><span class="p" data-group-id="7490158608-5">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7490158608-5">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7490158608-6">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7490158608-6">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7490158608-7">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="7490158608-7">}</span><span class="p" data-group-id="7490158608-4">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">with_index</span><span class="p" data-group-id="7490158608-8">(</span><span class="p" data-group-id="7490158608-9">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7490158608-9">]</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7490158608-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7490158608-10">(</span><span class="n">stream</span><span class="p" data-group-id="7490158608-10">)</span><span class="w">
+</span><span class="p" data-group-id="7490158608-11">[</span><span class="p" data-group-id="7490158608-12">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7490158608-12">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7490158608-13">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="7490158608-13">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7490158608-14">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="7490158608-14">}</span><span class="p" data-group-id="7490158608-11">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="zip/1">
+    <div class="detail-header">
+    <a href="#zip/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">zip(enumerables)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1121" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>zip([<a href="Enumerable.html#t:t/0">Enumerable.t</a>()]) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+          <pre>zip(<a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Zips corresponding elements from a finite collection of enumerables
+into one stream of tuples.</p>
+<p>The zipping finishes as soon as any enumerable in the given collection completes.</p>
+<h2 id="zip/1-examples" class="section-heading">
+  <a href="#zip/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">concat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">concat</span><span class="p" data-group-id="7974056747-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="o">.</span><span class="o">.</span><span class="mi">6</span><span class="p" data-group-id="7974056747-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">cycle</span><span class="p" data-group-id="7974056747-2">(</span><span class="p" data-group-id="7974056747-3">[</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;baz&quot;</span><span class="p" data-group-id="7974056747-3">]</span><span class="p" data-group-id="7974056747-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">zip</span><span class="p" data-group-id="7974056747-4">(</span><span class="p" data-group-id="7974056747-5">[</span><span class="n">concat</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7974056747-6">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="7974056747-6">]</span><span class="p">,</span><span class="w"> </span><span class="n">cycle</span><span class="p" data-group-id="7974056747-5">]</span><span class="p" data-group-id="7974056747-4">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="7974056747-7">(</span><span class="p" data-group-id="7974056747-7">)</span><span class="w">
+</span><span class="p" data-group-id="7974056747-8">[</span><span class="p" data-group-id="7974056747-9">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p" data-group-id="7974056747-9">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7974056747-10">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p" data-group-id="7974056747-10">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7974056747-11">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;baz&quot;</span><span class="p" data-group-id="7974056747-11">}</span><span class="p" data-group-id="7974056747-8">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="zip/2">
+    <div class="detail-header">
+    <a href="#zip/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">zip(left, right)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/stream.ex#L1102" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>zip(<a href="Enumerable.html#t:t/0">Enumerable.t</a>(), <a href="Enumerable.html#t:t/0">Enumerable.t</a>()) :: <a href="Enumerable.html#t:t/0">Enumerable.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Zips two collections together, lazily.</p>
+<p>The zipping finishes as soon as any enumerable completes.</p>
+<h2 id="zip/2-examples" class="section-heading">
+  <a href="#zip/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">concat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">concat</span><span class="p" data-group-id="1518815170-1">(</span><span class="mi">1</span><span class="o">.</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="o">.</span><span class="o">.</span><span class="mi">6</span><span class="p" data-group-id="1518815170-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Stream</span><span class="o">.</span><span class="n">cycle</span><span class="p" data-group-id="1518815170-2">(</span><span class="p" data-group-id="1518815170-3">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="1518815170-3">]</span><span class="p" data-group-id="1518815170-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Stream</span><span class="o">.</span><span class="n">zip</span><span class="p" data-group-id="1518815170-4">(</span><span class="n">concat</span><span class="p">,</span><span class="w"> </span><span class="n">cycle</span><span class="p" data-group-id="1518815170-4">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Enum</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="1518815170-5">(</span><span class="p" data-group-id="1518815170-5">)</span><span class="w">
+</span><span class="p" data-group-id="1518815170-6">[</span><span class="p" data-group-id="1518815170-7">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="1518815170-7">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1518815170-8">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="1518815170-8">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1518815170-9">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="1518815170-9">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1518815170-10">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="1518815170-10">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1518815170-11">{</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="1518815170-11">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1518815170-12">{</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="1518815170-12">}</span><span class="p" data-group-id="1518815170-6">]</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

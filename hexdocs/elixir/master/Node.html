@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Node – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Node.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Node        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Functions related to VM nodes.</p>
+<p>Some of the functions in this module are inlined by the compiler,
+similar to functions in the <a href="Kernel.html"><code class="inline">Kernel</code></a> module and they are explicitly
+marked in their docs as “inlined by the compiler”. For more information
+about inlined functions, check out the <a href="Kernel.html"><code class="inline">Kernel</code></a> module.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:state/0">state()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#alive?/0">alive?()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns <code class="inline">true</code> if the local node is alive</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#connect/1">connect(node)</a>
+  </div>
+    <div class="summary-synopsis"><p>Establishes a connection to <code class="inline">node</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#disconnect/1">disconnect(node)</a>
+  </div>
+    <div class="summary-synopsis"><p>Forces the disconnection of a node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_cookie/0">get_cookie()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the magic cookie of the local node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list/0">list()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a list of all visible nodes in the system, excluding
+the local node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list/1">list(args)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a list of nodes according to argument given</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#monitor/2">monitor(node, flag)</a>
+  </div>
+    <div class="summary-synopsis"><p>Monitors the status of the node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#monitor/3">monitor(node, flag, options)</a>
+  </div>
+    <div class="summary-synopsis"><p>Behaves as <a href="#monitor/2"><code class="inline">monitor/2</code></a> except that it allows an extra
+option to be given, namely <code class="inline">:allow_passive_connect</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#ping/1">ping(node)</a>
+  </div>
+    <div class="summary-synopsis"><p>Tries to set up a connection to node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#self/0">self()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the current node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#set_cookie/2">set_cookie(node \\ Node.self(), cookie)</a>
+  </div>
+    <div class="summary-synopsis"><p>Sets the magic cookie of <code class="inline">node</code> to the atom <code class="inline">cookie</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#spawn/2">spawn(node, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the PID of a new process started by the application of <code class="inline">fun</code>
+on <code class="inline">node</code>. If <code class="inline">node</code> does not exist, a useless PID is returned</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#spawn/3">spawn(node, fun, opts)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the PID of a new process started by the application of <code class="inline">fun</code>
+on <code class="inline">node</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#spawn/4">spawn(node, module, fun, args)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the PID of a new process started by the application of
+<code class="inline">module.function(args)</code> on <code class="inline">node</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#spawn/5">spawn(node, module, fun, args, opts)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the PID of a new process started by the application of
+<code class="inline">module.function(args)</code> on <code class="inline">node</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#spawn_link/2">spawn_link(node, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the PID of a new linked process started by the application of <code class="inline">fun</code> on <code class="inline">node</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#spawn_link/4">spawn_link(node, module, fun, args)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the PID of a new linked process started by the application of
+<code class="inline">module.function(args)</code> on <code class="inline">node</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start/3">start(name, type \\ :longnames, tick_time \\ 15000)</a>
+  </div>
+    <div class="summary-synopsis"><p>Turns a non-distributed node into a distributed node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#stop/0">stop()</a>
+  </div>
+    <div class="summary-synopsis"><p>Turns a distributed node into a non-distributed node</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:state/0">
+    <div class="detail-header">
+    <a href="#t:state/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">state()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L80" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>state() :: :visible | :hidden | :connected | :this | :known</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:t/0">
+    <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">t()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L11" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>t() :: <a href="typespecs.html#built-in-types">node</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="alive?/0">
+    <div class="detail-header">
+    <a href="#alive?/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">alive?()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L53" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>alive?() :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns <code class="inline">true</code> if the local node is alive.</p>
+<p>That is, if the node can be part of a distributed system.</p>
+  </section>
+</div>
+<div class="detail" id="connect/1">
+    <div class="detail-header">
+    <a href="#connect/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">connect(node)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L154" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>connect(<a href="#t:t/0">t</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>() | :ignored</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Establishes a connection to <code class="inline">node</code>.</p>
+<p>Returns <code class="inline">true</code> if successful, <code class="inline">false</code> if not, and the atom
+<code class="inline">:ignored</code> if the local node is not alive.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/net_kernel.html#connect_node-1"><code class="inline">:net_kernel.connect_node/1</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="disconnect/1">
+    <div class="detail-header">
+    <a href="#disconnect/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">disconnect(node)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L141" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>disconnect(<a href="#t:t/0">t</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>() | :ignored</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Forces the disconnection of a node.</p>
+<p>This will appear to the <code class="inline">node</code> as if the local node has crashed.
+This function is mainly used in the Erlang network authentication
+protocols. Returns <code class="inline">true</code> if disconnection succeeds, otherwise <code class="inline">false</code>.
+If the local node is not alive, the function returns <code class="inline">:ignored</code>.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#disconnect_node-1"><code class="inline">:erlang.disconnect_node/1</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="get_cookie/0">
+    <div class="detail-header">
+    <a href="#get_cookie/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">get_cookie()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L262" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+<p>Returns the magic cookie of the local node.</p>
+<p>Returns the cookie if the node is alive, otherwise <code class="inline">:nocookie</code>.</p>
+  </section>
+</div>
+<div class="detail" id="list/0">
+    <div class="detail-header">
+    <a href="#list/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">list()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L66" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>list() :: [<a href="#t:t/0">t</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a list of all visible nodes in the system, excluding
+the local node.</p>
+<p>Same as <code class="inline">list(:visible)</code>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="list/1">
+    <div class="detail-header">
+    <a href="#list/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">list(args)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L82" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>list(<a href="#t:state/0">state</a>() | [<a href="#t:state/0">state</a>()]) :: [<a href="#t:t/0">t</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a list of nodes according to argument given.</p>
+<p>The result returned when the argument is a list, is the list of nodes
+satisfying the disjunction(s) of the list elements.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#nodes-1"><code class="inline">:erlang.nodes/1</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="monitor/2">
+    <div class="detail-header">
+    <a href="#monitor/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">monitor(node, flag)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L97" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>monitor(<a href="#t:t/0">t</a>(), <a href="typespecs.html#built-in-types">boolean</a>()) :: true</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Monitors the status of the node.</p>
+<p>If <code class="inline">flag</code> is <code class="inline">true</code>, monitoring is turned on.
+If <code class="inline">flag</code> is <code class="inline">false</code>, monitoring is turned off.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#monitor_node-2"><code class="inline">:erlang.monitor_node/2</code></a>.</p>
+<p>For monitoring status changes of all nodes, see <a href="http://www.erlang.org/doc/man/net_kernel.html#monitor_nodes-3"><code class="inline">:net_kernel.monitor_nodes/3</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="monitor/3">
+    <div class="detail-header">
+    <a href="#monitor/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">monitor(node, flag, options)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L110" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>monitor(<a href="#t:t/0">t</a>(), <a href="typespecs.html#built-in-types">boolean</a>(), [:allow_passive_connect]) :: true</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Behaves as <a href="#monitor/2"><code class="inline">monitor/2</code></a> except that it allows an extra
+option to be given, namely <code class="inline">:allow_passive_connect</code>.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#monitor_node-3"><code class="inline">:erlang.monitor_node/3</code></a>.</p>
+<p>For monitoring status changes of all nodes, see <a href="http://www.erlang.org/doc/man/net_kernel.html#monitor_nodes-3"><code class="inline">:net_kernel.monitor_nodes/3</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="ping/1">
+    <div class="detail-header">
+    <a href="#ping/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">ping(node)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L126" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>ping(<a href="#t:t/0">t</a>()) :: :pong | :pang</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Tries to set up a connection to node.</p>
+<p>Returns <code class="inline">:pang</code> if it fails, or <code class="inline">:pong</code> if it is successful.</p>
+<h2 id="ping/1-examples" class="section-heading">
+  <a href="#ping/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Node</span><span class="o">.</span><span class="n">ping</span><span class="p" data-group-id="9722029008-1">(</span><span class="ss">:unknown_node</span><span class="p" data-group-id="9722029008-1">)</span><span class="w">
+</span><span class="ss">:pang</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="self/0">
+    <div class="detail-header">
+    <a href="#self/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">self()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L43" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>self() :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the current node.</p>
+<p>It returns the same as the built-in <code class="inline">node()</code>.</p>
+  </section>
+</div>
+<div class="detail" id="set_cookie/2">
+  
+    <span id="set_cookie/1"></span>
+  <div class="detail-header">
+    <a href="#set_cookie/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">set_cookie(node \\ Node.self(), cookie)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L253" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+<p>Sets the magic cookie of <code class="inline">node</code> to the atom <code class="inline">cookie</code>.</p>
+<p>The default node is <a href="Node.html#self/0"><code class="inline">Node.self/0</code></a>, the local node. If <code class="inline">node</code> is the local node,
+the function also sets the cookie of all other unknown nodes to <code class="inline">cookie</code>.</p>
+<p>This function will raise <a href="FunctionClauseError.html"><code class="inline">FunctionClauseError</code></a> if the given <code class="inline">node</code> is not alive.</p>
+  </section>
+</div>
+<div class="detail" id="spawn/2">
+    <div class="detail-header">
+    <a href="#spawn/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">spawn(node, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L167" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>spawn(<a href="#t:t/0">t</a>(), (() -> <a href="typespecs.html#basic-types">any</a>())) :: <a href="typespecs.html#basic-types">pid</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the PID of a new process started by the application of <code class="inline">fun</code>
+on <code class="inline">node</code>. If <code class="inline">node</code> does not exist, a useless PID is returned.</p>
+<p>For the list of available options, see <a href="http://www.erlang.org/doc/man/erlang.html#spawn-2"><code class="inline">:erlang.spawn/2</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="spawn/3">
+    <div class="detail-header">
+    <a href="#spawn/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">spawn(node, fun, opts)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L182" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>spawn(<a href="#t:t/0">t</a>(), (() -> <a href="typespecs.html#basic-types">any</a>()), <a href="Process.html#t:spawn_opts/0">Process.spawn_opts</a>()) ::
+  <a href="typespecs.html#basic-types">pid</a>() | {<a href="typespecs.html#basic-types">pid</a>(), <a href="typespecs.html#basic-types">reference</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the PID of a new process started by the application of <code class="inline">fun</code>
+on <code class="inline">node</code>.</p>
+<p>If <code class="inline">node</code> does not exist, a useless PID is returned.</p>
+<p>For the list of available options, see <a href="http://www.erlang.org/doc/man/erlang.html#spawn_opt-3"><code class="inline">:erlang.spawn_opt/3</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="spawn/4">
+    <div class="detail-header">
+    <a href="#spawn/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">spawn(node, module, fun, args)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L197" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>spawn(<a href="#t:t/0">t</a>(), <a href="typespecs.html#built-in-types">module</a>(), <a href="typespecs.html#basic-types">atom</a>(), [<a href="typespecs.html#basic-types">any</a>()]) :: <a href="typespecs.html#basic-types">pid</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the PID of a new process started by the application of
+<code class="inline">module.function(args)</code> on <code class="inline">node</code>.</p>
+<p>If <code class="inline">node</code> does not exist, a useless PID is returned.</p>
+<p>For the list of available options, see <a href="http://www.erlang.org/doc/man/erlang.html#spawn-4"><code class="inline">:erlang.spawn/4</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="spawn/5">
+    <div class="detail-header">
+    <a href="#spawn/5" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">spawn(node, module, fun, args, opts)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L212" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>spawn(<a href="#t:t/0">t</a>(), <a href="typespecs.html#built-in-types">module</a>(), <a href="typespecs.html#basic-types">atom</a>(), [<a href="typespecs.html#basic-types">any</a>()], <a href="Process.html#t:spawn_opts/0">Process.spawn_opts</a>()) ::
+  <a href="typespecs.html#basic-types">pid</a>() | {<a href="typespecs.html#basic-types">pid</a>(), <a href="typespecs.html#basic-types">reference</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the PID of a new process started by the application of
+<code class="inline">module.function(args)</code> on <code class="inline">node</code>.</p>
+<p>If <code class="inline">node</code> does not exist, a useless PID is returned.</p>
+<p>For the list of available options, see <a href="http://www.erlang.org/doc/man/erlang.html#spawn-5"><code class="inline">:erlang.spawn/5</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="spawn_link/2">
+    <div class="detail-header">
+    <a href="#spawn_link/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">spawn_link(node, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L226" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>spawn_link(<a href="#t:t/0">t</a>(), (() -> <a href="typespecs.html#basic-types">any</a>())) :: <a href="typespecs.html#basic-types">pid</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the PID of a new linked process started by the application of <code class="inline">fun</code> on <code class="inline">node</code>.</p>
+<p>A link is created between the calling process and the new process, atomically.
+If <code class="inline">node</code> does not exist, a useless PID is returned (and due to the link, an exit
+signal with exit reason <code class="inline">:noconnection</code> will be received).</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="spawn_link/4">
+    <div class="detail-header">
+    <a href="#spawn_link/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">spawn_link(node, module, fun, args)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L241" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>spawn_link(<a href="#t:t/0">t</a>(), <a href="typespecs.html#built-in-types">module</a>(), <a href="typespecs.html#basic-types">atom</a>(), [<a href="typespecs.html#basic-types">any</a>()]) :: <a href="typespecs.html#basic-types">pid</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the PID of a new linked process started by the application of
+<code class="inline">module.function(args)</code> on <code class="inline">node</code>.</p>
+<p>A link is created between the calling process and the new process, atomically.
+If <code class="inline">node</code> does not exist, a useless PID is returned (and due to the link, an exit
+signal with exit reason <code class="inline">:noconnection</code> will be received).</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="start/3">
+  
+    <span id="start/1"></span>
+
+    <span id="start/2"></span>
+  <div class="detail-header">
+    <a href="#start/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">start(name, type \\ :longnames, tick_time \\ 15000)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L20" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>start(<a href="typespecs.html#built-in-types">node</a>(), :longnames | :shortnames, <a href="typespecs.html#basic-types">non_neg_integer</a>()) ::
+  {:ok, <a href="typespecs.html#basic-types">pid</a>()} | {:error, <a href="typespecs.html#built-in-types">term</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Turns a non-distributed node into a distributed node.</p>
+<p>This functionality starts the <code class="inline">:net_kernel</code> and other
+related processes.</p>
+  </section>
+</div>
+<div class="detail" id="stop/0">
+    <div class="detail-header">
+    <a href="#stop/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">stop()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/node.ex#L33" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>stop() :: :ok | {:error, :not_allowed | :not_found}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Turns a distributed node into a non-distributed node.</p>
+<p>For other nodes in the network, this is the same as the node going down.
+Only possible when the node was started with <a href="Node.html#start/3"><code class="inline">Node.start/3</code></a>, otherwise
+returns <code class="inline">{:error, :not_allowed}</code>. Returns <code class="inline">{:error, :not_found}</code> if the
+local node is not alive.</p>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

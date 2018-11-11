@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Port – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Port.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Port        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Functions for interacting with the external world through ports.</p>
+<p>Ports provide a mechanism to start operating system processes external
+to the Erlang VM and communicate with them via message passing.</p>
+<h2 id="module-example" class="section-heading">
+  <a href="#module-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Port</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="8539790651-1">(</span><span class="p" data-group-id="8539790651-2">{</span><span class="ss">:spawn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cat&quot;</span><span class="p" data-group-id="8539790651-2">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-3">[</span><span class="ss">:binary</span><span class="p" data-group-id="8539790651-3">]</span><span class="p" data-group-id="8539790651-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">send</span><span class="p" data-group-id="8539790651-4">(</span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-5">{</span><span class="n">self</span><span class="p" data-group-id="8539790651-6">(</span><span class="p" data-group-id="8539790651-6">)</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-7">{</span><span class="ss">:command</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p" data-group-id="8539790651-7">}</span><span class="p" data-group-id="8539790651-5">}</span><span class="p" data-group-id="8539790651-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">send</span><span class="p" data-group-id="8539790651-8">(</span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-9">{</span><span class="n">self</span><span class="p" data-group-id="8539790651-10">(</span><span class="p" data-group-id="8539790651-10">)</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-11">{</span><span class="ss">:command</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;world&quot;</span><span class="p" data-group-id="8539790651-11">}</span><span class="p" data-group-id="8539790651-9">}</span><span class="p" data-group-id="8539790651-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">flush</span><span class="p" data-group-id="8539790651-12">(</span><span class="p" data-group-id="8539790651-12">)</span><span class="w">
+</span><span class="p" data-group-id="8539790651-13">{</span><span class="p" data-group-id="8539790651-14">#</span><span class="nc" data-group-id="8539790651-14">Port</span><span class="p" data-group-id="8539790651-14">&lt;</span><span class="mf">0.1444</span><span class="p" data-group-id="8539790651-14">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-15">{</span><span class="ss">:data</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p" data-group-id="8539790651-15">}</span><span class="p" data-group-id="8539790651-13">}</span><span class="w">
+</span><span class="p" data-group-id="8539790651-16">{</span><span class="p" data-group-id="8539790651-17">#</span><span class="nc" data-group-id="8539790651-17">Port</span><span class="p" data-group-id="8539790651-17">&lt;</span><span class="mf">0.1444</span><span class="p" data-group-id="8539790651-17">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-18">{</span><span class="ss">:data</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;world&quot;</span><span class="p" data-group-id="8539790651-18">}</span><span class="p" data-group-id="8539790651-16">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">send</span><span class="p" data-group-id="8539790651-19">(</span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8539790651-20">{</span><span class="n">self</span><span class="p" data-group-id="8539790651-21">(</span><span class="p" data-group-id="8539790651-21">)</span><span class="p">,</span><span class="w"> </span><span class="ss">:close</span><span class="p" data-group-id="8539790651-20">}</span><span class="p" data-group-id="8539790651-19">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">flush</span><span class="p" data-group-id="8539790651-22">(</span><span class="p" data-group-id="8539790651-22">)</span><span class="w">
+</span><span class="p" data-group-id="8539790651-23">{</span><span class="p" data-group-id="8539790651-24">#</span><span class="nc" data-group-id="8539790651-24">Port</span><span class="p" data-group-id="8539790651-24">&lt;</span><span class="mf">0.1464</span><span class="p" data-group-id="8539790651-24">&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">:closed</span><span class="p" data-group-id="8539790651-23">}</span><span class="w">
+</span><span class="ss">:ok</span></code></pre>
+<p>In the example above, we have created a new port that executes the
+program <code class="inline">cat</code>. <code class="inline">cat</code> is a program available on UNIX systems that
+receives data from multiple inputs and concatenates them in the output.</p>
+<p>After the port was created, we sent it two commands in the form of
+messages using <a href="Kernel.html#send/2"><code class="inline">Kernel.send/2</code></a>. The first command has the binary payload
+of “hello” and the second has “world”.</p>
+<p>After sending those two messages, we invoked the IEx helper <code class="inline">flush()</code>,
+which printed all messages received from the port, in this case we got
+“hello” and “world” back. Notice the messages are in binary because we
+passed the <code class="inline">:binary</code> option when opening the port in <a href="Port.html#open/2"><code class="inline">Port.open/2</code></a>. Without
+such option, it would have yielded a list of bytes.</p>
+<p>Once everything was done, we closed the port.</p>
+<p>Elixir provides many conveniences for working with ports and some drawbacks.
+We will explore those below.</p>
+<h2 id="module-message-and-function-apis" class="section-heading">
+  <a href="#module-message-and-function-apis" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Message and function APIs
+</h2>
+
+<p>There are two APIs for working with ports. It can be either asynchronous via
+message passing, as in the example above, or by calling the functions on this
+module.</p>
+<p>The messages supported by ports and their counterpart function APIs are
+listed below:</p>
+<ul>
+<li><p><code class="inline">{pid, {:command, binary}}</code> - sends the given data to the port.
+See <a href="#command/3"><code class="inline">command/3</code></a>.</p>
+</li>
+<li><p><code class="inline">{pid, :close}</code> - closes the port. Unless the port is already closed,
+the port will reply with <code class="inline">{port, :closed}</code> message once it has flushed
+its buffers and effectively closed. See <a href="#close/1"><code class="inline">close/1</code></a>.</p>
+</li>
+<li><p><code class="inline">{pid, {:connect, new_pid}}</code> - sets the <code class="inline">new_pid</code> as the new owner of
+the port. Once a port is opened, the port is linked and connected to the
+caller process and communication to the port only happens through the
+connected process. This message makes <code class="inline">new_pid</code> the new connected processes.
+Unless the port is dead, the port will reply to the old owner with
+<code class="inline">{port, :connected}</code>. See <a href="#connect/2"><code class="inline">connect/2</code></a>.</p>
+</li>
+</ul>
+<p>On its turn, the port will send the connected process the following messages:</p>
+<ul>
+<li><code class="inline">{port, {:data, data}}</code> - data sent by the port
+</li>
+<li><code class="inline">{port, :closed}</code> - reply to the <code class="inline">{pid, :close}</code> message
+</li>
+<li><code class="inline">{port, :connected}</code> - reply to the <code class="inline">{pid, {:connect, new_pid}}</code> message
+</li>
+<li><code class="inline">{:EXIT, port, reason}</code> - exit signals in case the port crashes. If reason
+is not <code class="inline">:normal</code>, this message will only be received if the owner process
+is trapping exits
+</li>
+</ul>
+<h2 id="module-open-mechanisms" class="section-heading">
+  <a href="#module-open-mechanisms" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Open mechanisms
+</h2>
+
+<p>The port can be opened through four main mechanisms.</p>
+<p>As a short summary, prefer to using the <code class="inline">:spawn</code> and <code class="inline">:spawn_executable</code>
+options mentioned below. The other two options, <code class="inline">:spawn_driver</code> and <code class="inline">:fd</code>
+are for advanced usage within the VM. Also consider using <a href="System.html#cmd/3"><code class="inline">System.cmd/3</code></a>
+if all you want is to execute a program and retrieve its return value.</p>
+<h3 id="module-spawn" class="section-heading">
+  <a href="#module-spawn" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  spawn
+</h3>
+
+<p>The <code class="inline">:spawn</code> tuple receives a binary that is going to be executed as a
+full invocation. For example, we can use it to invoke “echo hello” directly:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Port</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="8015398942-1">(</span><span class="p" data-group-id="8015398942-2">{</span><span class="ss">:spawn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;echo hello&quot;</span><span class="p" data-group-id="8015398942-2">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8015398942-3">[</span><span class="ss">:binary</span><span class="p" data-group-id="8015398942-3">]</span><span class="p" data-group-id="8015398942-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">flush</span><span class="p" data-group-id="8015398942-4">(</span><span class="p" data-group-id="8015398942-4">)</span><span class="w">
+</span><span class="p" data-group-id="8015398942-5">{</span><span class="p" data-group-id="8015398942-6">#</span><span class="nc" data-group-id="8015398942-6">Port</span><span class="p" data-group-id="8015398942-6">&lt;</span><span class="mf">0.1444</span><span class="p" data-group-id="8015398942-6">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8015398942-7">{</span><span class="ss">:data</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello</span><span class="se">\n</span><span class="s">&quot;</span><span class="p" data-group-id="8015398942-7">}</span><span class="p" data-group-id="8015398942-5">}</span></code></pre>
+<p><code class="inline">:spawn</code> will retrieve the program name from the argument and traverse your
+OS <code class="inline">$PATH</code> environment variable looking for a matching program.</p>
+<p>Although the above is handy, it means it is impossible to invoke an executable
+that has whitespaces on its name or in any of its arguments. For those reasons,
+most times it is preferable to execute <code class="inline">:spawn_executable</code>.</p>
+<h3 id="module-spawn_executable" class="section-heading">
+  <a href="#module-spawn_executable" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  spawn_executable
+</h3>
+
+<p>Spawn executable is a more restricted and explicit version of spawn. It expects
+full file paths to the executable you want to execute. If they are in your <code class="inline">$PATH</code>,
+they can be retrieved by calling <a href="System.html#find_executable/1"><code class="inline">System.find_executable/1</code></a>:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">find_executable</span><span class="p" data-group-id="7811929913-1">(</span><span class="s">&quot;echo&quot;</span><span class="p" data-group-id="7811929913-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Port</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="7811929913-2">(</span><span class="p" data-group-id="7811929913-3">{</span><span class="ss">:spawn_executable</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="p" data-group-id="7811929913-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7811929913-4">[</span><span class="ss">:binary</span><span class="p">,</span><span class="w"> </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7811929913-5">[</span><span class="s">&quot;hello world&quot;</span><span class="p" data-group-id="7811929913-5">]</span><span class="p" data-group-id="7811929913-4">]</span><span class="p" data-group-id="7811929913-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">flush</span><span class="p" data-group-id="7811929913-6">(</span><span class="p" data-group-id="7811929913-6">)</span><span class="w">
+</span><span class="p" data-group-id="7811929913-7">{</span><span class="p" data-group-id="7811929913-8">#</span><span class="nc" data-group-id="7811929913-8">Port</span><span class="p" data-group-id="7811929913-8">&lt;</span><span class="mf">0.1380</span><span class="p" data-group-id="7811929913-8">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7811929913-9">{</span><span class="ss">:data</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello world</span><span class="se">\n</span><span class="s">&quot;</span><span class="p" data-group-id="7811929913-9">}</span><span class="p" data-group-id="7811929913-7">}</span></code></pre>
+<p>When using <code class="inline">:spawn_executable</code>, the list of arguments can be passed via
+the <code class="inline">:args</code> option as done above. For the full list of options, see the
+documentation for the Erlang function <a href="http://www.erlang.org/doc/man/erlang.html#open_port-2"><code class="inline">:erlang.open_port/2</code></a>.</p>
+<h3 id="module-fd" class="section-heading">
+  <a href="#module-fd" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  fd
+</h3>
+
+<p>The <code class="inline">:fd</code> name option allows developers to access <code class="inline">in</code> and <code class="inline">out</code> file
+descriptors used by the Erlang VM. You would use those only if you are
+reimplementing core part of the Runtime System, such as the <code class="inline">:user</code> and
+<code class="inline">:shell</code> processes.</p>
+<h2 id="module-zombie-os-processes" class="section-heading">
+  <a href="#module-zombie-os-processes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Zombie OS processes
+</h2>
+
+<p>A port can be closed via the <a href="#close/1"><code class="inline">close/1</code></a> function or by sending a <code class="inline">{pid, :close}</code>
+message. However, if the VM crashes, a long-running program started by the port
+will have its stdin and stdout channels closed but <strong>it won’t be automatically
+terminated</strong>.</p>
+<p>While most UNIX command line tools will exit once its communication channels
+are closed, not all command line applications will do so. While we encourage
+graceful termination by detecting if stdin/stdout has been closed, we do not
+always have control over how third-party software terminates. In those cases,
+you can wrap the application in a script that checks for stdin. Here is such
+script in Bash:</p>
+<pre><code class="nohighlight makeup elixir"><span class="c1">#!/bin/bash</span><span class="w">
+</span><span class="s">&quot;$@&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w">
+</span><span class="n">pid</span><span class="o">=</span><span class="err">$</span><span class="o">!</span><span class="w">
+</span><span class="n">while</span><span class="w"> </span><span class="n">read</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k" data-group-id="5874596869-1">do</span><span class="w">
+  </span><span class="p">:</span><span class="w">
+</span><span class="n">done</span><span class="w">
+</span><span class="n">kill</span><span class="w"> </span><span class="o">-</span><span class="nc">KILL</span><span class="w"> </span><span class="err">$</span><span class="n">pid</span></code></pre>
+<p>Now instead of:</p>
+<pre><code class="nohighlight makeup elixir"><span class="nc">Port</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="1665973724-1">(</span><span class="w">
+  </span><span class="p" data-group-id="1665973724-2">{</span><span class="ss">:spawn_executable</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/path/to/program&quot;</span><span class="p" data-group-id="1665973724-2">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1665973724-3">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="1665973724-3">]</span><span class="w">
+</span><span class="p" data-group-id="1665973724-1">)</span></code></pre>
+<p>You may invoke:</p>
+<pre><code class="nohighlight makeup elixir"><span class="nc">Port</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="9317934331-1">(</span><span class="w">
+  </span><span class="p" data-group-id="9317934331-2">{</span><span class="ss">:spawn_executable</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/path/to/wrapper&quot;</span><span class="p" data-group-id="9317934331-2">}</span><span class="p">,</span><span class="w">
+  </span><span class="ss">args</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9317934331-3">[</span><span class="s">&quot;/path/to/program&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="9317934331-3">]</span><span class="w">
+</span><span class="p" data-group-id="9317934331-1">)</span></code></pre>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:name/0">name()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#close/1">close(port)</a>
+  </div>
+    <div class="summary-synopsis"><p>Closes the <code class="inline">port</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#command/3">command(port, data, options \\ [])</a>
+  </div>
+    <div class="summary-synopsis"><p>Sends <code class="inline">data</code> to the port driver <code class="inline">port</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#connect/2">connect(port, pid)</a>
+  </div>
+    <div class="summary-synopsis"><p>Associates the <code class="inline">port</code> identifier with a <code class="inline">pid</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#demonitor/2">demonitor(monitor_ref, options \\ [])</a>
+  </div>
+    <div class="summary-synopsis"><p>Demonitors the monitor identified by the given <code class="inline">reference</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#info/1">info(port)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns information about the <code class="inline">port</code> or <code class="inline">nil</code> if the port is closed</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#info/2">info(port, spec)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns information about the <code class="inline">port</code> or <code class="inline">nil</code> if the port is closed</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list/0">list()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a list of all ports in the current node</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#monitor/1">monitor(port)</a>
+  </div>
+    <div class="summary-synopsis"><p>Starts monitoring the given <code class="inline">port</code> from the calling process</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#open/2">open(name, options)</a>
+  </div>
+    <div class="summary-synopsis"><p>Opens a port given a tuple <code class="inline">name</code> and a list of <code class="inline">options</code></p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:name/0">
+    <div class="detail-header">
+    <a href="#t:name/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">name()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L158" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>name() ::
+  {:spawn, <a href="typespecs.html#built-in-types">charlist</a>() | <a href="typespecs.html#built-in-types">binary</a>()}
+  | {:spawn_driver, <a href="typespecs.html#built-in-types">charlist</a>() | <a href="typespecs.html#built-in-types">binary</a>()}
+  | {:spawn_executable, <a href="typespecs.html#built-in-types">charlist</a>() | <a href="typespecs.html#basic-types">atom</a>()}
+  | {:fd, <a href="typespecs.html#basic-types">non_neg_integer</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="close/1">
+    <div class="detail-header">
+    <a href="#close/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">close(port)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L196" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>close(<a href="typespecs.html#basic-types">port</a>()) :: true</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Closes the <code class="inline">port</code>.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#port_close-1"><code class="inline">:erlang.port_close/1</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="command/3">
+  
+    <span id="command/2"></span>
+  <div class="detail-header">
+    <a href="#command/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">command(port, data, options \\ [])</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L208" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>command(<a href="typespecs.html#basic-types">port</a>(), <a href="typespecs.html#built-in-types">iodata</a>(), [:force | :nosuspend]) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Sends <code class="inline">data</code> to the port driver <code class="inline">port</code>.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#port_command-2"><code class="inline">:erlang.port_command/2</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="connect/2">
+    <div class="detail-header">
+    <a href="#connect/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">connect(port, pid)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L220" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>connect(<a href="typespecs.html#basic-types">port</a>(), <a href="typespecs.html#basic-types">pid</a>()) :: true</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Associates the <code class="inline">port</code> identifier with a <code class="inline">pid</code>.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#port_connect-2"><code class="inline">:erlang.port_connect/2</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="demonitor/2">
+  
+    <span id="demonitor/1"></span>
+  <div class="detail-header">
+    <a href="#demonitor/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">demonitor(monitor_ref, options \\ [])</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L291" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+    
+      <div class="specs">
+          <pre>demonitor(<a href="typespecs.html#basic-types">reference</a>(), options :: [:flush | :info]) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Demonitors the monitor identified by the given <code class="inline">reference</code>.</p>
+<p>If <code class="inline">monitor_ref</code> is a reference which the calling process
+obtained by calling <a href="#monitor/1"><code class="inline">monitor/1</code></a>, that monitoring is turned off.
+If the monitoring is already turned off, nothing happens.</p>
+<p>See <a href="http://www.erlang.org/doc/man/erlang.html#demonitor-2"><code class="inline">:erlang.demonitor/2</code></a> for more information.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="info/1">
+    <div class="detail-header">
+    <a href="#info/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">info(port)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L229" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+<p>Returns information about the <code class="inline">port</code> or <code class="inline">nil</code> if the port is closed.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#port_info-1"><code class="inline">:erlang.port_info/1</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="info/2">
+    <div class="detail-header">
+    <a href="#info/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">info(port, spec)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L239" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>info(<a href="typespecs.html#basic-types">port</a>(), <a href="typespecs.html#basic-types">atom</a>()) :: {<a href="typespecs.html#basic-types">atom</a>(), <a href="typespecs.html#built-in-types">term</a>()} | nil</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns information about the <code class="inline">port</code> or <code class="inline">nil</code> if the port is closed.</p>
+<p>For more information, see <a href="http://www.erlang.org/doc/man/erlang.html#port_info-2"><code class="inline">:erlang.port_info/2</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="list/0">
+    <div class="detail-header">
+    <a href="#list/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">list()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L299" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>list() :: [<a href="typespecs.html#basic-types">port</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a list of all ports in the current node.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="monitor/1">
+    <div class="detail-header">
+    <a href="#monitor/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">monitor(port)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L274" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+    
+      <div class="specs">
+          <pre>monitor(<a href="typespecs.html#basic-types">port</a>() | {name, <a href="typespecs.html#built-in-types">node</a>()} | name) :: <a href="typespecs.html#basic-types">reference</a>() when name: <a href="typespecs.html#basic-types">atom</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Starts monitoring the given <code class="inline">port</code> from the calling process.</p>
+<p>Once the monitored port process dies, a message is delivered to the
+monitoring process in the shape of:</p>
+<pre><code class="nohighlight makeup elixir"><span class="p" data-group-id="8523492620-1">{</span><span class="ss">:DOWN</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="p">,</span><span class="w"> </span><span class="ss">:port</span><span class="p">,</span><span class="w"> </span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="p" data-group-id="8523492620-1">}</span></code></pre>
+<p>where:</p>
+<ul>
+<li><code class="inline">ref</code> is a monitor reference returned by this function;
+</li>
+<li><code class="inline">object</code> is either the <code class="inline">port</code> being monitored (when monitoring by port id)
+  or <code class="inline">{name, node}</code> (when monitoring by a port name);
+</li>
+<li><code class="inline">reason</code> is the exit reason.
+</li>
+</ul>
+<p>See <a href="http://www.erlang.org/doc/man/erlang.html#monitor-2"><code class="inline">:erlang.monitor/2</code></a> for more information.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+<div class="detail" id="open/2">
+    <div class="detail-header">
+    <a href="#open/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">open(name, options)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/port.ex#L184" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>open(<a href="#t:name/0">name</a>(), <a href="typespecs.html#built-in-types">list</a>()) :: <a href="typespecs.html#basic-types">port</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Opens a port given a tuple <code class="inline">name</code> and a list of <code class="inline">options</code>.</p>
+<p>The module documentation above contains documentation and examples
+for the supported <code class="inline">name</code> values, summarized below:</p>
+<ul>
+<li><code class="inline">{:spawn, command}</code> - runs an external program. <code class="inline">command</code> must contain
+the program name and optionally a list of arguments separated by space.
+If passing programs or arguments with space in their name, use the next option.
+</li>
+<li><code class="inline">{:spawn_executable, filename}</code> - runs the executable given by the absolute
+file name <code class="inline">filename</code>. Arguments can be passed via the <code class="inline">:args</code> option.
+</li>
+<li><code class="inline">{:spawn_driver, command}</code> - spawns so-called port drivers.
+</li>
+<li><code class="inline">{:fd, fd_in, fd_out}</code> - accesses file descriptors, <code class="inline">fd_in</code> and <code class="inline">fd_out</code>
+opened by the VM.
+</li>
+</ul>
+<p>For more information and the list of options, see <a href="http://www.erlang.org/doc/man/erlang.html#open_port-2"><code class="inline">:erlang.open_port/2</code></a>.</p>
+<p>Inlined by the compiler.</p>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

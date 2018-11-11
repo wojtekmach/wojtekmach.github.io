@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Keyword – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Keyword.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Keyword        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>A set of functions for working with keywords.</p>
+<p>A keyword is a list of two-element tuples where the first
+element of the tuple is an atom and the second element
+can be any value.</p>
+<p>For example, the following is a keyword list:</p>
+<pre><code class="nohighlight makeup elixir"><span class="p" data-group-id="2038621843-1">[</span><span class="p" data-group-id="2038621843-2">{</span><span class="ss">:exit_on_close</span><span class="p">,</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="2038621843-2">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2038621843-3">{</span><span class="ss">:active</span><span class="p">,</span><span class="w"> </span><span class="ss">:once</span><span class="p" data-group-id="2038621843-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2038621843-4">{</span><span class="ss">:packet_size</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="p" data-group-id="2038621843-4">}</span><span class="p" data-group-id="2038621843-1">]</span></code></pre>
+<p>Elixir provides a special and more concise syntax for keyword lists
+that looks like this:</p>
+<pre><code class="nohighlight makeup elixir"><span class="p" data-group-id="1346178845-1">[</span><span class="ss">exit_on_close</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="ss">active</span><span class="p">:</span><span class="w"> </span><span class="ss">:once</span><span class="p">,</span><span class="w"> </span><span class="ss">packet_size</span><span class="p">:</span><span class="w"> </span><span class="mi">1024</span><span class="p" data-group-id="1346178845-1">]</span></code></pre>
+<p>This is also the syntax that Elixir uses to inspect keyword lists:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7656295795-1">[</span><span class="p" data-group-id="7656295795-2">{</span><span class="ss">:active</span><span class="p">,</span><span class="w"> </span><span class="ss">:once</span><span class="p" data-group-id="7656295795-2">}</span><span class="p" data-group-id="7656295795-1">]</span><span class="w">
+</span><span class="p" data-group-id="7656295795-3">[</span><span class="ss">active</span><span class="p">:</span><span class="w"> </span><span class="ss">:once</span><span class="p" data-group-id="7656295795-3">]</span></code></pre>
+<p>The two syntaxes are completely equivalent. Like atoms, keywords
+must be composed of Unicode characters such as letters, numbers,
+underscore, and <code class="inline">@</code>. If the keyword has a character that does not
+belong to the category above, such as spaces, you can wrap it in
+quotes:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6010862679-1">[</span><span class="ss">&quot;exit on close&quot;</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="6010862679-1">]</span><span class="w">
+</span><span class="p" data-group-id="6010862679-2">[</span><span class="ss">&quot;exit on close&quot;</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="6010862679-2">]</span></code></pre>
+<p>Wrapping a keyword in quotes does not make it a string. Keywords are
+always atoms. If you use quotes when all characters are a valid part
+of a keyword without quotes, Elixir will warn.</p>
+<p>Note that when keyword lists are passed as the last argument to a function,
+if the short-hand syntax is used then the square brackets around the keyword list
+can be omitted as well. For example, the following:</p>
+<pre><code class="nohighlight makeup elixir"><span class="nc">String</span><span class="o">.</span><span class="n">split</span><span class="p" data-group-id="3188647639-1">(</span><span class="s">&quot;1-0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">trim</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="ss">parts</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3188647639-1">)</span></code></pre>
+<p>is equivalent to:</p>
+<pre><code class="nohighlight makeup elixir"><span class="nc">String</span><span class="o">.</span><span class="n">split</span><span class="p" data-group-id="2335622956-1">(</span><span class="s">&quot;1-0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2335622956-2">[</span><span class="ss">trim</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="ss">parts</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2335622956-2">]</span><span class="p" data-group-id="2335622956-1">)</span></code></pre>
+<p>A keyword may have duplicated keys so it is not strictly
+a key-value store. However most of the functions in this module
+behave exactly as a dictionary so they work similarly to
+the functions you would find in the <a href="Map.html"><code class="inline">Map</code></a> module.</p>
+<p>For example, <a href="Keyword.html#get/3"><code class="inline">Keyword.get/3</code></a> will get the first entry matching
+the given key, regardless if duplicated entries exist.
+Similarly, <a href="Keyword.html#put/3"><code class="inline">Keyword.put/3</code></a> and <a href="Keyword.html#delete/3"><code class="inline">Keyword.delete/3</code></a> ensure all
+duplicated entries for a given key are removed when invoked.
+Note that operations that require keys to be found in the keyword
+list (like <a href="Keyword.html#get/3"><code class="inline">Keyword.get/3</code></a>) need to traverse the list in order
+to find keys, so these operations may be slower than their map
+counterparts.</p>
+<p>A handful of functions exist to handle duplicated keys, in
+particular, <a href="Enum.html#into/2"><code class="inline">Enum.into/2</code></a> allows creating new keywords without
+removing duplicated keys, <a href="#get_values/2"><code class="inline">get_values/2</code></a> returns all values for
+a given key and <a href="#delete_first/2"><code class="inline">delete_first/2</code></a> deletes just one of the existing
+entries.</p>
+<p>The functions in <a href="Keyword.html#content"><code class="inline">Keyword</code></a> do not guarantee any property when
+it comes to ordering. However, since a keyword list is simply a
+list, all the operations defined in <a href="Enum.html"><code class="inline">Enum</code></a> and <a href="List.html"><code class="inline">List</code></a> can be
+applied too, especially when ordering is required.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:key/0">key()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/1">t(value)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:value/0">value()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete/2">delete(keywords, key)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes the entries in the keyword list for a specific <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete/3">delete(keywords, key, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes the entries in the keyword list for a <code class="inline">key</code> with <code class="inline">value</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_first/2">delete_first(keywords, key)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes the first entry in the keyword list for a specific <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#drop/2">drop(keywords, keys)</a>
+  </div>
+    <div class="summary-synopsis"><p>Drops the given keys from the keyword list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#equal?/2">equal?(left, right)</a>
+  </div>
+    <div class="summary-synopsis"><p>Checks if two keywords are equal</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#fetch/2">fetch(keywords, key)</a>
+  </div>
+    <div class="summary-synopsis"><p>Fetches the value for a specific <code class="inline">key</code> and returns it in a tuple</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#fetch!/2">fetch!(keywords, key)</a>
+  </div>
+    <div class="summary-synopsis"><p>Fetches the value for specific <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/3">get(keywords, key, default \\ nil)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets the value for a specific <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_and_update/3">get_and_update(keywords, key, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets the value from <code class="inline">key</code> and updates it, all in one pass</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_and_update!/3">get_and_update!(keywords, key, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets the value from <code class="inline">key</code> and updates it. Raises if there is no <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_lazy/3">get_lazy(keywords, key, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets the value for a specific <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_values/2">get_values(keywords, key)</a>
+  </div>
+    <div class="summary-synopsis"><p>Gets all values for a specific <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#has_key?/2">has_key?(keywords, key)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns whether a given <code class="inline">key</code> exists in the given <code class="inline">keywords</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keys/1">keys(keywords)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns all keys from the keyword list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keyword?/1">keyword?(term)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns <code class="inline">true</code> if <code class="inline">term</code> is a keyword list; otherwise returns <code class="inline">false</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#merge/2">merge(keywords1, keywords2)</a>
+  </div>
+    <div class="summary-synopsis"><p>Merges two keyword lists into one</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#merge/3">merge(keywords1, keywords2, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Merges two keyword lists into one</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/0">new()</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an empty keyword list, i.e. an empty list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/1">new(pairs)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a keyword from an enumerable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/2">new(pairs, transform)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates a keyword from an enumerable via the transformation function</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#pop/3">pop(keywords, key, default \\ nil)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns and removes all values associated with <code class="inline">key</code> in the keyword list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#pop_first/3">pop_first(keywords, key, default \\ nil)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns and removes the first value associated with <code class="inline">key</code> in the keyword list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#pop_lazy/3">pop_lazy(keywords, key, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Lazily returns and removes all values associated with <code class="inline">key</code> in the keyword list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put/3">put(keywords, key, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Puts the given <code class="inline">value</code> under <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put_new/3">put_new(keywords, key, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Puts the given <code class="inline">value</code> under <code class="inline">key</code> unless the entry <code class="inline">key</code>
+already exists</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#put_new_lazy/3">put_new_lazy(keywords, key, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Evaluates <code class="inline">fun</code> and puts the result under <code class="inline">key</code>
+in keyword list unless <code class="inline">key</code> is already present</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#replace!/3">replace!(keywords, key, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Alters the value stored under <code class="inline">key</code> to <code class="inline">value</code>, but only
+if the entry <code class="inline">key</code> already exists in <code class="inline">keywords</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#split/2">split(keywords, keys)</a>
+  </div>
+    <div class="summary-synopsis"><p>Takes all entries corresponding to the given keys and extracts them into a
+separate keyword list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#take/2">take(keywords, keys)</a>
+  </div>
+    <div class="summary-synopsis"><p>Takes all entries corresponding to the given keys and returns them in a new
+keyword list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_list/1">to_list(keyword)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the keyword list itself</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update/4">update(keywords, key, initial, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates the <code class="inline">key</code> in <code class="inline">keywords</code> with the given function</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update!/3">update!(keywords, key, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Updates the <code class="inline">key</code> with the given function</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#values/1">values(keywords)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns all values from the keyword list</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:key/0">
+    <div class="detail-header">
+    <a href="#t:key/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">key()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L74" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>key() :: <a href="typespecs.html#basic-types">atom</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:t/0">
+    <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">t()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L77" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>t() :: [{<a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()}]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:t/1">
+    <div class="detail-header">
+    <a href="#t:t/1" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">t(value)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L78" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>t(value) :: [{<a href="#t:key/0">key</a>(), value}]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:value/0">
+    <div class="detail-header">
+    <a href="#t:value/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">value()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L75" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>value() :: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="delete/2">
+    <div class="detail-header">
+    <a href="#delete/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">delete(keywords, key)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L508" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>delete(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Deletes the entries in the keyword list for a specific <code class="inline">key</code>.</p>
+<p>If the <code class="inline">key</code> does not exist, returns the keyword list unchanged.
+Use <a href="#delete_first/2"><code class="inline">delete_first/2</code></a> to delete just the first entry in case of
+duplicated keys.</p>
+<h2 id="delete/2-examples" class="section-heading">
+  <a href="#delete/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="6037648551-1">(</span><span class="p" data-group-id="6037648551-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6037648551-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="6037648551-1">)</span><span class="w">
+</span><span class="p" data-group-id="6037648551-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6037648551-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="6037648551-4">(</span><span class="p" data-group-id="6037648551-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6037648551-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="6037648551-4">)</span><span class="w">
+</span><span class="p" data-group-id="6037648551-6">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6037648551-6">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="6037648551-7">(</span><span class="p" data-group-id="6037648551-8">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6037648551-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="6037648551-7">)</span><span class="w">
+</span><span class="p" data-group-id="6037648551-9">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6037648551-9">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="delete/3">
+    <div class="detail-header">
+    <a href="#delete/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">delete(keywords, key, value)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L470" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>delete(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Deletes the entries in the keyword list for a <code class="inline">key</code> with <code class="inline">value</code>.</p>
+<p>If no <code class="inline">key</code> with <code class="inline">value</code> exists, returns the keyword list unchanged.</p>
+<h2 id="delete/3-examples" class="section-heading">
+  <a href="#delete/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="8851797071-1">(</span><span class="p" data-group-id="8851797071-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8851797071-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8851797071-1">)</span><span class="w">
+</span><span class="p" data-group-id="8851797071-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8851797071-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="8851797071-4">(</span><span class="p" data-group-id="8851797071-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8851797071-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8851797071-4">)</span><span class="w">
+</span><span class="p" data-group-id="8851797071-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8851797071-6">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="8851797071-7">(</span><span class="p" data-group-id="8851797071-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8851797071-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="8851797071-7">)</span><span class="w">
+</span><span class="p" data-group-id="8851797071-9">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8851797071-9">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="8851797071-10">(</span><span class="p" data-group-id="8851797071-11">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8851797071-11">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="8851797071-10">)</span><span class="w">
+</span><span class="p" data-group-id="8851797071-12">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8851797071-12">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="delete_first/2">
+    <div class="detail-header">
+    <a href="#delete_first/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">delete_first(keywords, key)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L541" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>delete_first(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Deletes the first entry in the keyword list for a specific <code class="inline">key</code>.</p>
+<p>If the <code class="inline">key</code> does not exist, returns the keyword list unchanged.</p>
+<h2 id="delete_first/2-examples" class="section-heading">
+  <a href="#delete_first/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete_first</span><span class="p" data-group-id="4010481085-1">(</span><span class="p" data-group-id="4010481085-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4010481085-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="4010481085-1">)</span><span class="w">
+</span><span class="p" data-group-id="4010481085-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4010481085-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">delete_first</span><span class="p" data-group-id="4010481085-4">(</span><span class="p" data-group-id="4010481085-5">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4010481085-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="4010481085-4">)</span><span class="w">
+</span><span class="p" data-group-id="4010481085-6">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4010481085-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="drop/2">
+    <div class="detail-header">
+    <a href="#drop/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">drop(keywords, keys)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L944" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>drop(<a href="#t:t/0">t</a>(), [<a href="#t:key/0">key</a>()]) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Drops the given keys from the keyword list.</p>
+<p>Duplicated keys are preserved in the new keyword list.</p>
+<h2 id="drop/2-examples" class="section-heading">
+  <a href="#drop/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">drop</span><span class="p" data-group-id="2892506183-1">(</span><span class="p" data-group-id="2892506183-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2892506183-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2892506183-3">[</span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:d</span><span class="p" data-group-id="2892506183-3">]</span><span class="p" data-group-id="2892506183-1">)</span><span class="w">
+</span><span class="p" data-group-id="2892506183-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2892506183-4">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">drop</span><span class="p" data-group-id="2892506183-5">(</span><span class="p" data-group-id="2892506183-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="2892506183-6">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2892506183-7">[</span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:d</span><span class="p" data-group-id="2892506183-7">]</span><span class="p" data-group-id="2892506183-5">)</span><span class="w">
+</span><span class="p" data-group-id="2892506183-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="2892506183-8">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="equal?/2">
+    <div class="detail-header">
+    <a href="#equal?/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">equal?(left, right)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L680" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>equal?(<a href="#t:t/0">t</a>(), <a href="#t:t/0">t</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Checks if two keywords are equal.</p>
+<p>Two keywords are considered to be equal if they contain
+the same keys and those keys contain the same values.</p>
+<h2 id="equal?/2-examples" class="section-heading">
+  <a href="#equal?/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">equal?</span><span class="p" data-group-id="3360772731-1">(</span><span class="p" data-group-id="3360772731-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3360772731-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3360772731-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3360772731-3">]</span><span class="p" data-group-id="3360772731-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">equal?</span><span class="p" data-group-id="3360772731-4">(</span><span class="p" data-group-id="3360772731-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3360772731-5">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3360772731-6">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3360772731-6">]</span><span class="p" data-group-id="3360772731-4">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">equal?</span><span class="p" data-group-id="3360772731-7">(</span><span class="p" data-group-id="3360772731-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3360772731-8">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3360772731-9">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3360772731-9">]</span><span class="p" data-group-id="3360772731-7">)</span><span class="w">
+</span><span class="no">true</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="fetch/2">
+    <div class="detail-header">
+    <a href="#fetch/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">fetch(keywords, key)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L365" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>fetch(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>()) :: {:ok, <a href="#t:value/0">value</a>()} | :error</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Fetches the value for a specific <code class="inline">key</code> and returns it in a tuple.</p>
+<p>If the <code class="inline">key</code> does not exist, returns <code class="inline">:error</code>.</p>
+<h2 id="fetch/2-examples" class="section-heading">
+  <a href="#fetch/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">fetch</span><span class="p" data-group-id="7316105108-1">(</span><span class="p" data-group-id="7316105108-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7316105108-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="7316105108-1">)</span><span class="w">
+</span><span class="p" data-group-id="7316105108-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7316105108-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">fetch</span><span class="p" data-group-id="7316105108-4">(</span><span class="p" data-group-id="7316105108-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7316105108-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="7316105108-4">)</span><span class="w">
+</span><span class="ss">:error</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="fetch!/2">
+    <div class="detail-header">
+    <a href="#fetch!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">fetch!(keywords, key)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L386" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>fetch!(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>()) :: <a href="#t:value/0">value</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Fetches the value for specific <code class="inline">key</code>.</p>
+<p>If <code class="inline">key</code> does not exist, a <a href="KeyError.html"><code class="inline">KeyError</code></a> is raised.</p>
+<h2 id="fetch!/2-examples" class="section-heading">
+  <a href="#fetch!/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">fetch!</span><span class="p" data-group-id="8617539820-1">(</span><span class="p" data-group-id="8617539820-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8617539820-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="8617539820-1">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">fetch!</span><span class="p" data-group-id="8617539820-3">(</span><span class="p" data-group-id="8617539820-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8617539820-4">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="8617539820-3">)</span><span class="w">
+</span><span class="gt">** (KeyError) key :b not found in: [a: 1]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="get/3">
+  
+    <span id="get/2"></span>
+  <div class="detail-header">
+    <a href="#get/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">get(keywords, key, default \\ nil)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L191" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>get(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()) :: <a href="#t:value/0">value</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets the value for a specific <code class="inline">key</code>.</p>
+<p>If <code class="inline">key</code> does not exist, return the default value
+(<code class="inline">nil</code> if no default value).</p>
+<p>If duplicated entries exist, the first one is returned.
+Use <a href="#get_values/2"><code class="inline">get_values/2</code></a> to retrieve all entries.</p>
+<h2 id="get/3-examples" class="section-heading">
+  <a href="#get/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="7557794599-1">(</span><span class="p" data-group-id="7557794599-2">[</span><span class="p" data-group-id="7557794599-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="7557794599-1">)</span><span class="w">
+</span><span class="no">nil</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="7557794599-3">(</span><span class="p" data-group-id="7557794599-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7557794599-4">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="7557794599-3">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="7557794599-5">(</span><span class="p" data-group-id="7557794599-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7557794599-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="7557794599-5">)</span><span class="w">
+</span><span class="no">nil</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="7557794599-7">(</span><span class="p" data-group-id="7557794599-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7557794599-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7557794599-7">)</span><span class="w">
+</span><span class="mi">3</span></code></pre>
+<p>With duplicated keys:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="1168081195-1">(</span><span class="p" data-group-id="1168081195-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1168081195-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1168081195-1">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="1168081195-3">(</span><span class="p" data-group-id="1168081195-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1168081195-4">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1168081195-3">)</span><span class="w">
+</span><span class="mi">3</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="get_and_update/3">
+    <div class="detail-header">
+    <a href="#get_and_update/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">get_and_update(keywords, key, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L264" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>get_and_update(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), (<a href="#t:value/0">value</a>() -> {get, <a href="#t:value/0">value</a>()} | :pop)) ::
+  {get, <a href="#t:t/0">t</a>()}
+when get: <a href="typespecs.html#built-in-types">term</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets the value from <code class="inline">key</code> and updates it, all in one pass.</p>
+<p>This <code class="inline">fun</code> argument receives the value of <code class="inline">key</code> (or <code class="inline">nil</code> if <code class="inline">key</code>
+is not present) and must return a two-element tuple: the “get” value
+(the retrieved value, which can be operated on before being returned)
+and the new value to be stored under <code class="inline">key</code>. The <code class="inline">fun</code> may also
+return <code class="inline">:pop</code>, implying the current value shall be removed from the
+keyword list and returned.</p>
+<p>The returned value is a tuple with the “get” value returned by
+<code class="inline">fun</code> and a new keyword list with the updated value under <code class="inline">key</code>.</p>
+<h2 id="get_and_update/3-examples" class="section-heading">
+  <a href="#get_and_update/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_and_update</span><span class="p" data-group-id="6993732062-1">(</span><span class="p" data-group-id="6993732062-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6993732062-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="6993732062-3">fn</span><span class="w"> </span><span class="n">current_value</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="p" data-group-id="6993732062-4">{</span><span class="n">current_value</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;new value!&quot;</span><span class="p" data-group-id="6993732062-4">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="6993732062-3">end</span><span class="p" data-group-id="6993732062-1">)</span><span class="w">
+</span><span class="p" data-group-id="6993732062-5">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6993732062-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;new value!&quot;</span><span class="p" data-group-id="6993732062-6">]</span><span class="p" data-group-id="6993732062-5">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_and_update</span><span class="p" data-group-id="6993732062-7">(</span><span class="p" data-group-id="6993732062-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6993732062-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="6993732062-9">fn</span><span class="w"> </span><span class="n">current_value</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="p" data-group-id="6993732062-10">{</span><span class="n">current_value</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;new value!&quot;</span><span class="p" data-group-id="6993732062-10">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="6993732062-9">end</span><span class="p" data-group-id="6993732062-7">)</span><span class="w">
+</span><span class="p" data-group-id="6993732062-11">{</span><span class="no">nil</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6993732062-12">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;new value!&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6993732062-12">]</span><span class="p" data-group-id="6993732062-11">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_and_update</span><span class="p" data-group-id="6993732062-13">(</span><span class="p" data-group-id="6993732062-14">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6993732062-14">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="6993732062-15">fn</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="ss">:pop</span><span class="w"> </span><span class="k" data-group-id="6993732062-15">end</span><span class="p" data-group-id="6993732062-13">)</span><span class="w">
+</span><span class="p" data-group-id="6993732062-16">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6993732062-17">[</span><span class="p" data-group-id="6993732062-17">]</span><span class="p" data-group-id="6993732062-16">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_and_update</span><span class="p" data-group-id="6993732062-18">(</span><span class="p" data-group-id="6993732062-19">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6993732062-19">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="6993732062-20">fn</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="ss">:pop</span><span class="w"> </span><span class="k" data-group-id="6993732062-20">end</span><span class="p" data-group-id="6993732062-18">)</span><span class="w">
+</span><span class="p" data-group-id="6993732062-21">{</span><span class="no">nil</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6993732062-22">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6993732062-22">]</span><span class="p" data-group-id="6993732062-21">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="get_and_update!/3">
+    <div class="detail-header">
+    <a href="#get_and_update!/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">get_and_update!(keywords, key, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L326" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>get_and_update!(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), (<a href="#t:value/0">value</a>() -> {get, <a href="#t:value/0">value</a>()})) :: {get, <a href="#t:t/0">t</a>()}
+when get: <a href="typespecs.html#built-in-types">term</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets the value from <code class="inline">key</code> and updates it. Raises if there is no <code class="inline">key</code>.</p>
+<p>This <code class="inline">fun</code> argument receives the value of <code class="inline">key</code> and must return a
+two-element tuple: the “get” value (the retrieved value, which can be
+operated on before being returned) and the new value to be stored under
+<code class="inline">key</code>.</p>
+<p>The returned value is a tuple with the “get” value returned by <code class="inline">fun</code> and a new
+keyword list with the updated value under <code class="inline">key</code>.</p>
+<h2 id="get_and_update!/3-examples" class="section-heading">
+  <a href="#get_and_update!/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_and_update!</span><span class="p" data-group-id="1881750566-1">(</span><span class="p" data-group-id="1881750566-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1881750566-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="1881750566-3">fn</span><span class="w"> </span><span class="n">current_value</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="p" data-group-id="1881750566-4">{</span><span class="n">current_value</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;new value!&quot;</span><span class="p" data-group-id="1881750566-4">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="1881750566-3">end</span><span class="p" data-group-id="1881750566-1">)</span><span class="w">
+</span><span class="p" data-group-id="1881750566-5">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1881750566-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;new value!&quot;</span><span class="p" data-group-id="1881750566-6">]</span><span class="p" data-group-id="1881750566-5">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_and_update!</span><span class="p" data-group-id="1881750566-7">(</span><span class="p" data-group-id="1881750566-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1881750566-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="1881750566-9">fn</span><span class="w"> </span><span class="n">current_value</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="p" data-group-id="1881750566-10">{</span><span class="n">current_value</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;new value!&quot;</span><span class="p" data-group-id="1881750566-10">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="1881750566-9">end</span><span class="p" data-group-id="1881750566-7">)</span><span class="w">
+</span><span class="gt">** (KeyError) key :b not found in: [a: 1]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_and_update!</span><span class="p" data-group-id="1881750566-11">(</span><span class="p" data-group-id="1881750566-12">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1881750566-12">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="1881750566-13">fn</span><span class="w"> </span><span class="bp">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="ss">:pop</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="1881750566-13">end</span><span class="p" data-group-id="1881750566-11">)</span><span class="w">
+</span><span class="p" data-group-id="1881750566-14">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1881750566-15">[</span><span class="p" data-group-id="1881750566-15">]</span><span class="p" data-group-id="1881750566-14">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="get_lazy/3">
+    <div class="detail-header">
+    <a href="#get_lazy/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">get_lazy(keywords, key, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L223" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>get_lazy(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), (() -> <a href="#t:value/0">value</a>())) :: <a href="#t:value/0">value</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets the value for a specific <code class="inline">key</code>.</p>
+<p>If <code class="inline">key</code> does not exist, lazily evaluates <code class="inline">fun</code> and returns its result.</p>
+<p>This is useful if the default value is very expensive to calculate or
+generally difficult to setup and teardown again.</p>
+<p>If duplicated entries exist, the first one is returned.
+Use <a href="#get_values/2"><code class="inline">get_values/2</code></a> to retrieve all entries.</p>
+<h2 id="get_lazy/3-examples" class="section-heading">
+  <a href="#get_lazy/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">keyword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9883022341-1">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9883022341-1">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="9883022341-2">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="c1"># some expensive operation here</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="mi">13</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="9883022341-2">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_lazy</span><span class="p" data-group-id="9883022341-3">(</span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="n">fun</span><span class="p" data-group-id="9883022341-3">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_lazy</span><span class="p" data-group-id="9883022341-4">(</span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="n">fun</span><span class="p" data-group-id="9883022341-4">)</span><span class="w">
+</span><span class="mi">13</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="get_values/2">
+    <div class="detail-header">
+    <a href="#get_values/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">get_values(keywords, key)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L407" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>get_values(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>()) :: [<a href="#t:value/0">value</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Gets all values for a specific <code class="inline">key</code>.</p>
+<h2 id="get_values/2-examples" class="section-heading">
+  <a href="#get_values/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_values</span><span class="p" data-group-id="8527032497-1">(</span><span class="p" data-group-id="8527032497-2">[</span><span class="p" data-group-id="8527032497-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="8527032497-1">)</span><span class="w">
+</span><span class="p" data-group-id="8527032497-3">[</span><span class="p" data-group-id="8527032497-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_values</span><span class="p" data-group-id="8527032497-4">(</span><span class="p" data-group-id="8527032497-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8527032497-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="8527032497-4">)</span><span class="w">
+</span><span class="p" data-group-id="8527032497-6">[</span><span class="mi">1</span><span class="p" data-group-id="8527032497-6">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get_values</span><span class="p" data-group-id="8527032497-7">(</span><span class="p" data-group-id="8527032497-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8527032497-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="8527032497-7">)</span><span class="w">
+</span><span class="p" data-group-id="8527032497-9">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8527032497-9">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="has_key?/2">
+    <div class="detail-header">
+    <a href="#has_key?/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">has_key?(keywords, key)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L806" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>has_key?(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns whether a given <code class="inline">key</code> exists in the given <code class="inline">keywords</code>.</p>
+<h2 id="has_key?/2-examples" class="section-heading">
+  <a href="#has_key?/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">has_key?</span><span class="p" data-group-id="3342066575-1">(</span><span class="p" data-group-id="3342066575-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3342066575-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="3342066575-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">has_key?</span><span class="p" data-group-id="3342066575-3">(</span><span class="p" data-group-id="3342066575-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3342066575-4">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="3342066575-3">)</span><span class="w">
+</span><span class="no">false</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keys/1">
+    <div class="detail-header">
+    <a href="#keys/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keys(keywords)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L430" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keys(<a href="#t:t/0">t</a>()) :: [<a href="#t:key/0">key</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns all keys from the keyword list.</p>
+<p>Duplicated keys appear duplicated in the final list of keys.</p>
+<h2 id="keys/1-examples" class="section-heading">
+  <a href="#keys/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keys</span><span class="p" data-group-id="0810875318-1">(</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0810875318-1">)</span><span class="w">
+</span><span class="p" data-group-id="0810875318-2">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="0810875318-2">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keys</span><span class="p" data-group-id="0810875318-3">(</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0810875318-3">)</span><span class="w">
+</span><span class="p" data-group-id="0810875318-4">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="0810875318-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keyword?/1">
+    <div class="detail-header">
+    <a href="#keyword?/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keyword?(term)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L100" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keyword?(<a href="typespecs.html#built-in-types">term</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns <code class="inline">true</code> if <code class="inline">term</code> is a keyword list; otherwise returns <code class="inline">false</code>.</p>
+<h2 id="keyword?/1-examples" class="section-heading">
+  <a href="#keyword?/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keyword?</span><span class="p" data-group-id="8604561939-1">(</span><span class="p" data-group-id="8604561939-2">[</span><span class="p" data-group-id="8604561939-2">]</span><span class="p" data-group-id="8604561939-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keyword?</span><span class="p" data-group-id="8604561939-3">(</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8604561939-3">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keyword?</span><span class="p" data-group-id="8604561939-4">(</span><span class="p" data-group-id="8604561939-5">[</span><span class="p" data-group-id="8604561939-6">{</span><span class="nc">Foo</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8604561939-6">}</span><span class="p" data-group-id="8604561939-5">]</span><span class="p" data-group-id="8604561939-4">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keyword?</span><span class="p" data-group-id="8604561939-7">(</span><span class="p" data-group-id="8604561939-8">[</span><span class="p" data-group-id="8604561939-9">{</span><span class="p" data-group-id="8604561939-9">}</span><span class="p" data-group-id="8604561939-8">]</span><span class="p" data-group-id="8604561939-7">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keyword?</span><span class="p" data-group-id="8604561939-10">(</span><span class="p" data-group-id="8604561939-11">[</span><span class="ss">:key</span><span class="p" data-group-id="8604561939-11">]</span><span class="p" data-group-id="8604561939-10">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">keyword?</span><span class="p" data-group-id="8604561939-12">(</span><span class="p" data-group-id="8604561939-13">%{</span><span class="p" data-group-id="8604561939-13">}</span><span class="p" data-group-id="8604561939-12">)</span><span class="w">
+</span><span class="no">false</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="merge/2">
+    <div class="detail-header">
+    <a href="#merge/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">merge(keywords1, keywords2)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L705" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>merge(<a href="#t:t/0">t</a>(), <a href="#t:t/0">t</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Merges two keyword lists into one.</p>
+<p>All keys, including duplicated keys, given in <code class="inline">keywords2</code> will be added
+to <code class="inline">keywords1</code>, overriding any existing one.</p>
+<p>There are no guarantees about the order of keys in the returned keyword.</p>
+<h2 id="merge/2-examples" class="section-heading">
+  <a href="#merge/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="1170339524-1">(</span><span class="p" data-group-id="1170339524-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1170339524-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1170339524-3">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="1170339524-3">]</span><span class="p" data-group-id="1170339524-1">)</span><span class="w">
+</span><span class="p" data-group-id="1170339524-4">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="1170339524-4">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="1170339524-5">(</span><span class="p" data-group-id="1170339524-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1170339524-6">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1170339524-7">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="1170339524-7">]</span><span class="p" data-group-id="1170339524-5">)</span><span class="w">
+</span><span class="p" data-group-id="1170339524-8">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="1170339524-8">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="1170339524-9">(</span><span class="p" data-group-id="1170339524-10">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1170339524-10">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1170339524-11">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1170339524-11">]</span><span class="p" data-group-id="1170339524-9">)</span><span class="w">
+</span><span class="gt">** (ArgumentError) expected a keyword list as the second argument, got: [2, 3]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="merge/3">
+    <div class="detail-header">
+    <a href="#merge/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">merge(keywords1, keywords2, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L763" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>merge(<a href="#t:t/0">t</a>(), <a href="#t:t/0">t</a>(), (<a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>(), <a href="#t:value/0">value</a>() -> <a href="#t:value/0">value</a>())) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Merges two keyword lists into one.</p>
+<p>All keys, including duplicated keys, given in <code class="inline">keywords2</code> will be added
+to <code class="inline">keywords1</code>. The given function will be invoked to solve conflicts.</p>
+<p>If <code class="inline">keywords2</code> has duplicate keys, the given function will be invoked
+for each matching pair in <code class="inline">keywords1</code>.</p>
+<p>There are no guarantees about the order of keys in the returned keyword.</p>
+<h2 id="merge/3-examples" class="section-heading">
+  <a href="#merge/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="9825096758-1">(</span><span class="p" data-group-id="9825096758-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9825096758-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9825096758-3">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="9825096758-3">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9825096758-4">fn</span><span class="w"> </span><span class="c">_k</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v2</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="9825096758-4">end</span><span class="p" data-group-id="9825096758-1">)</span><span class="w">
+</span><span class="p" data-group-id="9825096758-5">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="9825096758-5">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="9825096758-6">(</span><span class="p" data-group-id="9825096758-7">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9825096758-7">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9825096758-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="9825096758-8">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9825096758-9">fn</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v2</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="9825096758-9">end</span><span class="p" data-group-id="9825096758-6">)</span><span class="w">
+</span><span class="p" data-group-id="9825096758-10">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="9825096758-10">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="9825096758-11">(</span><span class="p" data-group-id="9825096758-12">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9825096758-12">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9825096758-13">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="9825096758-13">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9825096758-14">fn</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v2</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="9825096758-14">end</span><span class="p" data-group-id="9825096758-11">)</span><span class="w">
+</span><span class="p" data-group-id="9825096758-15">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">d</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p" data-group-id="9825096758-15">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">merge</span><span class="p" data-group-id="9825096758-16">(</span><span class="p" data-group-id="9825096758-17">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9825096758-17">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9825096758-18">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="9825096758-18">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9825096758-19">fn</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">v1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v2</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="9825096758-19">end</span><span class="p" data-group-id="9825096758-16">)</span><span class="w">
+</span><span class="gt">** (ArgumentError) expected a keyword list as the second argument, got: [:a, :b]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="new/0">
+    <div class="detail-header">
+    <a href="#new/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">new()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L116" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>new() :: []</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns an empty keyword list, i.e. an empty list.</p>
+<h2 id="new/0-examples" class="section-heading">
+  <a href="#new/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="6220383586-1">(</span><span class="p" data-group-id="6220383586-1">)</span><span class="w">
+</span><span class="p" data-group-id="6220383586-2">[</span><span class="p" data-group-id="6220383586-2">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="new/1">
+    <div class="detail-header">
+    <a href="#new/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">new(pairs)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L135" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>new(<a href="Enum.html#t:t/0">Enum.t</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a keyword from an enumerable.</p>
+<p>Duplicated entries are removed, the latest one prevails.
+Unlike <code class="inline">Enum.into(enumerable, [])</code>, <code class="inline">Keyword.new(enumerable)</code>
+guarantees the keys are unique.</p>
+<h2 id="new/1-examples" class="section-heading">
+  <a href="#new/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9141172236-1">(</span><span class="p" data-group-id="9141172236-2">[</span><span class="p" data-group-id="9141172236-3">{</span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9141172236-3">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9141172236-4">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9141172236-4">}</span><span class="p" data-group-id="9141172236-2">]</span><span class="p" data-group-id="9141172236-1">)</span><span class="w">
+</span><span class="p" data-group-id="9141172236-5">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9141172236-5">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9141172236-6">(</span><span class="p" data-group-id="9141172236-7">[</span><span class="p" data-group-id="9141172236-8">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9141172236-8">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9141172236-9">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9141172236-9">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9141172236-10">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9141172236-10">}</span><span class="p" data-group-id="9141172236-7">]</span><span class="p" data-group-id="9141172236-6">)</span><span class="w">
+</span><span class="p" data-group-id="9141172236-11">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9141172236-11">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="new/2">
+    <div class="detail-header">
+    <a href="#new/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">new(pairs, transform)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L153" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>new(<a href="Enum.html#t:t/0">Enum.t</a>(), (<a href="typespecs.html#built-in-types">term</a>() -> {<a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()})) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates a keyword from an enumerable via the transformation function.</p>
+<p>Duplicated entries are removed, the latest one prevails.
+Unlike <code class="inline">Enum.into(enumerable, [], fun)</code>,
+<code class="inline">Keyword.new(enumerable, fun)</code> guarantees the keys are unique.</p>
+<h2 id="new/2-examples" class="section-heading">
+  <a href="#new/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="1416188493-1">(</span><span class="p" data-group-id="1416188493-2">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="1416188493-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="1416188493-3">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p" data-group-id="1416188493-4">{</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p" data-group-id="1416188493-4">}</span><span class="w"> </span><span class="k" data-group-id="1416188493-3">end</span><span class="p" data-group-id="1416188493-1">)</span><span class="w">
+</span><span class="p" data-group-id="1416188493-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="1416188493-5">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="pop/3">
+  
+    <span id="pop/2"></span>
+  <div class="detail-header">
+    <a href="#pop/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">pop(keywords, key, default \\ nil)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L967" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>pop(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()) :: {<a href="#t:value/0">value</a>(), <a href="#t:t/0">t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns and removes all values associated with <code class="inline">key</code> in the keyword list.</p>
+<p>All duplicated keys are removed. See <a href="#pop_first/3"><code class="inline">pop_first/3</code></a> for
+removing only the first entry.</p>
+<h2 id="pop/3-examples" class="section-heading">
+  <a href="#pop/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop</span><span class="p" data-group-id="1486234958-1">(</span><span class="p" data-group-id="1486234958-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1486234958-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="1486234958-1">)</span><span class="w">
+</span><span class="p" data-group-id="1486234958-3">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1486234958-4">[</span><span class="p" data-group-id="1486234958-4">]</span><span class="p" data-group-id="1486234958-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop</span><span class="p" data-group-id="1486234958-5">(</span><span class="p" data-group-id="1486234958-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1486234958-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="1486234958-5">)</span><span class="w">
+</span><span class="p" data-group-id="1486234958-7">{</span><span class="no">nil</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1486234958-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1486234958-8">]</span><span class="p" data-group-id="1486234958-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop</span><span class="p" data-group-id="1486234958-9">(</span><span class="p" data-group-id="1486234958-10">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1486234958-10">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1486234958-9">)</span><span class="w">
+</span><span class="p" data-group-id="1486234958-11">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1486234958-12">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1486234958-12">]</span><span class="p" data-group-id="1486234958-11">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop</span><span class="p" data-group-id="1486234958-13">(</span><span class="p" data-group-id="1486234958-14">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1486234958-14">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="1486234958-13">)</span><span class="w">
+</span><span class="p" data-group-id="1486234958-15">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1486234958-16">[</span><span class="p" data-group-id="1486234958-16">]</span><span class="p" data-group-id="1486234958-15">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="pop_first/3">
+  
+    <span id="pop_first/2"></span>
+  <div class="detail-header">
+    <a href="#pop_first/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">pop_first(keywords, key, default \\ nil)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L1029" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>pop_first(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()) :: {<a href="#t:value/0">value</a>(), <a href="#t:t/0">t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns and removes the first value associated with <code class="inline">key</code> in the keyword list.</p>
+<p>Duplicated keys are not removed.</p>
+<h2 id="pop_first/3-examples" class="section-heading">
+  <a href="#pop_first/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop_first</span><span class="p" data-group-id="1905709470-1">(</span><span class="p" data-group-id="1905709470-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1905709470-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="1905709470-1">)</span><span class="w">
+</span><span class="p" data-group-id="1905709470-3">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1905709470-4">[</span><span class="p" data-group-id="1905709470-4">]</span><span class="p" data-group-id="1905709470-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop_first</span><span class="p" data-group-id="1905709470-5">(</span><span class="p" data-group-id="1905709470-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1905709470-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="1905709470-5">)</span><span class="w">
+</span><span class="p" data-group-id="1905709470-7">{</span><span class="no">nil</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1905709470-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1905709470-8">]</span><span class="p" data-group-id="1905709470-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop_first</span><span class="p" data-group-id="1905709470-9">(</span><span class="p" data-group-id="1905709470-10">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1905709470-10">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1905709470-9">)</span><span class="w">
+</span><span class="p" data-group-id="1905709470-11">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1905709470-12">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1905709470-12">]</span><span class="p" data-group-id="1905709470-11">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop_first</span><span class="p" data-group-id="1905709470-13">(</span><span class="p" data-group-id="1905709470-14">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1905709470-14">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="1905709470-13">)</span><span class="w">
+</span><span class="p" data-group-id="1905709470-15">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1905709470-16">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1905709470-16">]</span><span class="p" data-group-id="1905709470-15">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="pop_lazy/3">
+    <div class="detail-header">
+    <a href="#pop_lazy/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">pop_lazy(keywords, key, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L1000" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>pop_lazy(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), (() -> <a href="#t:value/0">value</a>())) :: {<a href="#t:value/0">value</a>(), <a href="#t:t/0">t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Lazily returns and removes all values associated with <code class="inline">key</code> in the keyword list.</p>
+<p>This is useful if the default value is very expensive to calculate or
+generally difficult to setup and teardown again.</p>
+<p>All duplicated keys are removed. See <a href="#pop_first/3"><code class="inline">pop_first/3</code></a> for
+removing only the first entry.</p>
+<h2 id="pop_lazy/3-examples" class="section-heading">
+  <a href="#pop_lazy/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">keyword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8784629288-1">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8784629288-1">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="8784629288-2">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="c1"># some expensive operation here</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="mi">13</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="8784629288-2">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop_lazy</span><span class="p" data-group-id="8784629288-3">(</span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="n">fun</span><span class="p" data-group-id="8784629288-3">)</span><span class="w">
+</span><span class="p" data-group-id="8784629288-4">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8784629288-5">[</span><span class="p" data-group-id="8784629288-5">]</span><span class="p" data-group-id="8784629288-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">pop_lazy</span><span class="p" data-group-id="8784629288-6">(</span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="n">fun</span><span class="p" data-group-id="8784629288-6">)</span><span class="w">
+</span><span class="p" data-group-id="8784629288-7">{</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8784629288-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="8784629288-8">]</span><span class="p" data-group-id="8784629288-7">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="put/3">
+    <div class="detail-header">
+    <a href="#put/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">put(keywords, key, value)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L577" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>put(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Puts the given <code class="inline">value</code> under <code class="inline">key</code>.</p>
+<p>If a previous value is already stored, all entries are
+removed and the value is overridden.</p>
+<h2 id="put/3-examples" class="section-heading">
+  <a href="#put/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">put</span><span class="p" data-group-id="3392820326-1">(</span><span class="p" data-group-id="3392820326-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3392820326-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3392820326-1">)</span><span class="w">
+</span><span class="p" data-group-id="3392820326-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3392820326-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">put</span><span class="p" data-group-id="3392820326-4">(</span><span class="p" data-group-id="3392820326-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3392820326-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3392820326-4">)</span><span class="w">
+</span><span class="p" data-group-id="3392820326-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3392820326-6">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">put</span><span class="p" data-group-id="3392820326-7">(</span><span class="p" data-group-id="3392820326-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="3392820326-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3392820326-7">)</span><span class="w">
+</span><span class="p" data-group-id="3392820326-9">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3392820326-9">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="put_new/3">
+    <div class="detail-header">
+    <a href="#put_new/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">put_new(keywords, key, value)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L623" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>put_new(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Puts the given <code class="inline">value</code> under <code class="inline">key</code> unless the entry <code class="inline">key</code>
+already exists.</p>
+<h2 id="put_new/3-examples" class="section-heading">
+  <a href="#put_new/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">put_new</span><span class="p" data-group-id="6710045900-1">(</span><span class="p" data-group-id="6710045900-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6710045900-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6710045900-1">)</span><span class="w">
+</span><span class="p" data-group-id="6710045900-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="6710045900-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">put_new</span><span class="p" data-group-id="6710045900-4">(</span><span class="p" data-group-id="6710045900-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6710045900-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6710045900-4">)</span><span class="w">
+</span><span class="p" data-group-id="6710045900-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6710045900-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="put_new_lazy/3">
+    <div class="detail-header">
+    <a href="#put_new_lazy/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">put_new_lazy(keywords, key, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L602" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>put_new_lazy(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), (() -> <a href="#t:value/0">value</a>())) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Evaluates <code class="inline">fun</code> and puts the result under <code class="inline">key</code>
+in keyword list unless <code class="inline">key</code> is already present.</p>
+<p>This is useful if the value is very expensive to calculate or
+generally difficult to setup and teardown again.</p>
+<h2 id="put_new_lazy/3-examples" class="section-heading">
+  <a href="#put_new_lazy/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">keyword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="5890904103-1">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5890904103-1">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="5890904103-2">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="c1"># some expensive operation here</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="mi">3</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="5890904103-2">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">put_new_lazy</span><span class="p" data-group-id="5890904103-3">(</span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="n">fun</span><span class="p" data-group-id="5890904103-3">)</span><span class="w">
+</span><span class="p" data-group-id="5890904103-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5890904103-4">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">put_new_lazy</span><span class="p" data-group-id="5890904103-5">(</span><span class="n">keyword</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="n">fun</span><span class="p" data-group-id="5890904103-5">)</span><span class="w">
+</span><span class="p" data-group-id="5890904103-6">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5890904103-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="replace!/3">
+    <div class="detail-header">
+    <a href="#replace!/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">replace!(keywords, key, value)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L656" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>replace!(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Alters the value stored under <code class="inline">key</code> to <code class="inline">value</code>, but only
+if the entry <code class="inline">key</code> already exists in <code class="inline">keywords</code>.</p>
+<p>If <code class="inline">key</code> is not present in <code class="inline">keywords</code>, a <a href="KeyError.html"><code class="inline">KeyError</code></a> exception is raised.</p>
+<h2 id="replace!/3-examples" class="section-heading">
+  <a href="#replace!/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">replace!</span><span class="p" data-group-id="3144820479-1">(</span><span class="p" data-group-id="3144820479-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="3144820479-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3144820479-1">)</span><span class="w">
+</span><span class="p" data-group-id="3144820479-3">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3144820479-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">replace!</span><span class="p" data-group-id="3144820479-4">(</span><span class="p" data-group-id="3144820479-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3144820479-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3144820479-4">)</span><span class="w">
+</span><span class="gt">** (KeyError) key :b not found in: [a: 1]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="split/2">
+    <div class="detail-header">
+    <a href="#split/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">split(keywords, keys)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L898" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>split(<a href="#t:t/0">t</a>(), [<a href="#t:key/0">key</a>()]) :: {<a href="#t:t/0">t</a>(), <a href="#t:t/0">t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Takes all entries corresponding to the given keys and extracts them into a
+separate keyword list.</p>
+<p>Returns a tuple with the new list and the old list with removed keys.</p>
+<p>Keys for which there are no entries in the keyword list are ignored.</p>
+<p>Entries with duplicated keys end up in the same keyword list.</p>
+<h2 id="split/2-examples" class="section-heading">
+  <a href="#split/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">split</span><span class="p" data-group-id="8552934786-1">(</span><span class="p" data-group-id="8552934786-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8552934786-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8552934786-3">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="ss">:e</span><span class="p" data-group-id="8552934786-3">]</span><span class="p" data-group-id="8552934786-1">)</span><span class="w">
+</span><span class="p" data-group-id="8552934786-4">{</span><span class="p" data-group-id="8552934786-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8552934786-5">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8552934786-6">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8552934786-6">]</span><span class="p" data-group-id="8552934786-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">split</span><span class="p" data-group-id="8552934786-7">(</span><span class="p" data-group-id="8552934786-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="8552934786-8">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8552934786-9">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="ss">:e</span><span class="p" data-group-id="8552934786-9">]</span><span class="p" data-group-id="8552934786-7">)</span><span class="w">
+</span><span class="p" data-group-id="8552934786-10">{</span><span class="p" data-group-id="8552934786-11">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="8552934786-11">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8552934786-12">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8552934786-12">]</span><span class="p" data-group-id="8552934786-10">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="take/2">
+    <div class="detail-header">
+    <a href="#take/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">take(keywords, keys)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L926" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>take(<a href="#t:t/0">t</a>(), [<a href="#t:key/0">key</a>()]) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Takes all entries corresponding to the given keys and returns them in a new
+keyword list.</p>
+<p>Duplicated keys are preserved in the new keyword list.</p>
+<h2 id="take/2-examples" class="section-heading">
+  <a href="#take/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="4578025471-1">(</span><span class="p" data-group-id="4578025471-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4578025471-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4578025471-3">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="ss">:e</span><span class="p" data-group-id="4578025471-3">]</span><span class="p" data-group-id="4578025471-1">)</span><span class="w">
+</span><span class="p" data-group-id="4578025471-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4578025471-4">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">take</span><span class="p" data-group-id="4578025471-5">(</span><span class="p" data-group-id="4578025471-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="4578025471-6">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4578025471-7">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="ss">:e</span><span class="p" data-group-id="4578025471-7">]</span><span class="p" data-group-id="4578025471-5">)</span><span class="w">
+</span><span class="p" data-group-id="4578025471-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="4578025471-8">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_list/1">
+    <div class="detail-header">
+    <a href="#to_list/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_list(keyword)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L1046" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_list(<a href="#t:t/0">t</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the keyword list itself.</p>
+<h2 id="to_list/1-examples" class="section-heading">
+  <a href="#to_list/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">to_list</span><span class="p" data-group-id="9872808533-1">(</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9872808533-1">)</span><span class="w">
+</span><span class="p" data-group-id="9872808533-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9872808533-2">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="update/4">
+    <div class="detail-header">
+    <a href="#update/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">update(keywords, key, initial, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L865" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>update(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), <a href="#t:value/0">value</a>(), (<a href="#t:value/0">value</a>() -> <a href="#t:value/0">value</a>())) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Updates the <code class="inline">key</code> in <code class="inline">keywords</code> with the given function.</p>
+<p>If the <code class="inline">key</code> does not exist, inserts the given <code class="inline">initial</code> value.</p>
+<p>If there are duplicated keys, they are all removed and only the first one
+is updated.</p>
+<h2 id="update/4-examples" class="section-heading">
+  <a href="#update/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">update</span><span class="p" data-group-id="3393554307-1">(</span><span class="p" data-group-id="3393554307-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3393554307-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="3393554307-3">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3393554307-3">)</span><span class="p" data-group-id="3393554307-1">)</span><span class="w">
+</span><span class="p" data-group-id="3393554307-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3393554307-4">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">update</span><span class="p" data-group-id="3393554307-5">(</span><span class="p" data-group-id="3393554307-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3393554307-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="3393554307-7">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3393554307-7">)</span><span class="p" data-group-id="3393554307-5">)</span><span class="w">
+</span><span class="p" data-group-id="3393554307-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3393554307-8">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">update</span><span class="p" data-group-id="3393554307-9">(</span><span class="p" data-group-id="3393554307-10">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3393554307-10">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="3393554307-11">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3393554307-11">)</span><span class="p" data-group-id="3393554307-9">)</span><span class="w">
+</span><span class="p" data-group-id="3393554307-12">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p" data-group-id="3393554307-12">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="update!/3">
+    <div class="detail-header">
+    <a href="#update!/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">update!(keywords, key, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L830" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>update!(<a href="#t:t/0">t</a>(), <a href="#t:key/0">key</a>(), (<a href="#t:value/0">value</a>() -> <a href="#t:value/0">value</a>())) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Updates the <code class="inline">key</code> with the given function.</p>
+<p>If the <code class="inline">key</code> does not exist, raises <a href="KeyError.html"><code class="inline">KeyError</code></a>.</p>
+<p>If there are duplicated keys, they are all removed and only the first one
+is updated.</p>
+<h2 id="update!/3-examples" class="section-heading">
+  <a href="#update!/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">update!</span><span class="p" data-group-id="9551144559-1">(</span><span class="p" data-group-id="9551144559-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9551144559-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="9551144559-3">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9551144559-3">)</span><span class="p" data-group-id="9551144559-1">)</span><span class="w">
+</span><span class="p" data-group-id="9551144559-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9551144559-4">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">update!</span><span class="p" data-group-id="9551144559-5">(</span><span class="p" data-group-id="9551144559-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9551144559-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="9551144559-7">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9551144559-7">)</span><span class="p" data-group-id="9551144559-5">)</span><span class="w">
+</span><span class="p" data-group-id="9551144559-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9551144559-8">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">update!</span><span class="p" data-group-id="9551144559-9">(</span><span class="p" data-group-id="9551144559-10">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9551144559-10">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="9551144559-11">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9551144559-11">)</span><span class="p" data-group-id="9551144559-9">)</span><span class="w">
+</span><span class="gt">** (KeyError) key :b not found in: [a: 1]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="values/1">
+    <div class="detail-header">
+    <a href="#values/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">values(keywords)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/keyword.ex#L448" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>values(<a href="#t:t/0">t</a>()) :: [<a href="#t:value/0">value</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns all values from the keyword list.</p>
+<p>Values from duplicated keys will be kept in the final list of values.</p>
+<h2 id="values/1-examples" class="section-heading">
+  <a href="#values/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">values</span><span class="p" data-group-id="1605332493-1">(</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1605332493-1">)</span><span class="w">
+</span><span class="p" data-group-id="1605332493-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1605332493-2">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">values</span><span class="p" data-group-id="1605332493-3">(</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1605332493-3">)</span><span class="w">
+</span><span class="p" data-group-id="1605332493-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1605332493-4">]</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

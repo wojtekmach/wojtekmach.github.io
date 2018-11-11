@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Time – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Time.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Time        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>A Time struct and functions.</p>
+<p>The Time struct contains the fields hour, minute, second and microseconds.
+New times can be built with the <a href="#new/4"><code class="inline">new/4</code></a> function or using the
+<code class="inline">~T</code> (see <a href="Kernel.html#sigil_T/2"><code class="inline">Kernel.sigil_T/2</code></a>) sigil:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="sx">~T[23:00:07.001]</span><span class="w">
+</span><span class="sx">~T[23:00:07.001]</span></code></pre>
+<p>Both <a href="#new/4"><code class="inline">new/4</code></a> and sigil return a struct where the time fields can
+be accessed directly:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sx">~T[23:00:07.001]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">hour</span><span class="w">
+</span><span class="mi">23</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">microsecond</span><span class="w">
+</span><span class="p" data-group-id="6408549818-1">{</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6408549818-1">}</span></code></pre>
+<p>The functions on this module work with the <a href="Time.html#content"><code class="inline">Time</code></a> struct as well
+as any struct that contains the same fields as the <a href="Time.html#content"><code class="inline">Time</code></a> struct,
+such as <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> and <a href="DateTime.html"><code class="inline">DateTime</code></a>. Such functions expect
+<a href="Calendar.html#t:time/0"><code class="inline">Calendar.time/0</code></a> in their typespecs (instead of <a href="#t:t/0"><code class="inline">t/0</code></a>).</p>
+<p>Developers should avoid creating the Time structs directly
+and instead rely on the functions provided by this module as well
+as the ones in third-party calendar libraries.</p>
+<h2 id="module-comparing-times" class="section-heading">
+  <a href="#module-comparing-times" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Comparing times
+</h2>
+
+<p>Comparisons in Elixir using <a href="Kernel.html#==/2"><code class="inline">==/2</code></a>, <a href="Kernel.html#%253E/2"><code class="inline">&gt;/2</code></a>, <a href="Kernel.html#%253C/2"><code class="inline">&lt;/2</code></a> and similar are structural
+and based on the <a href="Time.html#content"><code class="inline">Time</code></a> struct fields. For proper comparison between
+times, use the <a href="#compare/2"><code class="inline">compare/2</code></a> function.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#add/3">add(time, number, unit \\ :second)</a>
+  </div>
+    <div class="summary-synopsis"><p>Adds the <code class="inline">number</code> of <code class="inline">unit</code>s to the given <code class="inline">time</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#compare/2">compare(time1, time2)</a>
+  </div>
+    <div class="summary-synopsis"><p>Compares two time structs</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#convert/2">convert(time, calendar)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts given <code class="inline">time</code> to a different calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#convert!/2">convert!(time, calendar)</a>
+  </div>
+    <div class="summary-synopsis"><p>Similar to <a href="Time.html#convert/2"><code class="inline">Time.convert/2</code></a>, but raises an <a href="ArgumentError.html"><code class="inline">ArgumentError</code></a>
+if the conversion between the two calendars is not possible</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#diff/3">diff(time1, time2, unit \\ :second)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the difference between two times, considering only the hour, minute,
+second and microsecond</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_erl/3">from_erl(tuple, microsecond \\ {0, 0}, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts an Erlang time tuple to a <a href="Time.html#content"><code class="inline">Time</code></a> struct</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_erl!/3">from_erl!(tuple, microsecond \\ {0, 0}, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts an Erlang time tuple to a <a href="Time.html#content"><code class="inline">Time</code></a> struct</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_iso8601/2">from_iso8601(string, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Parses the extended “Local time” format described by
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_iso8601!/2">from_iso8601!(string, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Parses the extended “Local time” format described by
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#new/5">new(hour, minute, second, microsecond \\ {0, 0}, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Builds a new time</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_erl/1">to_erl(time)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts given <code class="inline">time</code> to an Erlang time tuple</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_iso8601/2">to_iso8601(time, format \\ :extended)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given time to
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_string/1">to_string(time)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given <code class="inline">time</code> to a string</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#truncate/2">truncate(time, precision)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the given time with the microsecond field truncated to the given
+precision (<code class="inline">:microsecond</code>, <code class="inline">millisecond</code> or <code class="inline">:second</code>)</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#utc_now/1">utc_now(calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the current time in UTC</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:t/0">
+    <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">t()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L40" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>t() :: %Time{
+  calendar: <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>(),
+  hour: <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  microsecond: <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>(),
+  minute: <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  second: <a href="Calendar.html#t:second/0">Calendar.second</a>()
+}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="add/3">
+  
+    <span id="add/2"></span>
+  <div class="detail-header">
+    <a href="#add/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">add(time, number, unit \\ :second)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L408" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+    
+      <div class="specs">
+          <pre>add(<a href="Calendar.html#t:time/0">Calendar.time</a>(), <a href="typespecs.html#basic-types">integer</a>(), <a href="System.html#t:time_unit/0">System.time_unit</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Adds the <code class="inline">number</code> of <code class="inline">unit</code>s to the given <code class="inline">time</code>.</p>
+<p>This function accepts the <code class="inline">number</code> measured according to <a href="Calendar.ISO.html"><code class="inline">Calendar.ISO</code></a>.
+The time is returned in the same calendar as it was given in.</p>
+<p>Note the result value represents the time of day, meaning that it is cyclic,
+for instance, it will never go over 24 hours for the ISO calendar.</p>
+<h2 id="add/3-examples" class="section-heading">
+  <a href="#add/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="1718075335-1">(</span><span class="sx">~T[10:00:00]</span><span class="p">,</span><span class="w"> </span><span class="mi">27000</span><span class="p" data-group-id="1718075335-1">)</span><span class="w">
+</span><span class="sx">~T[17:30:00.000000]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="1718075335-2">(</span><span class="sx">~T[11:00:00.005]</span><span class="p">,</span><span class="w"> </span><span class="mi">2400</span><span class="p" data-group-id="1718075335-2">)</span><span class="w">
+</span><span class="sx">~T[11:40:00.005000]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="1718075335-3">(</span><span class="sx">~T[00:00:00]</span><span class="p">,</span><span class="w"> </span><span class="mi">86_399_999</span><span class="p">,</span><span class="w"> </span><span class="ss">:millisecond</span><span class="p" data-group-id="1718075335-3">)</span><span class="w">
+</span><span class="sx">~T[23:59:59.999000]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="1718075335-4">(</span><span class="sx">~T[17:10:05]</span><span class="p">,</span><span class="w"> </span><span class="mi">86400</span><span class="p" data-group-id="1718075335-4">)</span><span class="w">
+</span><span class="sx">~T[17:10:05.000000]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="1718075335-5">(</span><span class="sx">~T[23:00:00]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">60</span><span class="p" data-group-id="1718075335-5">)</span><span class="w">
+</span><span class="sx">~T[22:59:00.000000]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="compare/2">
+    <div class="detail-header">
+    <a href="#compare/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">compare(time1, time2)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L467" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>compare(<a href="Calendar.html#t:time/0">Calendar.time</a>(), <a href="Calendar.html#t:time/0">Calendar.time</a>()) :: :lt | :eq | :gt</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Compares two time structs.</p>
+<p>Returns <code class="inline">:gt</code> if first time is later than the second
+and <code class="inline">:lt</code> for vice versa. If the two times are equal
+<code class="inline">:eq</code> is returned.</p>
+<h2 id="compare/2-examples" class="section-heading">
+  <a href="#compare/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">compare</span><span class="p" data-group-id="6749821019-1">(</span><span class="sx">~T[16:04:16]</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[16:04:28]</span><span class="p" data-group-id="6749821019-1">)</span><span class="w">
+</span><span class="ss">:lt</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">compare</span><span class="p" data-group-id="6749821019-2">(</span><span class="sx">~T[16:04:16]</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[16:04:16]</span><span class="p" data-group-id="6749821019-2">)</span><span class="w">
+</span><span class="ss">:eq</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">compare</span><span class="p" data-group-id="6749821019-3">(</span><span class="sx">~T[16:04:16.01]</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[16:04:16.001]</span><span class="p" data-group-id="6749821019-3">)</span><span class="w">
+</span><span class="ss">:gt</span></code></pre>
+<p>This function can also be used to compare across more
+complex calendar types by considering only the time fields:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">compare</span><span class="p" data-group-id="8878946273-1">(</span><span class="ld">~N[1900-01-01 16:04:16]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2015-01-01 16:04:16]</span><span class="p" data-group-id="8878946273-1">)</span><span class="w">
+</span><span class="ss">:eq</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">compare</span><span class="p" data-group-id="8878946273-2">(</span><span class="ld">~N[2015-01-01 16:04:16]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2015-01-01 16:04:28]</span><span class="p" data-group-id="8878946273-2">)</span><span class="w">
+</span><span class="ss">:lt</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">compare</span><span class="p" data-group-id="8878946273-3">(</span><span class="ld">~N[2015-01-01 16:04:16.01]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[2000-01-01 16:04:16.001]</span><span class="p" data-group-id="8878946273-3">)</span><span class="w">
+</span><span class="ss">:gt</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="convert/2">
+    <div class="detail-header">
+    <a href="#convert/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">convert(time, calendar)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L509" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>convert(<a href="Calendar.html#t:time/0">Calendar.time</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  {:ok, <a href="#t:t/0">t</a>()} | {:error, <a href="typespecs.html#basic-types">atom</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts given <code class="inline">time</code> to a different calendar.</p>
+<p>Returns <code class="inline">{:ok, time}</code> if the conversion was successful,
+or <code class="inline">{:error, reason}</code> if it was not, for some reason.</p>
+<h2 id="convert/2-examples" class="section-heading">
+  <a href="#convert/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<p>Imagine someone implements <code class="inline">Calendar.Holocene</code>, a calendar based on the
+Gregorian calendar that adds exactly 10,000 years to the current Gregorian
+year:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">convert</span><span class="p" data-group-id="4164810130-1">(</span><span class="sx">~T[13:30:15]</span><span class="p">,</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p" data-group-id="4164810130-1">)</span><span class="w">
+</span><span class="p" data-group-id="4164810130-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4164810130-3">%</span><span class="nc" data-group-id="4164810130-3">Time</span><span class="p" data-group-id="4164810130-3">{</span><span class="ss">calendar</span><span class="p">:</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p">,</span><span class="w"> </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4164810130-4">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4164810130-4">}</span><span class="p" data-group-id="4164810130-3">}</span><span class="p" data-group-id="4164810130-2">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="convert!/2">
+    <div class="detail-header">
+    <a href="#convert!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">convert!(time, calendar)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L563" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>convert!(<a href="Calendar.html#t:time/0">Calendar.time</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Similar to <a href="Time.html#convert/2"><code class="inline">Time.convert/2</code></a>, but raises an <a href="ArgumentError.html"><code class="inline">ArgumentError</code></a>
+if the conversion between the two calendars is not possible.</p>
+<h2 id="convert!/2-examples" class="section-heading">
+  <a href="#convert!/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<p>Imagine someone implements <code class="inline">Calendar.Holocene</code>, a calendar based on the
+Gregorian calendar that adds exactly 10,000 years to the current Gregorian
+year:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">convert!</span><span class="p" data-group-id="8294914028-1">(</span><span class="sx">~T[13:30:15]</span><span class="p">,</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p" data-group-id="8294914028-1">)</span><span class="w">
+</span><span class="p" data-group-id="8294914028-2">%</span><span class="nc" data-group-id="8294914028-2">Time</span><span class="p" data-group-id="8294914028-2">{</span><span class="ss">calendar</span><span class="p">:</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p">,</span><span class="w"> </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8294914028-3">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8294914028-3">}</span><span class="p" data-group-id="8294914028-2">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="diff/3">
+  
+    <span id="diff/2"></span>
+  <div class="detail-header">
+    <a href="#diff/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">diff(time1, time2, unit \\ :second)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L614" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>diff(<a href="Calendar.html#t:time/0">Calendar.time</a>(), <a href="Calendar.html#t:time/0">Calendar.time</a>(), <a href="System.html#t:time_unit/0">System.time_unit</a>()) :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the difference between two times, considering only the hour, minute,
+second and microsecond.</p>
+<p>As with the <a href="#compare/2"><code class="inline">compare/2</code></a> function both <a href="Time.html#content"><code class="inline">Time</code></a> structs and other structures
+containing time can be used. If for instance a <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> or <a href="DateTime.html"><code class="inline">DateTime</code></a>
+is passed, only the hour, month, second, and microsecond is considered. Any
+additional information about a date or time zone is ignored when calculating
+the difference.</p>
+<p>The answer can be returned in any <code class="inline">unit</code> available from
+<a href="System.html#t:time_unit/0"><code class="inline">System.time_unit/0</code></a>. If the first unit is smaller than
+the second, a negative number is returned.</p>
+<p>This function returns the difference in seconds where seconds
+are measured according to <a href="Calendar.ISO.html"><code class="inline">Calendar.ISO</code></a>.</p>
+<h2 id="diff/3-examples" class="section-heading">
+  <a href="#diff/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">diff</span><span class="p" data-group-id="2222111316-1">(</span><span class="sx">~T[00:29:12]</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[00:29:10]</span><span class="p" data-group-id="2222111316-1">)</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+
+</span><span class="c1"># When passing a [`NaiveDateTime`](NaiveDateTime.html) the date part is ignored.</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">diff</span><span class="p" data-group-id="2222111316-2">(</span><span class="ld">~N[2017-01-01 00:29:12]</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[00:29:10]</span><span class="p" data-group-id="2222111316-2">)</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+
+</span><span class="c1"># Two [`NaiveDateTime`](NaiveDateTime.html) structs could have big differences in the date</span><span class="w">
+</span><span class="c1"># but only the time part is considered.</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">diff</span><span class="p" data-group-id="2222111316-3">(</span><span class="ld">~N[2017-01-01 00:29:12]</span><span class="p">,</span><span class="w"> </span><span class="ld">~N[1900-02-03 00:29:10]</span><span class="p" data-group-id="2222111316-3">)</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">diff</span><span class="p" data-group-id="2222111316-4">(</span><span class="sx">~T[00:29:12]</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[00:29:10]</span><span class="p">,</span><span class="w"> </span><span class="ss">:microsecond</span><span class="p" data-group-id="2222111316-4">)</span><span class="w">
+</span><span class="mi">2_000_000</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">diff</span><span class="p" data-group-id="2222111316-5">(</span><span class="sx">~T[00:29:10]</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[00:29:12]</span><span class="p">,</span><span class="w"> </span><span class="ss">:microsecond</span><span class="p" data-group-id="2222111316-5">)</span><span class="w">
+</span><span class="o">-</span><span class="mi">2_000_000</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_erl/3">
+  
+    <span id="from_erl/1"></span>
+
+    <span id="from_erl/2"></span>
+  <div class="detail-header">
+    <a href="#from_erl/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_erl(tuple, microsecond \\ {0, 0}, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L351" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>from_erl(<a href="http://www.erlang.org/doc/man/calendar.html#type-time">:calendar.time</a>(), <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  {:ok, <a href="#t:t/0">t</a>()} | {:error, <a href="typespecs.html#basic-types">atom</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts an Erlang time tuple to a <a href="Time.html#content"><code class="inline">Time</code></a> struct.</p>
+<h2 id="from_erl/3-examples" class="section-heading">
+  <a href="#from_erl/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_erl</span><span class="p" data-group-id="8675658588-1">(</span><span class="p" data-group-id="8675658588-2">{</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="8675658588-2">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8675658588-3">{</span><span class="mi">5000</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8675658588-3">}</span><span class="p" data-group-id="8675658588-1">)</span><span class="w">
+</span><span class="p" data-group-id="8675658588-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:30:15.005]</span><span class="p" data-group-id="8675658588-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_erl</span><span class="p" data-group-id="8675658588-5">(</span><span class="p" data-group-id="8675658588-6">{</span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="8675658588-6">}</span><span class="p" data-group-id="8675658588-5">)</span><span class="w">
+</span><span class="p" data-group-id="8675658588-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="8675658588-7">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_erl!/3">
+  
+    <span id="from_erl!/1"></span>
+
+    <span id="from_erl!/2"></span>
+  <div class="detail-header">
+    <a href="#from_erl!/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_erl!(tuple, microsecond \\ {0, 0}, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L372" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>from_erl!(<a href="http://www.erlang.org/doc/man/calendar.html#type-time">:calendar.time</a>(), <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts an Erlang time tuple to a <a href="Time.html#content"><code class="inline">Time</code></a> struct.</p>
+<h2 id="from_erl!/3-examples" class="section-heading">
+  <a href="#from_erl!/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_erl!</span><span class="p" data-group-id="6300964157-1">(</span><span class="p" data-group-id="6300964157-2">{</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="6300964157-2">}</span><span class="p" data-group-id="6300964157-1">)</span><span class="w">
+</span><span class="sx">~T[23:30:15]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_erl!</span><span class="p" data-group-id="6300964157-3">(</span><span class="p" data-group-id="6300964157-4">{</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="6300964157-4">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6300964157-5">{</span><span class="mi">5000</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6300964157-5">}</span><span class="p" data-group-id="6300964157-3">)</span><span class="w">
+</span><span class="sx">~T[23:30:15.005]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_erl!</span><span class="p" data-group-id="6300964157-6">(</span><span class="p" data-group-id="6300964157-7">{</span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="6300964157-7">}</span><span class="p" data-group-id="6300964157-6">)</span><span class="w">
+</span><span class="gt">** (ArgumentError) cannot convert {24, 30, 15} to time, reason: :invalid_time</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_iso8601/2">
+  
+    <span id="from_iso8601/1"></span>
+  <div class="detail-header">
+    <a href="#from_iso8601/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_iso8601(string, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L220" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>from_iso8601(<a href="String.html#t:t/0">String.t</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  {:ok, <a href="#t:t/0">t</a>()} | {:error, <a href="typespecs.html#basic-types">atom</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Parses the extended “Local time” format described by
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a>.</p>
+<p>Time zone offset may be included in the string but they will be
+simply discarded as such information is not included in times.</p>
+<p>As specified in the standard, the separator “T” may be omitted if
+desired as there is no ambiguity within this function.</p>
+<p>Time representations with reduced accuracy are not supported.</p>
+<p>Note that while ISO 8601 allows times to specify 24:00:00 as the
+zero hour of the next day, this notation is not supported by Elixir.</p>
+<h2 id="from_iso8601/2-examples" class="section-heading">
+  <a href="#from_iso8601/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-1">(</span><span class="s">&quot;23:50:07&quot;</span><span class="p" data-group-id="2282416075-1">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:50:07]</span><span class="p" data-group-id="2282416075-2">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-3">(</span><span class="s">&quot;23:50:07Z&quot;</span><span class="p" data-group-id="2282416075-3">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:50:07]</span><span class="p" data-group-id="2282416075-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-5">(</span><span class="s">&quot;T23:50:07Z&quot;</span><span class="p" data-group-id="2282416075-5">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:50:07]</span><span class="p" data-group-id="2282416075-6">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-7">(</span><span class="s">&quot;23:50:07,0123456&quot;</span><span class="p" data-group-id="2282416075-7">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:50:07.012345]</span><span class="p" data-group-id="2282416075-8">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-9">(</span><span class="s">&quot;23:50:07.0123456&quot;</span><span class="p" data-group-id="2282416075-9">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:50:07.012345]</span><span class="p" data-group-id="2282416075-10">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-11">(</span><span class="s">&quot;23:50:07.123Z&quot;</span><span class="p" data-group-id="2282416075-11">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-12">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:50:07.123]</span><span class="p" data-group-id="2282416075-12">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-13">(</span><span class="s">&quot;2015:01:23 23-50-07&quot;</span><span class="p" data-group-id="2282416075-13">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-14">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_format</span><span class="p" data-group-id="2282416075-14">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-15">(</span><span class="s">&quot;23:50:07A&quot;</span><span class="p" data-group-id="2282416075-15">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-16">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_format</span><span class="p" data-group-id="2282416075-16">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-17">(</span><span class="s">&quot;23:50:07.&quot;</span><span class="p" data-group-id="2282416075-17">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-18">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_format</span><span class="p" data-group-id="2282416075-18">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="2282416075-19">(</span><span class="s">&quot;23:50:61&quot;</span><span class="p" data-group-id="2282416075-19">)</span><span class="w">
+</span><span class="p" data-group-id="2282416075-20">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="2282416075-20">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_iso8601!/2">
+  
+    <span id="from_iso8601!/1"></span>
+  <div class="detail-header">
+    <a href="#from_iso8601!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_iso8601!(string, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L264" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>from_iso8601!(<a href="String.html#t:t/0">String.t</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Parses the extended “Local time” format described by
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a>.</p>
+<p>Raises if the format is invalid.</p>
+<h2 id="from_iso8601!/2-examples" class="section-heading">
+  <a href="#from_iso8601!/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601!</span><span class="p" data-group-id="5369377814-1">(</span><span class="s">&quot;23:50:07,123Z&quot;</span><span class="p" data-group-id="5369377814-1">)</span><span class="w">
+</span><span class="sx">~T[23:50:07.123]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601!</span><span class="p" data-group-id="5369377814-2">(</span><span class="s">&quot;23:50:07.123Z&quot;</span><span class="p" data-group-id="5369377814-2">)</span><span class="w">
+</span><span class="sx">~T[23:50:07.123]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">from_iso8601!</span><span class="p" data-group-id="5369377814-3">(</span><span class="s">&quot;2015:01:23 23-50-07&quot;</span><span class="p" data-group-id="5369377814-3">)</span><span class="w">
+</span><span class="gt">** (ArgumentError) cannot parse &quot;2015:01:23 23-50-07&quot; as time, reason: :invalid_format</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="new/5">
+  
+    <span id="new/3"></span>
+
+    <span id="new/4"></span>
+  <div class="detail-header">
+    <a href="#new/5" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">new(hour, minute, second, microsecond \\ {0, 0}, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L121" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>new(
+  <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>() | <a href="typespecs.html#basic-types">integer</a>(),
+  <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()
+) :: {:ok, <a href="#t:t/0">t</a>()} | {:error, <a href="typespecs.html#basic-types">atom</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Builds a new time.</p>
+<p>Expects all values to be integers. Returns <code class="inline">{:ok, time}</code> if each
+entry fits its appropriate range, returns <code class="inline">{:error, reason}</code> otherwise.</p>
+<p>Note a time may have 60 seconds in case of leap seconds. Microseconds
+can also be given with a precision, which must be an integer between
+0 and 6.</p>
+<h2 id="new/5-examples" class="section-heading">
+  <a href="#new/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-1">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="9569151032-1">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[00:00:00.000000]</span><span class="p" data-group-id="9569151032-2">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-3">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">999_999</span><span class="p" data-group-id="9569151032-3">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:59:59.999999]</span><span class="p" data-group-id="9569151032-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-5">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">999_999</span><span class="p" data-group-id="9569151032-5">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:59:60.999999]</span><span class="p" data-group-id="9569151032-6">}</span><span class="w">
+
+</span><span class="c1"># Time with microseconds and their precision</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-7">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9569151032-8">{</span><span class="mi">10_000</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9569151032-8">}</span><span class="p" data-group-id="9569151032-7">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-9">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="sx">~T[23:59:60.01]</span><span class="p" data-group-id="9569151032-9">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-10">(</span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">999_999</span><span class="p" data-group-id="9569151032-10">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-11">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="9569151032-11">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-12">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">999_999</span><span class="p" data-group-id="9569151032-12">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-13">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="9569151032-13">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-14">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">61</span><span class="p">,</span><span class="w"> </span><span class="mi">999_999</span><span class="p" data-group-id="9569151032-14">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-15">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="9569151032-15">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-16">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p" data-group-id="9569151032-16">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-17">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="9569151032-17">}</span><span class="w">
+
+</span><span class="c1"># Invalid precision</span><span class="w">
+</span><span class="nc">Time</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="9569151032-18">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9569151032-19">{</span><span class="mi">999_999</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="9569151032-19">}</span><span class="p" data-group-id="9569151032-18">)</span><span class="w">
+</span><span class="p" data-group-id="9569151032-20">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="9569151032-20">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_erl/1">
+    <div class="detail-header">
+    <a href="#to_erl/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_erl(time)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L333" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_erl(<a href="Calendar.html#t:time/0">Calendar.time</a>()) :: <a href="http://www.erlang.org/doc/man/calendar.html#type-time">:calendar.time</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts given <code class="inline">time</code> to an Erlang time tuple.</p>
+<p>WARNING: Loss of precision may occur, as Erlang time tuples
+only contain hours/minutes/seconds.</p>
+<h2 id="to_erl/1-examples" class="section-heading">
+  <a href="#to_erl/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_erl</span><span class="p" data-group-id="2230351408-1">(</span><span class="sx">~T[23:30:15.999]</span><span class="p" data-group-id="2230351408-1">)</span><span class="w">
+</span><span class="p" data-group-id="2230351408-2">{</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="2230351408-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_erl</span><span class="p" data-group-id="2230351408-3">(</span><span class="ld">~N[2010-04-17 23:30:15.999]</span><span class="p" data-group-id="2230351408-3">)</span><span class="w">
+</span><span class="p" data-group-id="2230351408-4">{</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p" data-group-id="2230351408-4">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_iso8601/2">
+  
+    <span id="to_iso8601/1"></span>
+  <div class="detail-header">
+    <a href="#to_iso8601/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_iso8601(time, format \\ :extended)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L298" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_iso8601(<a href="Calendar.html#t:time/0">Calendar.time</a>(), :extended | :basic) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given time to
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a>.</p>
+<p>By default, <a href="Time.html#to_iso8601/2"><code class="inline">Time.to_iso8601/2</code></a> returns times formatted in the “extended”
+format, for human readability. It also supports the “basic” format through
+passing the <code class="inline">:basic</code> option.</p>
+<h3 id="to_iso8601/2-examples" class="section-heading">
+  <a href="#to_iso8601/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h3>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="9505071015-1">(</span><span class="sx">~T[23:00:13]</span><span class="p" data-group-id="9505071015-1">)</span><span class="w">
+</span><span class="s">&quot;23:00:13&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="9505071015-2">(</span><span class="sx">~T[23:00:13.001]</span><span class="p" data-group-id="9505071015-2">)</span><span class="w">
+</span><span class="s">&quot;23:00:13.001&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="9505071015-3">(</span><span class="sx">~T[23:00:13.001]</span><span class="p">,</span><span class="w"> </span><span class="ss">:basic</span><span class="p" data-group-id="9505071015-3">)</span><span class="w">
+</span><span class="s">&quot;230013.001&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="9505071015-4">(</span><span class="ld">~N[2010-04-17 23:00:13]</span><span class="p" data-group-id="9505071015-4">)</span><span class="w">
+</span><span class="s">&quot;23:00:13&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_string/1">
+    <div class="detail-header">
+    <a href="#to_string/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_string(time)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L166" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_string(<a href="Calendar.html#t:time/0">Calendar.time</a>()) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given <code class="inline">time</code> to a string.</p>
+<h3 id="to_string/1-examples" class="section-heading">
+  <a href="#to_string/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h3>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="3957423648-1">(</span><span class="sx">~T[23:00:00]</span><span class="p" data-group-id="3957423648-1">)</span><span class="w">
+</span><span class="s">&quot;23:00:00&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="3957423648-2">(</span><span class="sx">~T[23:00:00.001]</span><span class="p" data-group-id="3957423648-2">)</span><span class="w">
+</span><span class="s">&quot;23:00:00.001&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="3957423648-3">(</span><span class="sx">~T[23:00:00.123456]</span><span class="p" data-group-id="3957423648-3">)</span><span class="w">
+</span><span class="s">&quot;23:00:00.123456&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="3957423648-4">(</span><span class="ld">~N[2015-01-01 23:00:00.001]</span><span class="p" data-group-id="3957423648-4">)</span><span class="w">
+</span><span class="s">&quot;23:00:00.001&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="3957423648-5">(</span><span class="ld">~N[2015-01-01 23:00:00.123456]</span><span class="p" data-group-id="3957423648-5">)</span><span class="w">
+</span><span class="s">&quot;23:00:00.123456&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="truncate/2">
+    <div class="detail-header">
+    <a href="#truncate/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">truncate(time, precision)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L669" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+    
+      <div class="specs">
+          <pre>truncate(<a href="#t:t/0">t</a>(), :microsecond | :millisecond | :second) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the given time with the microsecond field truncated to the given
+precision (<code class="inline">:microsecond</code>, <code class="inline">millisecond</code> or <code class="inline">:second</code>).</p>
+<p>The given time is returned unchanged if it already has lower precision than
+the given precision.</p>
+<h2 id="truncate/2-examples" class="section-heading">
+  <a href="#truncate/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">truncate</span><span class="p" data-group-id="7341953765-1">(</span><span class="sx">~T[01:01:01.123456]</span><span class="p">,</span><span class="w"> </span><span class="ss">:microsecond</span><span class="p" data-group-id="7341953765-1">)</span><span class="w">
+</span><span class="sx">~T[01:01:01.123456]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">truncate</span><span class="p" data-group-id="7341953765-2">(</span><span class="sx">~T[01:01:01.123456]</span><span class="p">,</span><span class="w"> </span><span class="ss">:millisecond</span><span class="p" data-group-id="7341953765-2">)</span><span class="w">
+</span><span class="sx">~T[01:01:01.123]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Time</span><span class="o">.</span><span class="n">truncate</span><span class="p" data-group-id="7341953765-3">(</span><span class="sx">~T[01:01:01.123456]</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="7341953765-3">)</span><span class="w">
+</span><span class="sx">~T[01:01:01]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="utc_now/1">
+  
+    <span id="utc_now/0"></span>
+  <div class="detail-header">
+    <a href="#utc_now/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">utc_now(calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/time.ex#L62" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>utc_now(<a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the current time in UTC.</p>
+<h2 id="utc_now/1-examples" class="section-heading">
+  <a href="#utc_now/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Time</span><span class="o">.</span><span class="n">utc_now</span><span class="p" data-group-id="3550399740-1">(</span><span class="p" data-group-id="3550399740-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">time</span><span class="o">.</span><span class="n">hour</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="no">true</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

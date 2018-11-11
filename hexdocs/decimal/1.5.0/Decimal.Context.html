@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Decimal.Context – Decimal v1.5.0</title>
+    <link rel="stylesheet" href="dist/html-f59c25a01bb1b031a495.css" />
+    <script src="dist/sidebar_items-31b5745136.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="readme.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Decimal      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.5.0
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Decimal v1.5.0</small>
+Decimal.Context        
+          <a href="https://github.com/ericmj/decimal/blob/v1.5.0/lib/decimal.ex#L149" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>The context is kept in the process dictionary. It can be accessed with
+<a href="Decimal.html#get_context/0"><code class="inline">Decimal.get_context/0</code></a> and <a href="Decimal.html#set_context/1"><code class="inline">Decimal.set_context/1</code></a>.</p>
+<p>The default context has a precision of 28, the rounding algorithm is
+<code class="inline">:half_up</code>. The set trap enablers are <code class="inline">:invalid_operation</code> and
+<code class="inline">:division_by_zero</code>.</p>
+<h2 id="module-fields" class="section-heading">
+  <a href="#module-fields" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Fields
+</h2>
+
+<ul>
+<li><code class="inline">precision</code> - maximum number of decimal digits in the coefficient. If an
+operation result has more digits it will be rounded to <code class="inline">precision</code>
+digits with the rounding algorithm in <code class="inline">rounding</code>.
+</li>
+<li><code class="inline">rounding</code> - the rounding algorithm used when the coefficient’s number of
+exceeds <code class="inline">precision</code>. Strategies explained below.
+</li>
+<li><code class="inline">flags</code> - a list of signals that for which the flag is sent. When an
+exceptional condition is signalled its flag is set. The flags are sticky
+and will be set until explicitly cleared.
+</li>
+<li><code class="inline">traps</code> - a list of set trap enablers for signals. When a signal’s trap
+enabler is set the condition causes <a href="Decimal.Error.html"><code class="inline">Decimal.Error</code></a> to be raised.
+</li>
+</ul>
+<h2 id="module-rounding-algorithms" class="section-heading">
+  <a href="#module-rounding-algorithms" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Rounding algorithms
+</h2>
+
+<ul>
+<li><code class="inline">:down</code> - round toward zero (truncate). Discarded digits are ignored,
+result is unchanged.
+</li>
+<li><code class="inline">:half_up</code> - if the discarded digits is greater than or equal to half of
+the value of a one in the next left position then the coefficient will be
+incremented by one (rounded up). Otherwise (the discarded digits are less
+than half) the discarded digits will be ignored.
+</li>
+<li><code class="inline">:half_even</code> - also known as “round to nearest” or “banker’s rounding”. If
+the discarded digits is greater than half of the value of a one in the
+next left position then the coefficient will be incremented by one
+(rounded up). If they represent less than half discarded digits will be
+ignored. Otherwise (exactly half), the coefficient is not altered if it’s
+even, or incremented by one (rounded up) if it’s odd (to make an even
+number).
+</li>
+<li><code class="inline">:ceiling</code> - round toward +Infinity. If all of the discarded digits are
+zero or the sign is negative the result is unchanged. Otherwise, the
+coefficient will be incremented by one (rounded up).
+</li>
+<li><code class="inline">:floor</code> - round toward -Infinity. If all of the discarded digits are zero
+or the sign is positive the result is unchanged. Otherwise, the sign is
+negative and coefficient will be incremented by one.
+</li>
+<li><code class="inline">:half_down</code> - if the discarded digits is greater than half of the value
+of a one in the next left position then the coefficient will be
+incremented by one (rounded up). Otherwise (the discarded digits are half
+or less) the discarded digits are ignored.
+</li>
+<li><code class="inline">:up</code> - round away from zero. If all discarded digits are zero the
+coefficient is not changed, otherwise it is incremented by one (rounded
+up).
+</li>
+</ul>
+<p>This table shows the results of rounding operations for all the rounding
+algorithms:</p>
+<table>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left">Rounding algorithm</th><th style="text-align: left">5.5</th><th style="text-align: left">2.5</th><th style="text-align: left">1.6</th><th style="text-align: left">1.1</th><th style="text-align: left">1.0</th><th style="text-align: left">-1.0</th><th style="text-align: left">-1.1</th><th style="text-align: left">-1.6</th><th style="text-align: left">-2.5</th><th style="text-align: left">-5.5</th>
+</tr>
+</thead>
+<tr>
+<td style="text-align: left"><code class="inline">:up</code></td><td style="text-align: left">6</td><td style="text-align: left">3</td><td style="text-align: left">2</td><td style="text-align: left">2</td><td style="text-align: left">1</td><td style="text-align: left">-1</td><td style="text-align: left">-2</td><td style="text-align: left">-2</td><td style="text-align: left">-3</td><td style="text-align: left">-6</td>
+</tr>
+<tr>
+<td style="text-align: left"><code class="inline">:down</code></td><td style="text-align: left">5</td><td style="text-align: left">2</td><td style="text-align: left">1</td><td style="text-align: left">1</td><td style="text-align: left">1</td><td style="text-align: left">-1</td><td style="text-align: left">-1</td><td style="text-align: left">-1</td><td style="text-align: left">-2</td><td style="text-align: left">-5</td>
+</tr>
+<tr>
+<td style="text-align: left"><code class="inline">:ceiling</code></td><td style="text-align: left">6</td><td style="text-align: left">3</td><td style="text-align: left">2</td><td style="text-align: left">2</td><td style="text-align: left">1</td><td style="text-align: left">-1</td><td style="text-align: left">-1</td><td style="text-align: left">-1</td><td style="text-align: left">-2</td><td style="text-align: left">-5</td>
+</tr>
+<tr>
+<td style="text-align: left"><code class="inline">:floor</code></td><td style="text-align: left">5</td><td style="text-align: left">2</td><td style="text-align: left">1</td><td style="text-align: left">1</td><td style="text-align: left">1</td><td style="text-align: left">-1</td><td style="text-align: left">-2</td><td style="text-align: left">-2</td><td style="text-align: left">-3</td><td style="text-align: left">-6</td>
+</tr>
+<tr>
+<td style="text-align: left"><code class="inline">:half_up</code></td><td style="text-align: left">6</td><td style="text-align: left">3</td><td style="text-align: left">2</td><td style="text-align: left">1</td><td style="text-align: left">1</td><td style="text-align: left">-1</td><td style="text-align: left">-1</td><td style="text-align: left">-2</td><td style="text-align: left">-3</td><td style="text-align: left">-6</td>
+</tr>
+<tr>
+<td style="text-align: left"><code class="inline">:half_down</code></td><td style="text-align: left">5</td><td style="text-align: left">2</td><td style="text-align: left">2</td><td style="text-align: left">1</td><td style="text-align: left">1</td><td style="text-align: left">-1</td><td style="text-align: left">-1</td><td style="text-align: left">-2</td><td style="text-align: left">-2</td><td style="text-align: left">-5</td>
+</tr>
+<tr>
+<td style="text-align: left"><code class="inline">:half_even</code></td><td style="text-align: left">6</td><td style="text-align: left">2</td><td style="text-align: left">2</td><td style="text-align: left">1</td><td style="text-align: left">1</td><td style="text-align: left">-1</td><td style="text-align: left">-1</td><td style="text-align: left">-2</td><td style="text-align: left">-2</td><td style="text-align: left">-6</td>
+</tr>
+</table>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:t/0">
+    <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">t()</span>
+      <a href="https://github.com/ericmj/decimal/blob/v1.5.0/lib/decimal.ex#L214" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>t() :: %Decimal.Context{
+  flags: [<a href="Decimal.html#t:signal/0">Decimal.signal</a>()],
+  precision: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>(),
+  rounding: <a href="Decimal.html#t:rounding/0">Decimal.rounding</a>(),
+  traps: [<a href="Decimal.html#t:signal/0">Decimal.signal</a>()]
+}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-f59c25a01bb1b031a495.js"></script>
+  
+  </body>
+</html>
+

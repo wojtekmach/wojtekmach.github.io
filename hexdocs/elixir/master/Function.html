@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Function – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Function.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Function        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/function.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>A set of functions for working with functions.</p>
+<p>There are two types of captured functions: <strong>external</strong> and <strong>local</strong>.
+External functions are functions residing in modules that are captured
+with <a href="Kernel.SpecialForms.html#&amp;amp;/1"><code class="inline">&amp;/1</code></a>, such as <code class="inline">&amp;String.length/1</code>. Local functions are anonymous functions
+defined with <a href="Kernel.SpecialForms.html#fn/1"><code class="inline">fn/1</code></a> or with the capture operator <a href="Kernel.SpecialForms.html#&amp;amp;/1"><code class="inline">&amp;/1</code></a> using <code class="inline">&amp;1</code>, <code class="inline">&amp;2</code>,
+and so on as replacements.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:information/0">information()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#capture/3">capture(module, function_name, arity)</a>
+  </div>
+    <div class="summary-synopsis"><p>Captures the given function</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#info/1">info(fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a keyword list with information about a function</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#info/2">info(fun, item)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a specific information about the function</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:information/0">
+    <div class="detail-header">
+    <a href="#t:information/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">information()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/function.ex#L12" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>information() ::
+  :arity
+  | :env
+  | :index
+  | :module
+  | :name
+  | :new_index
+  | :new_uniq
+  | :pid
+  | :type
+  | :uniq</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="capture/3">
+    <div class="detail-header">
+    <a href="#capture/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">capture(module, function_name, arity)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/function.ex#L37" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.7.0)</span>
+    
+      <div class="specs">
+          <pre>capture(<a href="typespecs.html#built-in-types">module</a>(), <a href="typespecs.html#basic-types">atom</a>(), <a href="typespecs.html#built-in-types">arity</a>()) :: (... -> <a href="typespecs.html#basic-types">any</a>())</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Captures the given function.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="capture/3-examples" class="section-heading">
+  <a href="#capture/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Function</span><span class="o">.</span><span class="n">capture</span><span class="p" data-group-id="1178912269-1">(</span><span class="nc">String</span><span class="p">,</span><span class="w"> </span><span class="ss">:length</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="1178912269-1">)</span><span class="w">
+</span><span class="o">&amp;</span><span class="nc">String</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="mi">1</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="info/1">
+    <div class="detail-header">
+    <a href="#info/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">info(fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/function.ex#L98" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.7.0)</span>
+    
+      <div class="specs">
+          <pre>info((... -> <a href="typespecs.html#basic-types">any</a>())) :: [{<a href="#t:information/0">information</a>(), <a href="typespecs.html#built-in-types">term</a>()}]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a keyword list with information about a function.</p>
+<p>The returned keys (with the corresponding possible values) for
+all types of functions (local and external) are the following:</p>
+<ul>
+<li><p><code class="inline">:type</code> - <code class="inline">:local</code> (for anonymous functions) or <code class="inline">:external</code> (for
+named functions).</p>
+</li>
+<li><p><code class="inline">:module</code> - an atom which is the module where the function is defined when
+  anonymous or the module which the function refers to when it’s a named function.</p>
+</li>
+<li><p><code class="inline">:arity</code> - (integer) the number of arguments the function is to be called with.</p>
+</li>
+<li><p><code class="inline">:name</code> - (atom) the name of the function.</p>
+</li>
+<li><p><code class="inline">:env</code> - a list of the environment or free variables. For named
+functions, the returned list is always empty.</p>
+</li>
+</ul>
+<p>When <code class="inline">fun</code> is an anonymous function (that is, the type is <code class="inline">:local</code>), the following
+additional keys are returned:</p>
+<ul>
+<li><p><code class="inline">:pid</code> - PID of the process that originally created the function.</p>
+</li>
+<li><p><code class="inline">:index</code> - (integer) an index into the module function table.</p>
+</li>
+<li><p><code class="inline">:new_index</code> - (integer) an index into the module function table.</p>
+</li>
+<li><p><code class="inline">:new_uniq</code> - (binary) a unique value for this function. It’s
+calculated from the compiled code for the entire module.</p>
+</li>
+<li><p><code class="inline">:uniq</code> - (integer) a unique value for this function. This integer is
+calculated from the compiled code for the entire module.</p>
+</li>
+</ul>
+<p><strong>Note</strong>: this function must be used only for debugging purposes.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="info/1-examples" class="section-heading">
+  <a href="#info/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="9476215757-1">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k" data-group-id="9476215757-1">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Function</span><span class="o">.</span><span class="n">info</span><span class="p" data-group-id="9476215757-2">(</span><span class="n">fun</span><span class="p" data-group-id="9476215757-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="9476215757-3">(</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="ss">:arity</span><span class="p" data-group-id="9476215757-3">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="9476215757-4">(</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="ss">:type</span><span class="p" data-group-id="9476215757-4">)</span><span class="w">
+</span><span class="ss">:local</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nc">String</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Function</span><span class="o">.</span><span class="n">info</span><span class="p" data-group-id="9476215757-5">(</span><span class="n">fun</span><span class="p" data-group-id="9476215757-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="9476215757-6">(</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="ss">:type</span><span class="p" data-group-id="9476215757-6">)</span><span class="w">
+</span><span class="ss">:external</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p" data-group-id="9476215757-7">(</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="ss">:name</span><span class="p" data-group-id="9476215757-7">)</span><span class="w">
+</span><span class="ss">:length</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="info/2">
+    <div class="detail-header">
+    <a href="#info/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">info(fun, item)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/function.ex#L136" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.7.0)</span>
+    
+      <div class="specs">
+          <pre>info((... -> <a href="typespecs.html#basic-types">any</a>()), item) :: {item, <a href="typespecs.html#built-in-types">term</a>()} when item: <a href="#t:information/0">information</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a specific information about the function.</p>
+<p>The returned information is a two-element tuple in the shape of
+<code class="inline">{info, value}</code>.</p>
+<p>For any function, the information asked for can be any of the atoms
+<code class="inline">:module</code>, <code class="inline">:name</code>, <code class="inline">:arity</code>, <code class="inline">:env</code>, or <code class="inline">:type</code>.</p>
+<p>For anonymous functions, there is also information about any of the
+atoms <code class="inline">:index</code>, <code class="inline">:new_index</code>, <code class="inline">:new_uniq</code>, <code class="inline">:uniq</code>, and <code class="inline">:pid</code>.
+For a named function, the value of any of these items is always the
+atom <code class="inline">:undefined</code>.</p>
+<p>For more information on each of the possible returned values, see
+<a href="#info/1"><code class="inline">info/1</code></a>.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="info/2-examples" class="section-heading">
+  <a href="#info/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k" data-group-id="2869307848-1">fn</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k" data-group-id="2869307848-1">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Function</span><span class="o">.</span><span class="n">info</span><span class="p" data-group-id="2869307848-2">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:arity</span><span class="p" data-group-id="2869307848-2">)</span><span class="w">
+</span><span class="p" data-group-id="2869307848-3">{</span><span class="ss">:arity</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="2869307848-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Function</span><span class="o">.</span><span class="n">info</span><span class="p" data-group-id="2869307848-4">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="ss">:type</span><span class="p" data-group-id="2869307848-4">)</span><span class="w">
+</span><span class="p" data-group-id="2869307848-5">{</span><span class="ss">:type</span><span class="p">,</span><span class="w"> </span><span class="ss">:local</span><span class="p" data-group-id="2869307848-5">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nc">String</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Function</span><span class="o">.</span><span class="n">info</span><span class="p" data-group-id="2869307848-6">(</span><span class="n">fun</span><span class="p">,</span><span class="w"> </span><span class="ss">:name</span><span class="p" data-group-id="2869307848-6">)</span><span class="w">
+</span><span class="p" data-group-id="2869307848-7">{</span><span class="ss">:name</span><span class="p">,</span><span class="w"> </span><span class="ss">:length</span><span class="p" data-group-id="2869307848-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Function</span><span class="o">.</span><span class="n">info</span><span class="p" data-group-id="2869307848-8">(</span><span class="n">fun</span><span class="p">,</span><span class="w"> </span><span class="ss">:pid</span><span class="p" data-group-id="2869307848-8">)</span><span class="w">
+</span><span class="p" data-group-id="2869307848-9">{</span><span class="ss">:pid</span><span class="p">,</span><span class="w"> </span><span class="ss">:undefined</span><span class="p" data-group-id="2869307848-9">}</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

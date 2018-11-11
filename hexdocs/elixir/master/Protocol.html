@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Protocol – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Protocol.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Protocol        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Functions for working with protocols.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#assert_impl!/2">assert_impl!(protocol, base)</a>
+  </div>
+    <div class="summary-synopsis"><p>Checks if the given module is loaded and is an implementation
+of the given protocol</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#assert_protocol!/1">assert_protocol!(module)</a>
+  </div>
+    <div class="summary-synopsis"><p>Checks if the given module is loaded and is protocol</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#consolidate/2">consolidate(protocol, types)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a protocol and a list of implementations and
+consolidates the given protocol</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#consolidated?/1">consolidated?(protocol)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns <code class="inline">true</code> if the protocol was consolidated</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#def/1">def(signature)</a>
+  </div>
+    <div class="summary-synopsis"><p>Defines a new protocol function</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#derive/3">derive(protocol, module, options \\ [])</a>
+  </div>
+    <div class="summary-synopsis"><p>Derives the <code class="inline">protocol</code> for <code class="inline">module</code> with the given options</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#extract_impls/2">extract_impls(protocol, paths)</a>
+  </div>
+    <div class="summary-synopsis"><p>Extracts all types implemented for the given protocol from
+the given paths</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#extract_protocols/1">extract_protocols(paths)</a>
+  </div>
+    <div class="summary-synopsis"><p>Extracts all protocols from the given paths</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="assert_impl!/2">
+    <div class="detail-header">
+    <a href="#assert_impl!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">assert_impl!(protocol, base)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L89" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>assert_impl!(<a href="typespecs.html#built-in-types">module</a>(), <a href="typespecs.html#built-in-types">module</a>()) :: :ok</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Checks if the given module is loaded and is an implementation
+of the given protocol.</p>
+<p>Returns <code class="inline">:ok</code> if so, otherwise raises <a href="ArgumentError.html"><code class="inline">ArgumentError</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="assert_protocol!/1">
+    <div class="detail-header">
+    <a href="#assert_protocol!/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">assert_protocol!(module)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L62" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>assert_protocol!(<a href="typespecs.html#built-in-types">module</a>()) :: :ok</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Checks if the given module is loaded and is protocol.</p>
+<p>Returns <code class="inline">:ok</code> if so, otherwise raises <a href="ArgumentError.html"><code class="inline">ArgumentError</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="consolidate/2">
+    <div class="detail-header">
+    <a href="#consolidate/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">consolidate(protocol, types)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L304" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>consolidate(<a href="typespecs.html#built-in-types">module</a>(), [<a href="typespecs.html#built-in-types">module</a>()]) ::
+  {:ok, <a href="typespecs.html#built-in-types">binary</a>()} | {:error, :not_a_protocol} | {:error, :no_beam_info}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a protocol and a list of implementations and
+consolidates the given protocol.</p>
+<p>Consolidation happens by changing the protocol <code class="inline">impl_for</code>
+in the abstract format to have fast lookup rules. Usually
+the list of implementations to use during consolidation
+are retrieved with the help of <a href="#extract_impls/2"><code class="inline">extract_impls/2</code></a>.</p>
+<p>It returns the updated version of the protocol bytecode.
+A given bytecode or protocol implementation can be checked
+to be consolidated or not by analyzing the protocol
+attribute:</p>
+<pre><code class="nohighlight makeup elixir"><span class="nc">Protocol</span><span class="o">.</span><span class="n">consolidated?</span><span class="p" data-group-id="5679298641-1">(</span><span class="nc">Enumerable</span><span class="p" data-group-id="5679298641-1">)</span></code></pre>
+<p>If the first element of the tuple is <code class="inline">true</code>, it means
+the protocol was consolidated.</p>
+<p>This function does not load the protocol at any point
+nor loads the new bytecode for the compiled module.
+However each implementation must be available and
+it will be loaded.</p>
+  </section>
+</div>
+<div class="detail" id="consolidated?/1">
+    <div class="detail-header">
+    <a href="#consolidated?/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">consolidated?(protocol)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L272" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>consolidated?(<a href="typespecs.html#built-in-types">module</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns <code class="inline">true</code> if the protocol was consolidated.</p>
+  </section>
+</div>
+<div class="detail" id="def/1">
+    <div class="detail-header">
+    <a href="#def/1" class="detail-link" title="Link to this macro">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this macro</span>
+    </a>
+    <span class="signature">def(signature)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L13" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(macro)</span>
+      </div>
+  <section class="docstring">
+<p>Defines a new protocol function.</p>
+<p>Protocols do not allow functions to be defined directly, instead, the
+regular <code class="inline">Kernel.def/*</code> macros are replaced by this macro which
+defines the protocol functions with the appropriate callbacks.</p>
+  </section>
+</div>
+<div class="detail" id="derive/3">
+  
+    <span id="derive/2"></span>
+  <div class="detail-header">
+    <a href="#derive/3" class="detail-link" title="Link to this macro">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this macro</span>
+    </a>
+    <span class="signature">derive(protocol, module, options \\ [])</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L169" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(macro)</span>
+      </div>
+  <section class="docstring">
+<p>Derives the <code class="inline">protocol</code> for <code class="inline">module</code> with the given options.</p>
+<p>If your implementation passes options or if you are generating
+custom code based on the struct, you will also need to implement
+a macro defined as <code class="inline">__deriving__(module, struct, options)</code>
+to get the options that were passed.</p>
+<h2 id="derive/3-examples" class="section-heading">
+  <a href="#derive/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="kd">defprotocol</span><span class="w"> </span><span class="nc">Derivable</span><span class="w"> </span><span class="k" data-group-id="9365687591-1">do</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">ok</span><span class="p" data-group-id="9365687591-2">(</span><span class="n">a</span><span class="p" data-group-id="9365687591-2">)</span><span class="w">
+</span><span class="k" data-group-id="9365687591-1">end</span><span class="w">
+
+</span><span class="kd">defimpl</span><span class="w"> </span><span class="nc">Derivable</span><span class="p">,</span><span class="w"> </span><span class="ss">for</span><span class="p">:</span><span class="w"> </span><span class="nc">Any</span><span class="w"> </span><span class="k" data-group-id="9365687591-3">do</span><span class="w">
+  </span><span class="kd">defmacro</span><span class="w"> </span><span class="nf">__deriving__</span><span class="p" data-group-id="9365687591-4">(</span><span class="n">module</span><span class="p">,</span><span class="w"> </span><span class="n">struct</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p" data-group-id="9365687591-4">)</span><span class="w"> </span><span class="k" data-group-id="9365687591-5">do</span><span class="w">
+    </span><span class="k">quote</span><span class="w"> </span><span class="k" data-group-id="9365687591-6">do</span><span class="w">
+      </span><span class="kd">defimpl</span><span class="w"> </span><span class="nc">Derivable</span><span class="p">,</span><span class="w"> </span><span class="ss">for</span><span class="p">:</span><span class="w"> </span><span class="k">unquote</span><span class="p" data-group-id="9365687591-7">(</span><span class="n">module</span><span class="p" data-group-id="9365687591-7">)</span><span class="w"> </span><span class="k" data-group-id="9365687591-8">do</span><span class="w">
+        </span><span class="kd">def</span><span class="w"> </span><span class="nf">ok</span><span class="p" data-group-id="9365687591-9">(</span><span class="n">arg</span><span class="p" data-group-id="9365687591-9">)</span><span class="w"> </span><span class="k" data-group-id="9365687591-10">do</span><span class="w">
+          </span><span class="p" data-group-id="9365687591-11">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span><span class="p">,</span><span class="w"> </span><span class="k">unquote</span><span class="p" data-group-id="9365687591-12">(</span><span class="nc">Macro</span><span class="o">.</span><span class="n">escape</span><span class="p" data-group-id="9365687591-13">(</span><span class="n">struct</span><span class="p" data-group-id="9365687591-13">)</span><span class="p" data-group-id="9365687591-12">)</span><span class="p">,</span><span class="w"> </span><span class="k">unquote</span><span class="p" data-group-id="9365687591-14">(</span><span class="n">options</span><span class="p" data-group-id="9365687591-14">)</span><span class="p" data-group-id="9365687591-11">}</span><span class="w">
+        </span><span class="k" data-group-id="9365687591-10">end</span><span class="w">
+      </span><span class="k" data-group-id="9365687591-8">end</span><span class="w">
+    </span><span class="k" data-group-id="9365687591-6">end</span><span class="w">
+  </span><span class="k" data-group-id="9365687591-5">end</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">ok</span><span class="p" data-group-id="9365687591-15">(</span><span class="n">arg</span><span class="p" data-group-id="9365687591-15">)</span><span class="w"> </span><span class="k" data-group-id="9365687591-16">do</span><span class="w">
+    </span><span class="p" data-group-id="9365687591-17">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span><span class="p" data-group-id="9365687591-17">}</span><span class="w">
+  </span><span class="k" data-group-id="9365687591-16">end</span><span class="w">
+</span><span class="k" data-group-id="9365687591-3">end</span><span class="w">
+
+</span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ImplStruct</span><span class="w"> </span><span class="k" data-group-id="9365687591-18">do</span><span class="w">
+  </span><span class="na">@derive</span><span class="w"> </span><span class="p" data-group-id="9365687591-19">[</span><span class="nc">Derivable</span><span class="p" data-group-id="9365687591-19">]</span><span class="w">
+  </span><span class="kd">defstruct</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+
+  </span><span class="kd">defimpl</span><span class="w"> </span><span class="nc">Sample</span><span class="w"> </span><span class="k" data-group-id="9365687591-20">do</span><span class="w">
+    </span><span class="kd">def</span><span class="w"> </span><span class="nf">ok</span><span class="p" data-group-id="9365687591-21">(</span><span class="n">struct</span><span class="p" data-group-id="9365687591-21">)</span><span class="w"> </span><span class="k" data-group-id="9365687591-22">do</span><span class="w">
+      </span><span class="nc">Unknown</span><span class="o">.</span><span class="n">undefined</span><span class="p" data-group-id="9365687591-23">(</span><span class="n">struct</span><span class="p" data-group-id="9365687591-23">)</span><span class="w">
+    </span><span class="k" data-group-id="9365687591-22">end</span><span class="w">
+  </span><span class="k" data-group-id="9365687591-20">end</span><span class="w">
+</span><span class="k" data-group-id="9365687591-18">end</span></code></pre>
+<p>Explicit derivations can now be called via <code class="inline">__deriving__</code>:</p>
+<pre><code class="nohighlight makeup elixir"><span class="c1"># Explicitly derived via `__deriving__`</span><span class="w">
+</span><span class="nc">Derivable</span><span class="o">.</span><span class="n">ok</span><span class="p" data-group-id="7612368121-1">(</span><span class="p" data-group-id="7612368121-2">%</span><span class="nc" data-group-id="7612368121-2">ImplStruct</span><span class="p" data-group-id="7612368121-2">{</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7612368121-2">}</span><span class="p" data-group-id="7612368121-1">)</span><span class="w">
+
+</span><span class="c1"># Explicitly derived by API via `__deriving__`</span><span class="w">
+</span><span class="kn">require</span><span class="w"> </span><span class="nc">Protocol</span><span class="w">
+</span><span class="nc">Protocol</span><span class="o">.</span><span class="n">derive</span><span class="p" data-group-id="7612368121-3">(</span><span class="nc">Derivable</span><span class="p">,</span><span class="w"> </span><span class="nc">ImplStruct</span><span class="p">,</span><span class="w"> </span><span class="ss">:oops</span><span class="p" data-group-id="7612368121-3">)</span><span class="w">
+</span><span class="nc">Derivable</span><span class="o">.</span><span class="n">ok</span><span class="p" data-group-id="7612368121-4">(</span><span class="p" data-group-id="7612368121-5">%</span><span class="nc" data-group-id="7612368121-5">ImplStruct</span><span class="p" data-group-id="7612368121-5">{</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="7612368121-5">}</span><span class="p" data-group-id="7612368121-4">)</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="extract_impls/2">
+    <div class="detail-header">
+    <a href="#extract_impls/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">extract_impls(protocol, paths)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L225" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>extract_impls(<a href="typespecs.html#built-in-types">module</a>(), [<a href="typespecs.html#built-in-types">charlist</a>() | <a href="String.html#t:t/0">String.t</a>()]) :: [<a href="typespecs.html#basic-types">atom</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Extracts all types implemented for the given protocol from
+the given paths.</p>
+<p>The paths can be either a charlist or a string. Internally
+they are worked on as charlists, so passing them as lists
+avoid extra conversion.</p>
+<p>Does not load any of the implementations.</p>
+<h2 id="extract_impls/2-examples" class="section-heading">
+  <a href="#extract_impls/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="c1"># Get Elixir&#39;s ebin directory path and retrieve all protocols</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:code</span><span class="o">.</span><span class="n">lib_dir</span><span class="p" data-group-id="4271809059-1">(</span><span class="ss">:elixir</span><span class="p">,</span><span class="w"> </span><span class="ss">:ebin</span><span class="p" data-group-id="4271809059-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">mods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Protocol</span><span class="o">.</span><span class="n">extract_impls</span><span class="p" data-group-id="4271809059-2">(</span><span class="nc">Enumerable</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4271809059-3">[</span><span class="n">path</span><span class="p" data-group-id="4271809059-3">]</span><span class="p" data-group-id="4271809059-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">mods</span><span class="w">
+</span><span class="no">true</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="extract_protocols/1">
+    <div class="detail-header">
+    <a href="#extract_protocols/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">extract_protocols(paths)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/protocol.ex#L196" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>extract_protocols([<a href="typespecs.html#built-in-types">charlist</a>() | <a href="String.html#t:t/0">String.t</a>()]) :: [<a href="typespecs.html#basic-types">atom</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Extracts all protocols from the given paths.</p>
+<p>The paths can be either a charlist or a string. Internally
+they are worked on as charlists, so passing them as lists
+avoid extra conversion.</p>
+<p>Does not load any of the protocols.</p>
+<h2 id="extract_protocols/1-examples" class="section-heading">
+  <a href="#extract_protocols/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="c1"># Get Elixir&#39;s ebin directory path and retrieve all protocols</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:code</span><span class="o">.</span><span class="n">lib_dir</span><span class="p" data-group-id="5263209636-1">(</span><span class="ss">:elixir</span><span class="p">,</span><span class="w"> </span><span class="ss">:ebin</span><span class="p" data-group-id="5263209636-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">mods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Protocol</span><span class="o">.</span><span class="n">extract_protocols</span><span class="p" data-group-id="5263209636-2">(</span><span class="p" data-group-id="5263209636-3">[</span><span class="n">path</span><span class="p" data-group-id="5263209636-3">]</span><span class="p" data-group-id="5263209636-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Enumerable</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">mods</span><span class="w">
+</span><span class="no">true</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Decimal – Decimal v1.5.0</title>
+    <link rel="stylesheet" href="dist/html-f59c25a01bb1b031a495.css" />
+    <script src="dist/sidebar_items-31b5745136.js"></script>
+    
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="readme.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Decimal      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.5.0
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+<h1>Decimal</h1>
+<p><a href="https://travis-ci.org/ericmj/decimal"><img src="https://travis-ci.org/ericmj/decimal.svg?branch=master" alt="Build Status"/></a></p>
+<p>Arbitrary precision decimal arithmetic.</p>
+<p>Documentation: https://hexdocs.pm/decimal/</p>
+<h2 id="usage" class="section-heading">
+  <a href="#usage" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Usage
+</h2>
+
+<p>Add Decimal as a dependency in your <code class="inline">mix.exs</code> file.</p>
+<pre><code class="nohighlight makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="w"> </span><span class="k" data-group-id="0621117188-1">do</span><span class="w">
+  </span><span class="p" data-group-id="0621117188-2">[</span><span class="p" data-group-id="0621117188-3">{</span><span class="ss">:decimal</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 1.0&quot;</span><span class="p" data-group-id="0621117188-3">}</span><span class="p" data-group-id="0621117188-2">]</span><span class="w">
+</span><span class="k" data-group-id="0621117188-1">end</span></code></pre>
+<p>After you are done, run <a href="https://hexdocs.pm/mix/Mix.Tasks.Deps.Get.html"><code class="inline">mix deps.get</code></a> in your shell to fetch and compile Decimal. Start an interactive Elixir shell with <code class="inline">iex -S mix</code>.</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="kn">alias</span><span class="w"> </span><span class="nc">Decimal</span><span class="p">,</span><span class="w"> </span><span class="ss">as</span><span class="p">:</span><span class="w"> </span><span class="nc">D</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">add</span><span class="p" data-group-id="7681474732-1">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p" data-group-id="7681474732-1">)</span><span class="w">
+</span><span class="p" data-group-id="7681474732-2">#</span><span class="nc" data-group-id="7681474732-2">Decimal</span><span class="p" data-group-id="7681474732-2">&lt;</span><span class="mi">13</span><span class="p" data-group-id="7681474732-2">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="7681474732-3">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7681474732-3">)</span><span class="w">
+</span><span class="p" data-group-id="7681474732-4">#</span><span class="nc" data-group-id="7681474732-4">Decimal</span><span class="p" data-group-id="7681474732-4">&lt;</span><span class="mf">0.333333333</span><span class="p" data-group-id="7681474732-4">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="7681474732-5">(</span><span class="s">&quot;0.33&quot;</span><span class="p" data-group-id="7681474732-5">)</span><span class="w">
+</span><span class="p" data-group-id="7681474732-6">#</span><span class="nc" data-group-id="7681474732-6">Decimal</span><span class="p" data-group-id="7681474732-6">&lt;</span><span class="mf">0.33</span><span class="p" data-group-id="7681474732-6">&gt;</span></code></pre>
+<h2 id="examples" class="section-heading">
+  <a href="#examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<h3 id="using-the-context" class="section-heading">
+  <a href="#using-the-context" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Using the context
+</h3>
+
+<p>The context specifies the maximum precision of the result of calculations and
+the rounding algorithm if the result has a higher precision than the specified
+maximum. It also holds the list of set of trap enablers and the currently set
+flags.</p>
+<p>The context is stored in the process dictionary, this means that you don’t have
+to pass the context around explicitly and the flags will be updated
+automatically.</p>
+<p>The context is accessed with <a href="Decimal.html#get_context/0"><code class="inline">Decimal.get_context/0</code></a> and set with
+<a href="Decimal.html#set_context/1"><code class="inline">Decimal.set_context/1</code></a>. It can also be temporarily set with
+<a href="Decimal.html#with_context/2"><code class="inline">Decimal.with_context/2</code></a>.</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w">
+</span><span class="p" data-group-id="5987296017-1">%</span><span class="nc" data-group-id="5987296017-1">Decimal.Context</span><span class="p" data-group-id="5987296017-1">{</span><span class="ss">flags</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-2">[</span><span class="ss">:rounded</span><span class="p">,</span><span class="w"> </span><span class="ss">:inexact</span><span class="p" data-group-id="5987296017-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="ss">rounding</span><span class="p">:</span><span class="w"> </span><span class="ss">:half_up</span><span class="p">,</span><span class="w">
+ </span><span class="ss">traps</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-3">[</span><span class="ss">:invalid_operation</span><span class="p">,</span><span class="w"> </span><span class="ss">:division_by_zero</span><span class="p" data-group-id="5987296017-3">]</span><span class="p" data-group-id="5987296017-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">with_context</span><span class="w"> </span><span class="p" data-group-id="5987296017-4">%</span><span class="nc" data-group-id="5987296017-4">D.Context</span><span class="p" data-group-id="5987296017-4">{</span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5987296017-4">}</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="5987296017-5">fn</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nc">IO</span><span class="o">.</span><span class="n">inspect</span><span class="w"> </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="k" data-group-id="5987296017-5">end</span><span class="w">
+</span><span class="p" data-group-id="5987296017-6">%</span><span class="nc" data-group-id="5987296017-6">Decimal.Context</span><span class="p" data-group-id="5987296017-6">{</span><span class="ss">flags</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-7">[</span><span class="p" data-group-id="5987296017-7">]</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">rounding</span><span class="p">:</span><span class="w"> </span><span class="ss">:half_up</span><span class="p">,</span><span class="w">
+ </span><span class="ss">traps</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-8">[</span><span class="ss">:invalid_operation</span><span class="p">,</span><span class="w"> </span><span class="ss">:division_by_zero</span><span class="p" data-group-id="5987296017-8">]</span><span class="p" data-group-id="5987296017-6">}</span><span class="w">
+</span><span class="p" data-group-id="5987296017-9">%</span><span class="nc" data-group-id="5987296017-9">Decimal.Context</span><span class="p" data-group-id="5987296017-9">{</span><span class="ss">flags</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-10">[</span><span class="p" data-group-id="5987296017-10">]</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">rounding</span><span class="p">:</span><span class="w"> </span><span class="ss">:half_up</span><span class="p">,</span><span class="w">
+ </span><span class="ss">traps</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-11">[</span><span class="ss">:invalid_operation</span><span class="p">,</span><span class="w"> </span><span class="ss">:division_by_zero</span><span class="p" data-group-id="5987296017-11">]</span><span class="p" data-group-id="5987296017-9">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="5987296017-12">(</span><span class="p" data-group-id="5987296017-13">%</span><span class="nc" data-group-id="5987296017-13">D.Context</span><span class="p" data-group-id="5987296017-13">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">traps</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-14">[</span><span class="p" data-group-id="5987296017-14">]</span><span class="p" data-group-id="5987296017-13">}</span><span class="p" data-group-id="5987296017-12">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Decimal</span><span class="o">.</span><span class="n">get_context</span><span class="w">
+</span><span class="p" data-group-id="5987296017-15">%</span><span class="nc" data-group-id="5987296017-15">Decimal.Context</span><span class="p" data-group-id="5987296017-15">{</span><span class="ss">flags</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-16">[</span><span class="ss">:rounded</span><span class="p">,</span><span class="w"> </span><span class="ss">:inexact</span><span class="p" data-group-id="5987296017-16">]</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="ss">rounding</span><span class="p">:</span><span class="w"> </span><span class="ss">:half_up</span><span class="p">,</span><span class="w">
+ </span><span class="ss">traps</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5987296017-17">[</span><span class="p" data-group-id="5987296017-17">]</span><span class="p" data-group-id="5987296017-15">}</span></code></pre>
+<h3 id="precision-and-rounding" class="section-heading">
+  <a href="#precision-and-rounding" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Precision and rounding
+</h3>
+
+<p>The precision is used to limit the amount of decimal digits in the coefficient:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="4353312871-1">(</span><span class="p" data-group-id="4353312871-2">%</span><span class="nc" data-group-id="4353312871-2">D.Context</span><span class="p" data-group-id="4353312871-2">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p" data-group-id="4353312871-2">}</span><span class="p" data-group-id="4353312871-1">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="4353312871-3">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4353312871-3">)</span><span class="w">
+</span><span class="p" data-group-id="4353312871-4">#</span><span class="nc" data-group-id="4353312871-4">Decimal</span><span class="p" data-group-id="4353312871-4">&lt;</span><span class="mf">33.3333333</span><span class="p" data-group-id="4353312871-4">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="4353312871-5">(</span><span class="p" data-group-id="4353312871-6">%</span><span class="nc" data-group-id="4353312871-6">D.Context</span><span class="p" data-group-id="4353312871-6">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4353312871-6">}</span><span class="p" data-group-id="4353312871-5">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="4353312871-7">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4353312871-7">)</span><span class="w">
+</span><span class="p" data-group-id="4353312871-8">#</span><span class="nc" data-group-id="4353312871-8">Decimal</span><span class="p" data-group-id="4353312871-8">&lt;</span><span class="mi">33</span><span class="p" data-group-id="4353312871-8">&gt;</span></code></pre>
+<p>The rounding algorithm specifies how the result of an operation shall be rounded
+when it get be represented with the current precision:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="1427094259-1">(</span><span class="p" data-group-id="1427094259-2">%</span><span class="nc" data-group-id="1427094259-2">D.Context</span><span class="p" data-group-id="1427094259-2">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">rounding</span><span class="p">:</span><span class="w"> </span><span class="ss">:half_up</span><span class="p" data-group-id="1427094259-2">}</span><span class="p" data-group-id="1427094259-1">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="1427094259-3">(</span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1427094259-3">)</span><span class="w">
+</span><span class="p" data-group-id="1427094259-4">#</span><span class="nc" data-group-id="1427094259-4">Decimal</span><span class="p" data-group-id="1427094259-4">&lt;</span><span class="mi">16</span><span class="p" data-group-id="1427094259-4">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="1427094259-5">(</span><span class="p" data-group-id="1427094259-6">%</span><span class="nc" data-group-id="1427094259-6">D.Context</span><span class="p" data-group-id="1427094259-6">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">rounding</span><span class="p">:</span><span class="w"> </span><span class="ss">:floor</span><span class="p" data-group-id="1427094259-6">}</span><span class="p" data-group-id="1427094259-5">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="1427094259-7">(</span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="1427094259-7">)</span><span class="w">
+</span><span class="p" data-group-id="1427094259-8">#</span><span class="nc" data-group-id="1427094259-8">Decimal</span><span class="p" data-group-id="1427094259-8">&lt;</span><span class="mi">15</span><span class="p" data-group-id="1427094259-8">&gt;</span></code></pre>
+<h3 id="comparisons" class="section-heading">
+  <a href="#comparisons" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Comparisons
+</h3>
+
+<p>Using compare operators (<code class="inline">&lt;</code>, <code class="inline">=</code>, <code class="inline">&gt;</code>) directly with two decimals may not return
+the correct result. Instead use comparison functions.</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">cmp</span><span class="p" data-group-id="0594573328-1">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="0594573328-1">)</span><span class="w">
+</span><span class="ss">:lt</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">cmp</span><span class="p" data-group-id="0594573328-2">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p" data-group-id="0594573328-2">)</span><span class="w">
+</span><span class="ss">:gt</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">cmp</span><span class="p" data-group-id="0594573328-3">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="0594573328-3">)</span><span class="w">
+</span><span class="ss">:eq</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">equal?</span><span class="p" data-group-id="0594573328-4">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="0594573328-4">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">equal?</span><span class="p" data-group-id="0594573328-5">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0.0&quot;</span><span class="p" data-group-id="0594573328-5">)</span><span class="w">
+</span><span class="no">true</span></code></pre>
+<h3 id="flags-and-trap-enablers" class="section-heading">
+  <a href="#flags-and-trap-enablers" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Flags and trap enablers
+</h3>
+
+<p>When an exceptional condition is signalled its flag is set in the context and if
+if the trap enabler is set <a href="Decimal.Error.html"><code class="inline">Decimal.Error</code></a> will be raised.</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="9148467578-1">(</span><span class="p" data-group-id="9148467578-2">%</span><span class="nc" data-group-id="9148467578-2">D.Context</span><span class="p" data-group-id="9148467578-2">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">rounding</span><span class="p">:</span><span class="w"> </span><span class="ss">:floor</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9148467578-2">}</span><span class="p" data-group-id="9148467578-1">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="o">.</span><span class="n">traps</span><span class="w">
+</span><span class="p" data-group-id="9148467578-3">[</span><span class="ss">:invalid_operation</span><span class="p">,</span><span class="w"> </span><span class="ss">:division_by_zero</span><span class="p" data-group-id="9148467578-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="o">.</span><span class="n">flags</span><span class="w">
+</span><span class="p" data-group-id="9148467578-4">[</span><span class="p" data-group-id="9148467578-4">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="9148467578-5">(</span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="9148467578-5">)</span><span class="w">
+</span><span class="p" data-group-id="9148467578-6">#</span><span class="nc" data-group-id="9148467578-6">Decimal</span><span class="p" data-group-id="9148467578-6">&lt;</span><span class="mi">15</span><span class="p" data-group-id="9148467578-6">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="o">.</span><span class="n">flags</span><span class="w">
+</span><span class="p" data-group-id="9148467578-7">[</span><span class="ss">:inexact</span><span class="p">,</span><span class="w"> </span><span class="ss">:rounded</span><span class="p" data-group-id="9148467578-7">]</span></code></pre>
+<p><code class="inline">:inexact</code> and <code class="inline">:rounded</code> were signaled above because the result of the
+operation was inexact given the context’s precision and had to be rounded to fit
+the precision. <a href="Decimal.Error.html"><code class="inline">Decimal.Error</code></a> was not raised because the signals’ trap enablers
+weren’t set. We can, however, set the trap enabler if we what this condition to
+raise.</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="4545519283-1">(</span><span class="p" data-group-id="4545519283-2">%</span><span class="nc" data-group-id="4545519283-2">D.Context</span><span class="p" data-group-id="4545519283-2">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">traps</span><span class="p">:</span><span class="w"> </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="o">.</span><span class="n">traps</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="p" data-group-id="4545519283-3">[</span><span class="ss">:inexact</span><span class="p" data-group-id="4545519283-3">]</span><span class="p" data-group-id="4545519283-2">}</span><span class="p" data-group-id="4545519283-1">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="4545519283-4">(</span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4545519283-4">)</span><span class="w">
+</span><span class="gt">** (Decimal.Error)</span></code></pre>
+<p>The default trap enablers, such as <code class="inline">:division_by_zero</code> can be unset:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="o">.</span><span class="n">traps</span><span class="w">
+</span><span class="p" data-group-id="8861551704-1">[</span><span class="ss">:invalid_operation</span><span class="p">,</span><span class="w"> </span><span class="ss">:division_by_zero</span><span class="p" data-group-id="8861551704-1">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="8861551704-2">(</span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8861551704-2">)</span><span class="w">
+</span><span class="gt">** (Decimal.Error)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="w"> </span><span class="nc">D</span><span class="o">.</span><span class="n">set_context</span><span class="p" data-group-id="8861551704-3">(</span><span class="p" data-group-id="8861551704-4">%</span><span class="nc" data-group-id="8861551704-4">D.Context</span><span class="p" data-group-id="8861551704-4">{</span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="ss">traps</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8861551704-5">[</span><span class="p" data-group-id="8861551704-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">flags</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8861551704-6">[</span><span class="p" data-group-id="8861551704-6">]</span><span class="p" data-group-id="8861551704-4">}</span><span class="p" data-group-id="8861551704-3">)</span><span class="w">
+</span><span class="ss">:ok</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">div</span><span class="p" data-group-id="8861551704-7">(</span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8861551704-7">)</span><span class="w">
+</span><span class="p" data-group-id="8861551704-8">#</span><span class="nc" data-group-id="8861551704-8">Decimal</span><span class="p" data-group-id="8861551704-8">&lt;</span><span class="nc">Infinity</span><span class="p" data-group-id="8861551704-8">&gt;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">D</span><span class="o">.</span><span class="n">get_context</span><span class="o">.</span><span class="n">flags</span><span class="w">
+</span><span class="p" data-group-id="8861551704-9">[</span><span class="ss">:division_by_zero</span><span class="p" data-group-id="8861551704-9">]</span></code></pre>
+<h3 id="mitigating-rounding-errors" class="section-heading">
+  <a href="#mitigating-rounding-errors" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Mitigating rounding errors
+</h3>
+
+<p>TODO</p>
+<h2 id="license" class="section-heading">
+  <a href="#license" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  License
+</h2>
+
+<p>   Copyright 2013 Eric Meadows-Jönsson</p>
+<p>   Licensed under the Apache License, Version 2.0 (the “License”);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at</p>
+<pre><code class="nohighlight makeup elixir"><span class="w">   </span><span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">www</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">licenses</span><span class="o">/</span><span class="nc">LICENSE</span><span class="o">-</span><span class="mf">2.0</span></code></pre>
+<p>   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an “AS IS” BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.</p>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-f59c25a01bb1b031a495.js"></script>
+  
+  </body>
+</html>
+

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>StringIO – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/StringIO.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+StringIO        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/string_io.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Controls an IO device process that wraps a string.</p>
+<p>A <a href="StringIO.html#content"><code class="inline">StringIO</code></a> IO device can be passed as a “device” to
+most of the functions in the <a href="IO.html"><code class="inline">IO</code></a> module.</p>
+<h2 id="module-examples" class="section-heading">
+  <a href="#module-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8534424706-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="8534424706-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="8534424706-2">(</span><span class="s">&quot;foo&quot;</span><span class="p" data-group-id="8534424706-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">IO</span><span class="o">.</span><span class="n">read</span><span class="p" data-group-id="8534424706-3">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8534424706-3">)</span><span class="w">
+</span><span class="s">&quot;fo&quot;</span></code></pre>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#child_spec/1">child_spec(init_arg)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a specification to start this module under a supervisor</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#close/1">close(pid)</a>
+  </div>
+    <div class="summary-synopsis"><p>Stops the IO device and returns the remaining input/output
+buffers</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#contents/1">contents(pid)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the current input/output buffers for the given IO
+device</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#flush/1">flush(pid)</a>
+  </div>
+    <div class="summary-synopsis"><p>Flushes the output buffer and returns its current contents</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#open/2">open(string, options_or_function \\ [])</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates an IO device</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#open/3">open(string, options, function)</a>
+  </div>
+    <div class="summary-synopsis"><p>Creates an IO device</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="child_spec/1">
+    <div class="detail-header">
+    <a href="#child_spec/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">child_spec(init_arg)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/string_io.ex#L16" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+<p>Returns a specification to start this module under a supervisor.</p>
+<p>See <a href="Supervisor.html"><code class="inline">Supervisor</code></a>.</p>
+  </section>
+</div>
+<div class="detail" id="close/1">
+    <div class="detail-header">
+    <a href="#close/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">close(pid)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/string_io.ex#L163" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>close(<a href="typespecs.html#basic-types">pid</a>()) :: {:ok, {<a href="typespecs.html#built-in-types">binary</a>(), <a href="typespecs.html#built-in-types">binary</a>()}}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Stops the IO device and returns the remaining input/output
+buffers.</p>
+<h2 id="close/1-examples" class="section-heading">
+  <a href="#close/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="2477074999-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="2477074999-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="2477074999-2">(</span><span class="s">&quot;in&quot;</span><span class="p" data-group-id="2477074999-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="p" data-group-id="2477074999-3">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;out&quot;</span><span class="p" data-group-id="2477074999-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">close</span><span class="p" data-group-id="2477074999-4">(</span><span class="n">pid</span><span class="p" data-group-id="2477074999-4">)</span><span class="w">
+</span><span class="p" data-group-id="2477074999-5">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2477074999-6">{</span><span class="s">&quot;in&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;out&quot;</span><span class="p" data-group-id="2477074999-6">}</span><span class="p" data-group-id="2477074999-5">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="contents/1">
+    <div class="detail-header">
+    <a href="#contents/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">contents(pid)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/string_io.ex#L128" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>contents(<a href="typespecs.html#basic-types">pid</a>()) :: {<a href="typespecs.html#built-in-types">binary</a>(), <a href="typespecs.html#built-in-types">binary</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the current input/output buffers for the given IO
+device.</p>
+<h2 id="contents/1-examples" class="section-heading">
+  <a href="#contents/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8745656473-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="8745656473-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="8745656473-2">(</span><span class="s">&quot;in&quot;</span><span class="p" data-group-id="8745656473-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="p" data-group-id="8745656473-3">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;out&quot;</span><span class="p" data-group-id="8745656473-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">contents</span><span class="p" data-group-id="8745656473-4">(</span><span class="n">pid</span><span class="p" data-group-id="8745656473-4">)</span><span class="w">
+</span><span class="p" data-group-id="8745656473-5">{</span><span class="s">&quot;in&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;out&quot;</span><span class="p" data-group-id="8745656473-5">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="flush/1">
+    <div class="detail-header">
+    <a href="#flush/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">flush(pid)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/string_io.ex#L146" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>flush(<a href="typespecs.html#basic-types">pid</a>()) :: <a href="typespecs.html#built-in-types">binary</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Flushes the output buffer and returns its current contents.</p>
+<h2 id="flush/1-examples" class="section-heading">
+  <a href="#flush/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8534316614-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="8534316614-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="8534316614-2">(</span><span class="s">&quot;in&quot;</span><span class="p" data-group-id="8534316614-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="p" data-group-id="8534316614-3">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;out&quot;</span><span class="p" data-group-id="8534316614-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">flush</span><span class="p" data-group-id="8534316614-4">(</span><span class="n">pid</span><span class="p" data-group-id="8534316614-4">)</span><span class="w">
+</span><span class="s">&quot;out&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">contents</span><span class="p" data-group-id="8534316614-5">(</span><span class="n">pid</span><span class="p" data-group-id="8534316614-5">)</span><span class="w">
+</span><span class="p" data-group-id="8534316614-6">{</span><span class="s">&quot;in&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="8534316614-6">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="open/2">
+  
+    <span id="open/1"></span>
+  <div class="detail-header">
+    <a href="#open/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">open(string, options_or_function \\ [])</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/string_io.ex#L104" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>open(<a href="typespecs.html#built-in-types">binary</a>(), <a href="typespecs.html#built-in-types">keyword</a>()) :: {:ok, <a href="typespecs.html#basic-types">pid</a>()}</pre>
+          <pre>open(<a href="typespecs.html#built-in-types">binary</a>(), (<a href="typespecs.html#basic-types">pid</a>() -> res)) :: {:ok, res} when res: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates an IO device.</p>
+<p><code class="inline">string</code> will be the initial input of the newly created
+device.</p>
+<p><code class="inline">options_or_function</code> can be a keyword list of options or
+a function.</p>
+<p>If options are provided, the result will be <code class="inline">{:ok, pid}</code>, returning the
+IO device created. The option <code class="inline">:capture_prompt</code>, when set to <code class="inline">true</code>, causes
+prompts (which are specified as arguments to <code class="inline">IO.get*</code> functions) to be
+included in the device’s output.</p>
+<p>If a function is provided, the device will be created and sent to the
+function. When the function returns, the device will be closed. The final
+result will be a tuple with <code class="inline">:ok</code> and the result of the function.</p>
+<h2 id="open/2-examples" class="section-heading">
+  <a href="#open/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9904624826-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="9904624826-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="9904624826-2">(</span><span class="s">&quot;foo&quot;</span><span class="p" data-group-id="9904624826-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">IO</span><span class="o">.</span><span class="n">gets</span><span class="p" data-group-id="9904624826-3">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&gt;&quot;</span><span class="p" data-group-id="9904624826-3">)</span><span class="w">
+</span><span class="s">&quot;foo&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">contents</span><span class="p" data-group-id="9904624826-4">(</span><span class="n">pid</span><span class="p" data-group-id="9904624826-4">)</span><span class="w">
+</span><span class="p" data-group-id="9904624826-5">{</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p" data-group-id="9904624826-5">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9904624826-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="9904624826-6">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="9904624826-7">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">capture_prompt</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="9904624826-7">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">IO</span><span class="o">.</span><span class="n">gets</span><span class="p" data-group-id="9904624826-8">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&gt;&quot;</span><span class="p" data-group-id="9904624826-8">)</span><span class="w">
+</span><span class="s">&quot;foo&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">contents</span><span class="p" data-group-id="9904624826-9">(</span><span class="n">pid</span><span class="p" data-group-id="9904624826-9">)</span><span class="w">
+</span><span class="p" data-group-id="9904624826-10">{</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&gt;&quot;</span><span class="p" data-group-id="9904624826-10">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="9904624826-11">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="9904624826-12">fn</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">IO</span><span class="o">.</span><span class="n">gets</span><span class="p" data-group-id="9904624826-13">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&gt;&quot;</span><span class="p" data-group-id="9904624826-13">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="p" data-group-id="9904624826-14">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The input was </span><span class="si" data-group-id="9904624826-15">#{</span><span class="n">input</span><span class="si" data-group-id="9904624826-15">}</span><span class="s">&quot;</span><span class="p" data-group-id="9904624826-14">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">contents</span><span class="p" data-group-id="9904624826-16">(</span><span class="n">pid</span><span class="p" data-group-id="9904624826-16">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="9904624826-12">end</span><span class="p" data-group-id="9904624826-11">)</span><span class="w">
+</span><span class="p" data-group-id="9904624826-17">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9904624826-18">{</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The input was foo&quot;</span><span class="p" data-group-id="9904624826-18">}</span><span class="p" data-group-id="9904624826-17">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="open/3">
+    <div class="detail-header">
+    <a href="#open/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">open(string, options, function)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/string_io.ex#L51" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.7.0)</span>
+    
+      <div class="specs">
+          <pre>open(<a href="typespecs.html#built-in-types">binary</a>(), <a href="typespecs.html#built-in-types">keyword</a>(), (<a href="typespecs.html#basic-types">pid</a>() -> res)) :: {:ok, res} when res: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Creates an IO device.</p>
+<p><code class="inline">string</code> will be the initial input of the newly created
+device.</p>
+<p>If the <code class="inline">:capture_prompt</code> option is set to <code class="inline">true</code>,
+prompts (specified as arguments to <code class="inline">IO.get*</code> functions)
+are captured in the output.</p>
+<p>The device will be created and sent to the function given.
+When the function returns, the device will be closed. The final
+result will be a tuple with <code class="inline">:ok</code> and the result of the function.</p>
+<h2 id="open/3-examples" class="section-heading">
+  <a href="#open/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="6166376587-1">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6166376587-2">[</span><span class="p" data-group-id="6166376587-2">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="6166376587-3">fn</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">IO</span><span class="o">.</span><span class="n">gets</span><span class="p" data-group-id="6166376587-4">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&gt;&quot;</span><span class="p" data-group-id="6166376587-4">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="p" data-group-id="6166376587-5">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The input was </span><span class="si" data-group-id="6166376587-6">#{</span><span class="n">input</span><span class="si" data-group-id="6166376587-6">}</span><span class="s">&quot;</span><span class="p" data-group-id="6166376587-5">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">contents</span><span class="p" data-group-id="6166376587-7">(</span><span class="n">pid</span><span class="p" data-group-id="6166376587-7">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="6166376587-3">end</span><span class="p" data-group-id="6166376587-1">)</span><span class="w">
+</span><span class="p" data-group-id="6166376587-8">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6166376587-9">{</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The input was foo&quot;</span><span class="p" data-group-id="6166376587-9">}</span><span class="p" data-group-id="6166376587-8">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">open</span><span class="p" data-group-id="6166376587-10">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6166376587-11">[</span><span class="ss">capture_prompt</span><span class="p">:</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="6166376587-11">]</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="6166376587-12">fn</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">IO</span><span class="o">.</span><span class="n">gets</span><span class="p" data-group-id="6166376587-13">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&gt;&quot;</span><span class="p" data-group-id="6166376587-13">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="nc">IO</span><span class="o">.</span><span class="n">write</span><span class="p" data-group-id="6166376587-14">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The input was </span><span class="si" data-group-id="6166376587-15">#{</span><span class="n">input</span><span class="si" data-group-id="6166376587-15">}</span><span class="s">&quot;</span><span class="p" data-group-id="6166376587-14">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="nc">StringIO</span><span class="o">.</span><span class="n">contents</span><span class="p" data-group-id="6166376587-16">(</span><span class="n">pid</span><span class="p" data-group-id="6166376587-16">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="6166376587-12">end</span><span class="p" data-group-id="6166376587-10">)</span><span class="w">
+</span><span class="p" data-group-id="6166376587-17">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6166376587-18">{</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&gt;The input was foo&quot;</span><span class="p" data-group-id="6166376587-18">}</span><span class="p" data-group-id="6166376587-17">}</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>List – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/List.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+List        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Functions that work on (linked) lists.</p>
+<p>Many of the functions provided for lists, which implement
+the <a href="Enumerable.html"><code class="inline">Enumerable</code></a> protocol, are found in the <a href="Enum.html"><code class="inline">Enum</code></a> module.</p>
+<p>Additionally, the following functions and operators for lists are
+found in <a href="Kernel.html"><code class="inline">Kernel</code></a>:</p>
+<ul>
+<li><a href="Kernel.html#++/2"><code class="inline">++/2</code></a>
+</li>
+<li><a href="Kernel.html#--/2"><code class="inline">--/2</code></a>
+</li>
+<li><a href="Kernel.html#hd/1"><code class="inline">hd/1</code></a>
+</li>
+<li><a href="Kernel.html#tl/1"><code class="inline">tl/1</code></a>
+</li>
+<li><a href="Kernel.html#in/2"><code class="inline">in/2</code></a>
+</li>
+<li><a href="Kernel.html#length/1"><code class="inline">length/1</code></a>
+</li>
+</ul>
+<p>Lists in Elixir are specified between square brackets:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8128137719-1">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;two&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">:four</span><span class="p" data-group-id="8128137719-1">]</span><span class="w">
+</span><span class="p" data-group-id="8128137719-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;two&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">:four</span><span class="p" data-group-id="8128137719-2">]</span></code></pre>
+<p>Two lists can be concatenated and subtracted using the
+<a href="Kernel.html#++/2"><code class="inline">Kernel.++/2</code></a> and <a href="Kernel.html#--/2"><code class="inline">Kernel.--/2</code></a> operators:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9575293852-1">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9575293852-1">]</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="p" data-group-id="9575293852-2">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="9575293852-2">]</span><span class="w">
+</span><span class="p" data-group-id="9575293852-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="9575293852-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9575293852-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="9575293852-4">]</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="p" data-group-id="9575293852-5">[</span><span class="no">true</span><span class="p">,</span><span class="w"> </span><span class="no">false</span><span class="p" data-group-id="9575293852-5">]</span><span class="w">
+</span><span class="p" data-group-id="9575293852-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="no">true</span><span class="p" data-group-id="9575293852-6">]</span></code></pre>
+<p>Lists in Elixir are effectively linked lists, which means
+they are internally represented in pairs containing the
+head and the tail of a list:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="0272748401-1">[</span><span class="n">head</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">tail</span><span class="p" data-group-id="0272748401-1">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="0272748401-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0272748401-2">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">head</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">tail</span><span class="w">
+</span><span class="p" data-group-id="0272748401-3">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0272748401-3">]</span></code></pre>
+<p>Similarly, we could write the list <code class="inline">[1, 2, 3]</code> using only
+such pairs (called cons cells):</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="3563123318-1">[</span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p" data-group-id="3563123318-2">[</span><span class="mi">2</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p" data-group-id="3563123318-3">[</span><span class="mi">3</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p" data-group-id="3563123318-4">[</span><span class="p" data-group-id="3563123318-4">]</span><span class="p" data-group-id="3563123318-3">]</span><span class="p" data-group-id="3563123318-2">]</span><span class="p" data-group-id="3563123318-1">]</span><span class="w">
+</span><span class="p" data-group-id="3563123318-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3563123318-5">]</span></code></pre>
+<p>Some lists, called improper lists, do not have an empty list as
+the second element in the last cons cell:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="2102041142-1">[</span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p" data-group-id="2102041142-2">[</span><span class="mi">2</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p" data-group-id="2102041142-3">[</span><span class="mi">3</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="2102041142-3">]</span><span class="p" data-group-id="2102041142-2">]</span><span class="p" data-group-id="2102041142-1">]</span><span class="w">
+</span><span class="p" data-group-id="2102041142-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="2102041142-4">]</span></code></pre>
+<p>Although improper lists are generally avoided, they are used in some
+special circumstances like iodata and chardata entities (see the <a href="IO.html"><code class="inline">IO</code></a> module).</p>
+<p>Due to their cons cell based representation, prepending an element
+to a list is always fast (constant time), while appending becomes
+slower as the list grows in size (linear time):</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8377591593-1">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8377591593-1">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8377591593-2">[</span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">list</span><span class="p" data-group-id="8377591593-2">]</span><span class="w"> </span><span class="c1"># fast</span><span class="w">
+</span><span class="p" data-group-id="8377591593-3">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8377591593-3">]</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">list</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="p" data-group-id="8377591593-4">[</span><span class="mi">4</span><span class="p" data-group-id="8377591593-4">]</span><span class="w"> </span><span class="c1"># slow</span><span class="w">
+</span><span class="p" data-group-id="8377591593-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="8377591593-5">]</span></code></pre>
+<p>Additionally, getting a list’s length and accessing it by index are
+linear time operations. Negative indexes are also supported but
+they imply the list will be iterated twice, once to calculate the
+proper index and another time to perform the operation.</p>
+<h2 id="module-charlists" class="section-heading">
+  <a href="#module-charlists" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Charlists
+</h2>
+
+<p>If a list is made of non-negative integers, it can also be called
+a charlist. Elixir uses single quotes to define charlists:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="sc">&#39;héllo&#39;</span><span class="w">
+</span><span class="p" data-group-id="0801926927-1">[</span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="mi">233</span><span class="p">,</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w"> </span><span class="mi">111</span><span class="p" data-group-id="0801926927-1">]</span></code></pre>
+<p>In particular, charlists may be printed back in single
+quotes if they contain only ASCII-printable codepoints:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="sc">&#39;abc&#39;</span><span class="w">
+</span><span class="sc">&#39;abc&#39;</span></code></pre>
+<p>The rationale behind this behaviour is to better support
+Erlang libraries which may return text as charlists
+instead of Elixir strings. One example of such functions
+is <a href="Application.html#loaded_applications/0"><code class="inline">Application.loaded_applications/0</code></a>:</p>
+<pre><code class="nohighlight makeup elixir"><span class="nc">Application</span><span class="o">.</span><span class="n">loaded_applications</span><span class="p" data-group-id="5389795327-1">(</span><span class="p" data-group-id="5389795327-1">)</span><span class="w">
+</span><span class="c1">#=&gt;  [</span><span class="w">
+</span><span class="c1">#=&gt;    {:stdlib, &#39;ERTS  CXC 138 10&#39;, &#39;2.6&#39;},</span><span class="w">
+</span><span class="c1">#=&gt;    {:compiler, &#39;ERTS  CXC 138 10&#39;, &#39;6.0.1&#39;},</span><span class="w">
+</span><span class="c1">#=&gt;    {:elixir, &#39;elixir&#39;, &#39;1.0.0&#39;},</span><span class="w">
+</span><span class="c1">#=&gt;    {:kernel, &#39;ERTS  CXC 138 10&#39;, &#39;4.1&#39;},</span><span class="w">
+</span><span class="c1">#=&gt;    {:logger, &#39;logger&#39;, &#39;1.0.0&#39;}</span><span class="w">
+</span><span class="c1">#=&gt;  ]</span></code></pre>
+<p>A list can be checked if it is made of printable ascii
+codepoints with <a href="#ascii_printable?/2"><code class="inline">ascii_printable?/2</code></a>.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#ascii_printable?/2">ascii_printable?(list, counter \\ :infinity)</a>
+  </div>
+    <div class="summary-synopsis"><p>Checks if a list is a charlist made only of printable ASCII characters</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete/2">delete(list, item)</a>
+  </div>
+    <div class="summary-synopsis"><p>Deletes the given <code class="inline">item</code> from the <code class="inline">list</code>. Returns a new list without
+the item</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_at/2">delete_at(list, index)</a>
+  </div>
+    <div class="summary-synopsis"><p>Produces a new list by removing the value at the specified <code class="inline">index</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#duplicate/2">duplicate(elem, n)</a>
+  </div>
+    <div class="summary-synopsis"><p>Duplicates the given element <code class="inline">n</code> times in a list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#first/1">first(list)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the first element in <code class="inline">list</code> or <code class="inline">nil</code> if <code class="inline">list</code> is empty</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#flatten/1">flatten(list)</a>
+  </div>
+    <div class="summary-synopsis"><p>Flattens the given <code class="inline">list</code> of nested lists</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#flatten/2">flatten(list, tail)</a>
+  </div>
+    <div class="summary-synopsis"><p>Flattens the given <code class="inline">list</code> of nested lists.
+The list <code class="inline">tail</code> will be added at the end of
+the flattened list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#foldl/3">foldl(list, acc, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Folds (reduces) the given list from the left with
+a function. Requires an accumulator</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#foldr/3">foldr(list, acc, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Folds (reduces) the given list from the right with
+a function. Requires an accumulator</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#insert_at/3">insert_at(list, index, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a list with <code class="inline">value</code> inserted at the specified <code class="inline">index</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keydelete/3">keydelete(list, key, position)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a <code class="inline">list</code> of tuples and deletes the first tuple
+where the item at <code class="inline">position</code> matches the
+given <code class="inline">key</code>. Returns the new list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keyfind/4">keyfind(list, key, position, default \\ nil)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a list of tuples and returns the first tuple
+where the item at <code class="inline">position</code> in the tuple matches the
+given <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keymember?/3">keymember?(list, key, position)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a list of tuples and returns <code class="inline">true</code> if there is
+a tuple where the item at <code class="inline">position</code> in the tuple matches
+the given <code class="inline">key</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keyreplace/4">keyreplace(list, key, position, new_tuple)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a list of tuples and replaces the item
+identified by <code class="inline">key</code> at <code class="inline">position</code> if it exists</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keysort/2">keysort(list, position)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a list of tuples and sorts the items
+at <code class="inline">position</code> of the tuples. The sort is stable</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keystore/4">keystore(list, key, position, new_tuple)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a <code class="inline">list</code> of tuples and replaces the item
+identified by <code class="inline">key</code> at <code class="inline">position</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#keytake/3">keytake(list, key, position)</a>
+  </div>
+    <div class="summary-synopsis"><p>Receives a <code class="inline">list</code> of tuples and returns the first tuple
+where the element at <code class="inline">position</code> in the tuple matches the
+given <code class="inline">key</code>, as well as the <code class="inline">list</code> without found tuple</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#last/1">last(list)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the last element in <code class="inline">list</code> or <code class="inline">nil</code> if <code class="inline">list</code> is empty</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#myers_difference/2">myers_difference(list1, list2)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a keyword list that represents an <em>edit script</em></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#myers_difference/3">myers_difference(list1, list2, diff_script)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a keyword list that represents an <em>edit script</em> with nested diffs</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#pop_at/3">pop_at(list, index, default \\ nil)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns and removes the value at the specified <code class="inline">index</code> in the <code class="inline">list</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#replace_at/3">replace_at(list, index, value)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a list with a replaced value at the specified <code class="inline">index</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#starts_with?/2">starts_with?(list, prefix)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns <code class="inline">true</code> if <code class="inline">list</code> starts with the given <code class="inline">prefix</code> list; otherwise returns <code class="inline">false</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_atom/1">to_atom(charlist)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a charlist to an atom</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_existing_atom/1">to_existing_atom(charlist)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a charlist to an existing atom. Raises an <a href="ArgumentError.html"><code class="inline">ArgumentError</code></a>
+if the atom does not exist</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_float/1">to_float(charlist)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the float whose text representation is <code class="inline">charlist</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_integer/1">to_integer(charlist)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an integer whose text representation is <code class="inline">charlist</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_integer/2">to_integer(charlist, base)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an integer whose text representation is <code class="inline">charlist</code> in base <code class="inline">base</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_string/1">to_string(list)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a list of integers representing codepoints, lists or
+strings into a string</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_tuple/1">to_tuple(list)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a list to a tuple</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#update_at/3">update_at(list, index, fun)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a list with an updated value at the specified <code class="inline">index</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#wrap/1">wrap(term)</a>
+  </div>
+    <div class="summary-synopsis"><p>Wraps <code class="inline">term</code> in a list if this is not list</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#zip/1">zip(list_of_lists)</a>
+  </div>
+    <div class="summary-synopsis"><p>Zips corresponding elements from each list in <code class="inline">list_of_lists</code></p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="ascii_printable?/2">
+  
+    <span id="ascii_printable?/1"></span>
+  <div class="detail-header">
+    <a href="#ascii_printable?/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">ascii_printable?(list, counter \\ :infinity)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L474" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+      </div>
+  <section class="docstring">
+<p>Checks if a list is a charlist made only of printable ASCII characters.</p>
+<p>A printable charlist in Elixir contains only ASCII characters.</p>
+<p>Takes an optional <code class="inline">limit</code> as a second argument. <a href="#ascii_printable?/2"><code class="inline">ascii_printable?/2</code></a> only
+checks the printability of the list up to the <code class="inline">limit</code>.</p>
+<h2 id="ascii_printable?/2-examples" class="section-heading">
+  <a href="#ascii_printable?/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">ascii_printable?</span><span class="p" data-group-id="4232800025-1">(</span><span class="sc">&#39;abc&#39;</span><span class="p" data-group-id="4232800025-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">ascii_printable?</span><span class="p" data-group-id="4232800025-2">(</span><span class="sc">&#39;abc&#39;</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="p" data-group-id="4232800025-3">[</span><span class="mi">0</span><span class="p" data-group-id="4232800025-3">]</span><span class="p" data-group-id="4232800025-2">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">ascii_printable?</span><span class="p" data-group-id="4232800025-4">(</span><span class="sc">&#39;abc&#39;</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="p" data-group-id="4232800025-5">[</span><span class="mi">0</span><span class="p" data-group-id="4232800025-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4232800025-4">)</span><span class="w">
+</span><span class="no">true</span></code></pre>
+<p>Improper lists are not printable, even if made only of ascii characters:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">ascii_printable?</span><span class="p" data-group-id="9372477612-1">(</span><span class="sc">&#39;abc&#39;</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="sc">?d</span><span class="p" data-group-id="9372477612-1">)</span><span class="w">
+</span><span class="no">false</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="delete/2">
+    <div class="detail-header">
+    <a href="#delete/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">delete(list, item)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L122" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>delete(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#basic-types">any</a>()) :: <a href="typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Deletes the given <code class="inline">item</code> from the <code class="inline">list</code>. Returns a new list without
+the item.</p>
+<p>If the <code class="inline">item</code> occurs more than once in the <code class="inline">list</code>, just
+the first occurrence is removed.</p>
+<h2 id="delete/2-examples" class="section-heading">
+  <a href="#delete/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="9262370945-1">(</span><span class="p" data-group-id="9262370945-2">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="9262370945-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p" data-group-id="9262370945-1">)</span><span class="w">
+</span><span class="p" data-group-id="9262370945-3">[</span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="9262370945-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">delete</span><span class="p" data-group-id="9262370945-4">(</span><span class="p" data-group-id="9262370945-5">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="9262370945-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p" data-group-id="9262370945-4">)</span><span class="w">
+</span><span class="p" data-group-id="9262370945-6">[</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p" data-group-id="9262370945-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="delete_at/2">
+    <div class="detail-header">
+    <a href="#delete_at/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">delete_at(list, index)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L647" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>delete_at(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#basic-types">integer</a>()) :: <a href="typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Produces a new list by removing the value at the specified <code class="inline">index</code>.</p>
+<p>Negative indices indicate an offset from the end of the <code class="inline">list</code>.
+If <code class="inline">index</code> is out of bounds, the original <code class="inline">list</code> is returned.</p>
+<h2 id="delete_at/2-examples" class="section-heading">
+  <a href="#delete_at/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">delete_at</span><span class="p" data-group-id="2598636166-1">(</span><span class="p" data-group-id="2598636166-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2598636166-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="2598636166-1">)</span><span class="w">
+</span><span class="p" data-group-id="2598636166-3">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2598636166-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">delete_at</span><span class="p" data-group-id="2598636166-4">(</span><span class="p" data-group-id="2598636166-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2598636166-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="2598636166-4">)</span><span class="w">
+</span><span class="p" data-group-id="2598636166-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2598636166-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">delete_at</span><span class="p" data-group-id="2598636166-7">(</span><span class="p" data-group-id="2598636166-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2598636166-8">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p" data-group-id="2598636166-7">)</span><span class="w">
+</span><span class="p" data-group-id="2598636166-9">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2598636166-9">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="duplicate/2">
+    <div class="detail-header">
+    <a href="#duplicate/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">duplicate(elem, n)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L140" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>duplicate(elem, <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: [elem] when elem: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Duplicates the given element <code class="inline">n</code> times in a list.</p>
+<h2 id="duplicate/2-examples" class="section-heading">
+  <a href="#duplicate/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">duplicate</span><span class="p" data-group-id="0733726380-1">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0733726380-1">)</span><span class="w">
+</span><span class="p" data-group-id="0733726380-2">[</span><span class="s">&quot;hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p" data-group-id="0733726380-2">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">duplicate</span><span class="p" data-group-id="0733726380-3">(</span><span class="p" data-group-id="0733726380-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0733726380-4">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0733726380-3">)</span><span class="w">
+</span><span class="p" data-group-id="0733726380-5">[</span><span class="p" data-group-id="0733726380-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0733726380-6">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0733726380-7">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="0733726380-7">]</span><span class="p" data-group-id="0733726380-5">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="first/1">
+    <div class="detail-header">
+    <a href="#first/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">first(list)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L223" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>first([elem]) :: nil | elem when elem: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the first element in <code class="inline">list</code> or <code class="inline">nil</code> if <code class="inline">list</code> is empty.</p>
+<h2 id="first/1-examples" class="section-heading">
+  <a href="#first/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">first</span><span class="p" data-group-id="5424649371-1">(</span><span class="p" data-group-id="5424649371-2">[</span><span class="p" data-group-id="5424649371-2">]</span><span class="p" data-group-id="5424649371-1">)</span><span class="w">
+</span><span class="no">nil</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">first</span><span class="p" data-group-id="5424649371-3">(</span><span class="p" data-group-id="5424649371-4">[</span><span class="mi">1</span><span class="p" data-group-id="5424649371-4">]</span><span class="p" data-group-id="5424649371-3">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">first</span><span class="p" data-group-id="5424649371-5">(</span><span class="p" data-group-id="5424649371-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5424649371-6">]</span><span class="p" data-group-id="5424649371-5">)</span><span class="w">
+</span><span class="mi">1</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="flatten/1">
+    <div class="detail-header">
+    <a href="#flatten/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">flatten(list)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L154" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>flatten(deep_list) :: <a href="typespecs.html#built-in-types">list</a>() when deep_list: [<a href="typespecs.html#basic-types">any</a>() | deep_list]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Flattens the given <code class="inline">list</code> of nested lists.</p>
+<h2 id="flatten/1-examples" class="section-heading">
+  <a href="#flatten/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">flatten</span><span class="p" data-group-id="0145800922-1">(</span><span class="p" data-group-id="0145800922-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0145800922-3">[</span><span class="p" data-group-id="0145800922-4">[</span><span class="mi">2</span><span class="p" data-group-id="0145800922-4">]</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0145800922-3">]</span><span class="p" data-group-id="0145800922-2">]</span><span class="p" data-group-id="0145800922-1">)</span><span class="w">
+</span><span class="p" data-group-id="0145800922-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0145800922-5">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="flatten/2">
+    <div class="detail-header">
+    <a href="#flatten/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">flatten(list, tail)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L170" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>flatten(deep_list, [elem]) :: [elem]
+when deep_list: [elem | deep_list], elem: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Flattens the given <code class="inline">list</code> of nested lists.
+The list <code class="inline">tail</code> will be added at the end of
+the flattened list.</p>
+<h2 id="flatten/2-examples" class="section-heading">
+  <a href="#flatten/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">flatten</span><span class="p" data-group-id="1025911821-1">(</span><span class="p" data-group-id="1025911821-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1025911821-3">[</span><span class="p" data-group-id="1025911821-4">[</span><span class="mi">2</span><span class="p" data-group-id="1025911821-4">]</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1025911821-3">]</span><span class="p" data-group-id="1025911821-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1025911821-5">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="1025911821-5">]</span><span class="p" data-group-id="1025911821-1">)</span><span class="w">
+</span><span class="p" data-group-id="1025911821-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="1025911821-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="foldl/3">
+    <div class="detail-header">
+    <a href="#foldl/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">foldl(list, acc, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L188" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>foldl([elem], acc, (elem, acc -> acc)) :: acc when elem: var, acc: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Folds (reduces) the given list from the left with
+a function. Requires an accumulator.</p>
+<h2 id="foldl/3-examples" class="section-heading">
+  <a href="#foldl/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">foldl</span><span class="p" data-group-id="4572701879-1">(</span><span class="p" data-group-id="4572701879-2">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="4572701879-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="4572701879-3">fn</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="k" data-group-id="4572701879-3">end</span><span class="p" data-group-id="4572701879-1">)</span><span class="w">
+</span><span class="mi">20</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">foldl</span><span class="p" data-group-id="4572701879-4">(</span><span class="p" data-group-id="4572701879-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="4572701879-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="4572701879-6">fn</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="k" data-group-id="4572701879-6">end</span><span class="p" data-group-id="4572701879-4">)</span><span class="w">
+</span><span class="mi">2</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="foldr/3">
+    <div class="detail-header">
+    <a href="#foldr/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">foldr(list, acc, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L203" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>foldr([elem], acc, (elem, acc -> acc)) :: acc when elem: var, acc: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Folds (reduces) the given list from the right with
+a function. Requires an accumulator.</p>
+<h2 id="foldr/3-examples" class="section-heading">
+  <a href="#foldr/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">foldr</span><span class="p" data-group-id="3158226348-1">(</span><span class="p" data-group-id="3158226348-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="3158226348-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k" data-group-id="3158226348-3">fn</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="k" data-group-id="3158226348-3">end</span><span class="p" data-group-id="3158226348-1">)</span><span class="w">
+</span><span class="o">-</span><span class="mi">2</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="insert_at/3">
+    <div class="detail-header">
+    <a href="#insert_at/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">insert_at(list, index, value)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L546" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>insert_at(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#basic-types">integer</a>(), <a href="typespecs.html#basic-types">any</a>()) :: <a href="typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a list with <code class="inline">value</code> inserted at the specified <code class="inline">index</code>.</p>
+<p>Note that <code class="inline">index</code> is capped at the list length. Negative indices
+indicate an offset from the end of the <code class="inline">list</code>.</p>
+<h2 id="insert_at/3-examples" class="section-heading">
+  <a href="#insert_at/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">insert_at</span><span class="p" data-group-id="7557614137-1">(</span><span class="p" data-group-id="7557614137-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="7557614137-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7557614137-1">)</span><span class="w">
+</span><span class="p" data-group-id="7557614137-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="7557614137-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">insert_at</span><span class="p" data-group-id="7557614137-4">(</span><span class="p" data-group-id="7557614137-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7557614137-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7557614137-4">)</span><span class="w">
+</span><span class="p" data-group-id="7557614137-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7557614137-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">insert_at</span><span class="p" data-group-id="7557614137-7">(</span><span class="p" data-group-id="7557614137-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7557614137-8">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7557614137-7">)</span><span class="w">
+</span><span class="p" data-group-id="7557614137-9">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7557614137-9">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">insert_at</span><span class="p" data-group-id="7557614137-10">(</span><span class="p" data-group-id="7557614137-11">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7557614137-11">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="7557614137-10">)</span><span class="w">
+</span><span class="p" data-group-id="7557614137-12">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7557614137-12">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keydelete/3">
+    <div class="detail-header">
+    <a href="#keydelete/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keydelete(list, key, position)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L361" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keydelete([<a href="typespecs.html#basic-types">tuple</a>()], <a href="typespecs.html#basic-types">any</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: [<a href="typespecs.html#basic-types">tuple</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a <code class="inline">list</code> of tuples and deletes the first tuple
+where the item at <code class="inline">position</code> matches the
+given <code class="inline">key</code>. Returns the new list.</p>
+<h2 id="keydelete/3-examples" class="section-heading">
+  <a href="#keydelete/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keydelete</span><span class="p" data-group-id="5433222629-1">(</span><span class="p" data-group-id="5433222629-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5433222629-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5433222629-1">)</span><span class="w">
+</span><span class="p" data-group-id="5433222629-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5433222629-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keydelete</span><span class="p" data-group-id="5433222629-4">(</span><span class="p" data-group-id="5433222629-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5433222629-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5433222629-4">)</span><span class="w">
+</span><span class="p" data-group-id="5433222629-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="5433222629-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keydelete</span><span class="p" data-group-id="5433222629-7">(</span><span class="p" data-group-id="5433222629-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5433222629-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5433222629-7">)</span><span class="w">
+</span><span class="p" data-group-id="5433222629-9">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5433222629-9">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keyfind/4">
+  
+    <span id="keyfind/3"></span>
+  <div class="detail-header">
+    <a href="#keyfind/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keyfind(list, key, position, default \\ nil)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L264" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keyfind([<a href="typespecs.html#basic-types">tuple</a>()], <a href="typespecs.html#basic-types">any</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>(), <a href="typespecs.html#basic-types">any</a>()) :: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a list of tuples and returns the first tuple
+where the item at <code class="inline">position</code> in the tuple matches the
+given <code class="inline">key</code>.</p>
+<h2 id="keyfind/4-examples" class="section-heading">
+  <a href="#keyfind/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keyfind</span><span class="p" data-group-id="2383035695-1">(</span><span class="p" data-group-id="2383035695-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2383035695-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="2383035695-1">)</span><span class="w">
+</span><span class="p" data-group-id="2383035695-3">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="2383035695-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keyfind</span><span class="p" data-group-id="2383035695-4">(</span><span class="p" data-group-id="2383035695-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2383035695-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="2383035695-4">)</span><span class="w">
+</span><span class="p" data-group-id="2383035695-6">{</span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2383035695-6">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keyfind</span><span class="p" data-group-id="2383035695-7">(</span><span class="p" data-group-id="2383035695-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2383035695-8">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="2383035695-7">)</span><span class="w">
+</span><span class="no">nil</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keymember?/3">
+    <div class="detail-header">
+    <a href="#keymember?/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keymember?(list, key, position)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L286" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keymember?([<a href="typespecs.html#basic-types">tuple</a>()], <a href="typespecs.html#basic-types">any</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a list of tuples and returns <code class="inline">true</code> if there is
+a tuple where the item at <code class="inline">position</code> in the tuple matches
+the given <code class="inline">key</code>.</p>
+<h2 id="keymember?/3-examples" class="section-heading">
+  <a href="#keymember?/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keymember?</span><span class="p" data-group-id="3224602715-1">(</span><span class="p" data-group-id="3224602715-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3224602715-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="3224602715-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keymember?</span><span class="p" data-group-id="3224602715-3">(</span><span class="p" data-group-id="3224602715-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3224602715-4">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="3224602715-3">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keymember?</span><span class="p" data-group-id="3224602715-5">(</span><span class="p" data-group-id="3224602715-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="3224602715-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="3224602715-5">)</span><span class="w">
+</span><span class="no">false</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keyreplace/4">
+    <div class="detail-header">
+    <a href="#keyreplace/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keyreplace(list, key, position, new_tuple)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L301" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keyreplace([<a href="typespecs.html#basic-types">tuple</a>()], <a href="typespecs.html#basic-types">any</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>(), <a href="typespecs.html#basic-types">tuple</a>()) :: [<a href="typespecs.html#basic-types">tuple</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a list of tuples and replaces the item
+identified by <code class="inline">key</code> at <code class="inline">position</code> if it exists.</p>
+<h2 id="keyreplace/4-examples" class="section-heading">
+  <a href="#keyreplace/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keyreplace</span><span class="p" data-group-id="4383089120-1">(</span><span class="p" data-group-id="4383089120-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4383089120-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4383089120-3">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4383089120-3">}</span><span class="p" data-group-id="4383089120-1">)</span><span class="w">
+</span><span class="p" data-group-id="4383089120-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4383089120-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keysort/2">
+    <div class="detail-header">
+    <a href="#keysort/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keysort(list, position)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L319" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keysort([<a href="typespecs.html#basic-types">tuple</a>()], <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: [<a href="typespecs.html#basic-types">tuple</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a list of tuples and sorts the items
+at <code class="inline">position</code> of the tuples. The sort is stable.</p>
+<h2 id="keysort/2-examples" class="section-heading">
+  <a href="#keysort/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keysort</span><span class="p" data-group-id="4477381936-1">(</span><span class="p" data-group-id="4477381936-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4477381936-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4477381936-1">)</span><span class="w">
+</span><span class="p" data-group-id="4477381936-3">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="4477381936-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keysort</span><span class="p" data-group-id="4477381936-4">(</span><span class="p" data-group-id="4477381936-5">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4477381936-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4477381936-4">)</span><span class="w">
+</span><span class="p" data-group-id="4477381936-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4477381936-6">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keystore/4">
+    <div class="detail-header">
+    <a href="#keystore/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keystore(list, key, position, new_tuple)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L339" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keystore([<a href="typespecs.html#basic-types">tuple</a>()], <a href="typespecs.html#basic-types">any</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>(), <a href="typespecs.html#basic-types">tuple</a>()) :: [<a href="typespecs.html#basic-types">tuple</a>(), ...]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a <code class="inline">list</code> of tuples and replaces the item
+identified by <code class="inline">key</code> at <code class="inline">position</code>.</p>
+<p>If the item does not exist, it is added to the end of the <code class="inline">list</code>.</p>
+<h2 id="keystore/4-examples" class="section-heading">
+  <a href="#keystore/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keystore</span><span class="p" data-group-id="6688299519-1">(</span><span class="p" data-group-id="6688299519-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6688299519-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6688299519-3">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6688299519-3">}</span><span class="p" data-group-id="6688299519-1">)</span><span class="w">
+</span><span class="p" data-group-id="6688299519-4">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6688299519-4">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keystore</span><span class="p" data-group-id="6688299519-5">(</span><span class="p" data-group-id="6688299519-6">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="6688299519-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6688299519-7">{</span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6688299519-7">}</span><span class="p" data-group-id="6688299519-5">)</span><span class="w">
+</span><span class="p" data-group-id="6688299519-8">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">c</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6688299519-8">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="keytake/3">
+    <div class="detail-header">
+    <a href="#keytake/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">keytake(list, key, position)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L385" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>keytake([<a href="typespecs.html#basic-types">tuple</a>()], <a href="typespecs.html#basic-types">any</a>(), <a href="typespecs.html#basic-types">non_neg_integer</a>()) :: {<a href="typespecs.html#basic-types">tuple</a>(), [<a href="typespecs.html#basic-types">tuple</a>()]} | nil</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Receives a <code class="inline">list</code> of tuples and returns the first tuple
+where the element at <code class="inline">position</code> in the tuple matches the
+given <code class="inline">key</code>, as well as the <code class="inline">list</code> without found tuple.</p>
+<p>If such a tuple is not found, <code class="inline">nil</code> will be returned.</p>
+<h2 id="keytake/3-examples" class="section-heading">
+  <a href="#keytake/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keytake</span><span class="p" data-group-id="4857088414-1">(</span><span class="p" data-group-id="4857088414-2">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4857088414-2">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4857088414-1">)</span><span class="w">
+</span><span class="p" data-group-id="4857088414-3">{</span><span class="p" data-group-id="4857088414-4">{</span><span class="ss">:a</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4857088414-4">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4857088414-5">[</span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4857088414-5">]</span><span class="p" data-group-id="4857088414-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keytake</span><span class="p" data-group-id="4857088414-6">(</span><span class="p" data-group-id="4857088414-7">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4857088414-7">]</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4857088414-6">)</span><span class="w">
+</span><span class="p" data-group-id="4857088414-8">{</span><span class="p" data-group-id="4857088414-9">{</span><span class="ss">:b</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4857088414-9">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4857088414-10">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4857088414-10">]</span><span class="p" data-group-id="4857088414-8">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">keytake</span><span class="p" data-group-id="4857088414-11">(</span><span class="p" data-group-id="4857088414-12">[</span><span class="ss">a</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">b</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4857088414-12">]</span><span class="p">,</span><span class="w"> </span><span class="ss">:c</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4857088414-11">)</span><span class="w">
+</span><span class="no">nil</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="last/1">
+    <div class="detail-header">
+    <a href="#last/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">last(list)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L242" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>last([elem]) :: nil | elem when elem: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the last element in <code class="inline">list</code> or <code class="inline">nil</code> if <code class="inline">list</code> is empty.</p>
+<h2 id="last/1-examples" class="section-heading">
+  <a href="#last/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">last</span><span class="p" data-group-id="7970390190-1">(</span><span class="p" data-group-id="7970390190-2">[</span><span class="p" data-group-id="7970390190-2">]</span><span class="p" data-group-id="7970390190-1">)</span><span class="w">
+</span><span class="no">nil</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">last</span><span class="p" data-group-id="7970390190-3">(</span><span class="p" data-group-id="7970390190-4">[</span><span class="mi">1</span><span class="p" data-group-id="7970390190-4">]</span><span class="p" data-group-id="7970390190-3">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">last</span><span class="p" data-group-id="7970390190-5">(</span><span class="p" data-group-id="7970390190-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7970390190-6">]</span><span class="p" data-group-id="7970390190-5">)</span><span class="w">
+</span><span class="mi">3</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="myers_difference/2">
+    <div class="detail-header">
+    <a href="#myers_difference/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">myers_difference(list1, list2)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L890" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>myers_difference(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#built-in-types">list</a>()) :: [{:eq | :ins | :del, <a href="typespecs.html#built-in-types">list</a>()}]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a keyword list that represents an <em>edit script</em>.</p>
+<p>The algorithm is outlined in the
+“An O(ND) Difference Algorithm and Its Variations” paper by E. Myers.</p>
+<p>An <em>edit script</em> is a keyword list. Each key describes the “editing action” to
+take in order to bring <code class="inline">list1</code> closer to being equal to <code class="inline">list2</code>; a key can be
+<code class="inline">:eq</code>, <code class="inline">:ins</code>, or <code class="inline">:del</code>. Each value is a sublist of either <code class="inline">list1</code> or <code class="inline">list2</code>
+that should be inserted (if the corresponding key <code class="inline">:ins</code>), deleted (if the
+corresponding key is <code class="inline">:del</code>), or left alone (if the corresponding key is
+<code class="inline">:eq</code>) in <code class="inline">list1</code> in order to be closer to <code class="inline">list2</code>.</p>
+<p>See <a href="#myers_difference/3"><code class="inline">myers_difference/3</code></a> if you want to handle nesting in the diff scripts.</p>
+<h2 id="myers_difference/2-examples" class="section-heading">
+  <a href="#myers_difference/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">myers_difference</span><span class="p" data-group-id="6911113715-1">(</span><span class="p" data-group-id="6911113715-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6911113715-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6911113715-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="6911113715-3">]</span><span class="p" data-group-id="6911113715-1">)</span><span class="w">
+</span><span class="p" data-group-id="6911113715-4">[</span><span class="ss">eq</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6911113715-5">[</span><span class="mi">1</span><span class="p" data-group-id="6911113715-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">del</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6911113715-6">[</span><span class="mi">4</span><span class="p" data-group-id="6911113715-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">eq</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6911113715-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6911113715-7">]</span><span class="p">,</span><span class="w"> </span><span class="ss">ins</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6911113715-8">[</span><span class="mi">4</span><span class="p" data-group-id="6911113715-8">]</span><span class="p" data-group-id="6911113715-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="myers_difference/3">
+    <div class="detail-header">
+    <a href="#myers_difference/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">myers_difference(list1, list2, diff_script)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L911" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.8.0)</span>
+    
+      <div class="specs">
+          <pre>myers_difference(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#built-in-types">list</a>(), (<a href="typespecs.html#built-in-types">term</a>(), <a href="typespecs.html#built-in-types">term</a>() -> script | nil)) :: script
+when script: [{:eq | :ins | :del | :diff, <a href="typespecs.html#built-in-types">list</a>()}]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a keyword list that represents an <em>edit script</em> with nested diffs.</p>
+<p>This is an extension of <a href="#myers_difference/2"><code class="inline">myers_difference/2</code></a> where a <code class="inline">diff_script</code> function
+can be given in case it is desired to compute nested differences. The function
+may return a list with the inner edit script or <code class="inline">nil</code> in case there is no
+such script. The returned inner edit script will be under the <code class="inline">:diff</code> key.</p>
+<h2 id="myers_difference/3-examples" class="section-heading">
+  <a href="#myers_difference/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">myers_difference</span><span class="p" data-group-id="8016263593-1">(</span><span class="p" data-group-id="8016263593-2">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;db&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="8016263593-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8016263593-3">[</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bc&quot;</span><span class="p" data-group-id="8016263593-3">]</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nc">String</span><span class="o">.</span><span class="n">myers_difference</span><span class="o">/</span><span class="mi">2</span><span class="p" data-group-id="8016263593-1">)</span><span class="w">
+</span><span class="p" data-group-id="8016263593-4">[</span><span class="ss">eq</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8016263593-5">[</span><span class="s">&quot;a&quot;</span><span class="p" data-group-id="8016263593-5">]</span><span class="p">,</span><span class="w"> </span><span class="ss">diff</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8016263593-6">[</span><span class="ss">del</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;d&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">eq</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">ins</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="8016263593-6">]</span><span class="p">,</span><span class="w"> </span><span class="ss">del</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8016263593-7">[</span><span class="s">&quot;c&quot;</span><span class="p" data-group-id="8016263593-7">]</span><span class="p" data-group-id="8016263593-4">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="pop_at/3">
+  
+    <span id="pop_at/2"></span>
+  <div class="detail-header">
+    <a href="#pop_at/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">pop_at(list, index, default \\ nil)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L671" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>pop_at(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#basic-types">integer</a>(), <a href="typespecs.html#basic-types">any</a>()) :: {<a href="typespecs.html#basic-types">any</a>(), <a href="typespecs.html#built-in-types">list</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns and removes the value at the specified <code class="inline">index</code> in the <code class="inline">list</code>.</p>
+<p>Negative indices indicate an offset from the end of the <code class="inline">list</code>.
+If <code class="inline">index</code> is out of bounds, the original <code class="inline">list</code> is returned.</p>
+<h2 id="pop_at/3-examples" class="section-heading">
+  <a href="#pop_at/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">pop_at</span><span class="p" data-group-id="5713638278-1">(</span><span class="p" data-group-id="5713638278-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5713638278-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5713638278-1">)</span><span class="w">
+</span><span class="p" data-group-id="5713638278-3">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5713638278-4">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5713638278-4">]</span><span class="p" data-group-id="5713638278-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">pop_at</span><span class="p" data-group-id="5713638278-5">(</span><span class="p" data-group-id="5713638278-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5713638278-6">]</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="5713638278-5">)</span><span class="w">
+</span><span class="p" data-group-id="5713638278-7">{</span><span class="no">nil</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5713638278-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5713638278-8">]</span><span class="p" data-group-id="5713638278-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">pop_at</span><span class="p" data-group-id="5713638278-9">(</span><span class="p" data-group-id="5713638278-10">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5713638278-10">]</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="5713638278-9">)</span><span class="w">
+</span><span class="p" data-group-id="5713638278-11">{</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5713638278-12">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5713638278-12">]</span><span class="p" data-group-id="5713638278-11">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">pop_at</span><span class="p" data-group-id="5713638278-13">(</span><span class="p" data-group-id="5713638278-14">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5713638278-14">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p" data-group-id="5713638278-13">)</span><span class="w">
+</span><span class="p" data-group-id="5713638278-15">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5713638278-16">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5713638278-16">]</span><span class="p" data-group-id="5713638278-15">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="replace_at/3">
+    <div class="detail-header">
+    <a href="#replace_at/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">replace_at(list, index, value)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L584" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>replace_at(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#basic-types">integer</a>(), <a href="typespecs.html#basic-types">any</a>()) :: <a href="typespecs.html#built-in-types">list</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a list with a replaced value at the specified <code class="inline">index</code>.</p>
+<p>Negative indices indicate an offset from the end of the <code class="inline">list</code>.
+If <code class="inline">index</code> is out of bounds, the original <code class="inline">list</code> is returned.</p>
+<h2 id="replace_at/3-examples" class="section-heading">
+  <a href="#replace_at/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">replace_at</span><span class="p" data-group-id="8079819557-1">(</span><span class="p" data-group-id="8079819557-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8079819557-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8079819557-1">)</span><span class="w">
+</span><span class="p" data-group-id="8079819557-3">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8079819557-3">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">replace_at</span><span class="p" data-group-id="8079819557-4">(</span><span class="p" data-group-id="8079819557-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8079819557-5">]</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8079819557-4">)</span><span class="w">
+</span><span class="p" data-group-id="8079819557-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8079819557-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">replace_at</span><span class="p" data-group-id="8079819557-7">(</span><span class="p" data-group-id="8079819557-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8079819557-8">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8079819557-7">)</span><span class="w">
+</span><span class="p" data-group-id="8079819557-9">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8079819557-9">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">replace_at</span><span class="p" data-group-id="8079819557-10">(</span><span class="p" data-group-id="8079819557-11">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8079819557-11">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="8079819557-10">)</span><span class="w">
+</span><span class="p" data-group-id="8079819557-12">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8079819557-12">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="starts_with?/2">
+    <div class="detail-header">
+    <a href="#starts_with?/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">starts_with?(list, prefix)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L703" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>starts_with?(<a href="typespecs.html#built-in-types">list</a>(), <a href="typespecs.html#built-in-types">list</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+          <pre>starts_with?(<a href="typespecs.html#built-in-types">list</a>(), []) :: true</pre>
+          <pre>starts_with?([], [...]) :: false</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns <code class="inline">true</code> if <code class="inline">list</code> starts with the given <code class="inline">prefix</code> list; otherwise returns <code class="inline">false</code>.</p>
+<p>If <code class="inline">prefix</code> is an empty list, it returns <code class="inline">true</code>.</p>
+<h3 id="starts_with?/2-examples" class="section-heading">
+  <a href="#starts_with?/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h3>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">starts_with?</span><span class="p" data-group-id="7851826455-1">(</span><span class="p" data-group-id="7851826455-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7851826455-2">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7851826455-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="7851826455-3">]</span><span class="p" data-group-id="7851826455-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">starts_with?</span><span class="p" data-group-id="7851826455-4">(</span><span class="p" data-group-id="7851826455-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="7851826455-5">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7851826455-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7851826455-6">]</span><span class="p" data-group-id="7851826455-4">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">starts_with?</span><span class="p" data-group-id="7851826455-7">(</span><span class="p" data-group-id="7851826455-8">[</span><span class="ss">:alpha</span><span class="p" data-group-id="7851826455-8">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7851826455-9">[</span><span class="p" data-group-id="7851826455-9">]</span><span class="p" data-group-id="7851826455-7">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">starts_with?</span><span class="p" data-group-id="7851826455-10">(</span><span class="p" data-group-id="7851826455-11">[</span><span class="p" data-group-id="7851826455-11">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7851826455-12">[</span><span class="ss">:alpha</span><span class="p" data-group-id="7851826455-12">]</span><span class="p" data-group-id="7851826455-10">)</span><span class="w">
+</span><span class="no">false</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_atom/1">
+    <div class="detail-header">
+    <a href="#to_atom/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_atom(charlist)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L724" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_atom(<a href="typespecs.html#built-in-types">charlist</a>()) :: <a href="typespecs.html#basic-types">atom</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a charlist to an atom.</p>
+<p>Currently Elixir does not support conversions from charlists
+which contains Unicode codepoints greater than 0xFF.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="to_atom/1-examples" class="section-heading">
+  <a href="#to_atom/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_atom</span><span class="p" data-group-id="9287009581-1">(</span><span class="sc">&#39;elixir&#39;</span><span class="p" data-group-id="9287009581-1">)</span><span class="w">
+</span><span class="ss">:elixir</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_existing_atom/1">
+    <div class="detail-header">
+    <a href="#to_existing_atom/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_existing_atom(charlist)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L748" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_existing_atom(<a href="typespecs.html#built-in-types">charlist</a>()) :: <a href="typespecs.html#basic-types">atom</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a charlist to an existing atom. Raises an <a href="ArgumentError.html"><code class="inline">ArgumentError</code></a>
+if the atom does not exist.</p>
+<p>Currently Elixir does not support conversions from charlists
+which contains Unicode codepoints greater than 0xFF.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="to_existing_atom/1-examples" class="section-heading">
+  <a href="#to_existing_atom/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="bp">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">:my_atom</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_existing_atom</span><span class="p" data-group-id="8826854006-1">(</span><span class="sc">&#39;my_atom&#39;</span><span class="p" data-group-id="8826854006-1">)</span><span class="w">
+</span><span class="ss">:my_atom</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_existing_atom</span><span class="p" data-group-id="8826854006-2">(</span><span class="sc">&#39;this_atom_will_never_exist&#39;</span><span class="p" data-group-id="8826854006-2">)</span><span class="w">
+</span><span class="gt">** (ArgumentError) argument error</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_float/1">
+    <div class="detail-header">
+    <a href="#to_float/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_float(charlist)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L764" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_float(<a href="typespecs.html#built-in-types">charlist</a>()) :: <a href="typespecs.html#basic-types">float</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the float whose text representation is <code class="inline">charlist</code>.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="to_float/1-examples" class="section-heading">
+  <a href="#to_float/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_float</span><span class="p" data-group-id="5321112094-1">(</span><span class="sc">&#39;2.2017764e+0&#39;</span><span class="p" data-group-id="5321112094-1">)</span><span class="w">
+</span><span class="mf">2.2017764</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_integer/1">
+    <div class="detail-header">
+    <a href="#to_integer/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_integer(charlist)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L780" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_integer(<a href="typespecs.html#built-in-types">charlist</a>()) :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns an integer whose text representation is <code class="inline">charlist</code>.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="to_integer/1-examples" class="section-heading">
+  <a href="#to_integer/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_integer</span><span class="p" data-group-id="3462674209-1">(</span><span class="sc">&#39;123&#39;</span><span class="p" data-group-id="3462674209-1">)</span><span class="w">
+</span><span class="mi">123</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_integer/2">
+    <div class="detail-header">
+    <a href="#to_integer/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_integer(charlist, base)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L796" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_integer(<a href="typespecs.html#built-in-types">charlist</a>(), 2..36) :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns an integer whose text representation is <code class="inline">charlist</code> in base <code class="inline">base</code>.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="to_integer/2-examples" class="section-heading">
+  <a href="#to_integer/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_integer</span><span class="p" data-group-id="2076041091-1">(</span><span class="sc">&#39;3FF&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p" data-group-id="2076041091-1">)</span><span class="w">
+</span><span class="mi">1023</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_string/1">
+    <div class="detail-header">
+    <a href="#to_string/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_string(list)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L837" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_string(<a href="http://www.erlang.org/doc/man/unicode.html#type-charlist">:unicode.charlist</a>()) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a list of integers representing codepoints, lists or
+strings into a string.</p>
+<p>Notice that this function expects a list of integers representing
+UTF-8 codepoints. If you have a list of bytes, you must instead use
+the <a href="http://www.erlang.org/doc/man/binary.html"><code class="inline">:binary</code> module</a>.</p>
+<h2 id="to_string/1-examples" class="section-heading">
+  <a href="#to_string/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5915347625-1">(</span><span class="p" data-group-id="5915347625-2">[</span><span class="mh">0x00E6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00DF</span><span class="p" data-group-id="5915347625-2">]</span><span class="p" data-group-id="5915347625-1">)</span><span class="w">
+</span><span class="s">&quot;æß&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5915347625-3">(</span><span class="p" data-group-id="5915347625-4">[</span><span class="mh">0x0061</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bc&quot;</span><span class="p" data-group-id="5915347625-4">]</span><span class="p" data-group-id="5915347625-3">)</span><span class="w">
+</span><span class="s">&quot;abc&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="5915347625-5">(</span><span class="p" data-group-id="5915347625-6">[</span><span class="mh">0x0064</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ee&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5915347625-7">[</span><span class="sc">&#39;p&#39;</span><span class="p" data-group-id="5915347625-7">]</span><span class="p" data-group-id="5915347625-6">]</span><span class="p" data-group-id="5915347625-5">)</span><span class="w">
+</span><span class="s">&quot;deep&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_tuple/1">
+    <div class="detail-header">
+    <a href="#to_tuple/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_tuple(list)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L812" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_tuple(<a href="typespecs.html#built-in-types">list</a>()) :: <a href="typespecs.html#basic-types">tuple</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a list to a tuple.</p>
+<p>Inlined by the compiler.</p>
+<h2 id="to_tuple/1-examples" class="section-heading">
+  <a href="#to_tuple/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">to_tuple</span><span class="p" data-group-id="0134522015-1">(</span><span class="p" data-group-id="0134522015-2">[</span><span class="ss">:share</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0134522015-3">[</span><span class="ss">:elixir</span><span class="p">,</span><span class="w"> </span><span class="mi">163</span><span class="p" data-group-id="0134522015-3">]</span><span class="p" data-group-id="0134522015-2">]</span><span class="p" data-group-id="0134522015-1">)</span><span class="w">
+</span><span class="p" data-group-id="0134522015-4">{</span><span class="ss">:share</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0134522015-5">[</span><span class="ss">:elixir</span><span class="p">,</span><span class="w"> </span><span class="mi">163</span><span class="p" data-group-id="0134522015-5">]</span><span class="p" data-group-id="0134522015-4">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="update_at/3">
+    <div class="detail-header">
+    <a href="#update_at/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">update_at(list, index, fun)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L617" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>update_at([elem], <a href="typespecs.html#basic-types">integer</a>(), (elem -> <a href="typespecs.html#basic-types">any</a>())) :: <a href="typespecs.html#built-in-types">list</a>() when elem: var</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a list with an updated value at the specified <code class="inline">index</code>.</p>
+<p>Negative indices indicate an offset from the end of the <code class="inline">list</code>.
+If <code class="inline">index</code> is out of bounds, the original <code class="inline">list</code> is returned.</p>
+<h2 id="update_at/3-examples" class="section-heading">
+  <a href="#update_at/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">update_at</span><span class="p" data-group-id="8252033445-1">(</span><span class="p" data-group-id="8252033445-2">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8252033445-2">]</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="8252033445-3">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="8252033445-3">)</span><span class="p" data-group-id="8252033445-1">)</span><span class="w">
+</span><span class="p" data-group-id="8252033445-4">[</span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8252033445-4">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">update_at</span><span class="p" data-group-id="8252033445-5">(</span><span class="p" data-group-id="8252033445-6">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8252033445-6">]</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="8252033445-7">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="8252033445-7">)</span><span class="p" data-group-id="8252033445-5">)</span><span class="w">
+</span><span class="p" data-group-id="8252033445-8">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8252033445-8">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">update_at</span><span class="p" data-group-id="8252033445-9">(</span><span class="p" data-group-id="8252033445-10">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8252033445-10">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="8252033445-11">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="8252033445-11">)</span><span class="p" data-group-id="8252033445-9">)</span><span class="w">
+</span><span class="p" data-group-id="8252033445-12">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p" data-group-id="8252033445-12">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">update_at</span><span class="p" data-group-id="8252033445-13">(</span><span class="p" data-group-id="8252033445-14">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8252033445-14">]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p" data-group-id="8252033445-15">(</span><span class="ni">&amp;1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p" data-group-id="8252033445-15">)</span><span class="p" data-group-id="8252033445-13">)</span><span class="w">
+</span><span class="p" data-group-id="8252033445-16">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8252033445-16">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="wrap/1">
+    <div class="detail-header">
+    <a href="#wrap/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">wrap(term)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L413" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>wrap(nil) :: []</pre>
+          <pre>wrap(list) :: list when list: <a href="typespecs.html#built-in-types">maybe_improper_list</a>()</pre>
+          <pre>wrap(term) :: [term, ...] when term: <a href="typespecs.html#basic-types">any</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Wraps <code class="inline">term</code> in a list if this is not list.</p>
+<p>If <code class="inline">term</code> is already a list, it returns the list.
+If <code class="inline">term</code> is <code class="inline">nil</code>, it returns an empty list.</p>
+<h2 id="wrap/1-examples" class="section-heading">
+  <a href="#wrap/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">wrap</span><span class="p" data-group-id="4479444409-1">(</span><span class="s">&quot;hello&quot;</span><span class="p" data-group-id="4479444409-1">)</span><span class="w">
+</span><span class="p" data-group-id="4479444409-2">[</span><span class="s">&quot;hello&quot;</span><span class="p" data-group-id="4479444409-2">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">wrap</span><span class="p" data-group-id="4479444409-3">(</span><span class="p" data-group-id="4479444409-4">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4479444409-4">]</span><span class="p" data-group-id="4479444409-3">)</span><span class="w">
+</span><span class="p" data-group-id="4479444409-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4479444409-5">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">wrap</span><span class="p" data-group-id="4479444409-6">(</span><span class="no">nil</span><span class="p" data-group-id="4479444409-6">)</span><span class="w">
+</span><span class="p" data-group-id="4479444409-7">[</span><span class="p" data-group-id="4479444409-7">]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="zip/1">
+    <div class="detail-header">
+    <a href="#zip/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">zip(list_of_lists)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/list.ex#L442" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>zip([<a href="typespecs.html#built-in-types">list</a>()]) :: [<a href="typespecs.html#basic-types">tuple</a>()]</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Zips corresponding elements from each list in <code class="inline">list_of_lists</code>.</p>
+<p>The zipping finishes as soon as any list terminates.</p>
+<h2 id="zip/1-examples" class="section-heading">
+  <a href="#zip/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">zip</span><span class="p" data-group-id="8445601444-1">(</span><span class="p" data-group-id="8445601444-2">[</span><span class="p" data-group-id="8445601444-3">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8445601444-3">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8445601444-4">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="8445601444-4">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8445601444-5">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8445601444-5">]</span><span class="p" data-group-id="8445601444-2">]</span><span class="p" data-group-id="8445601444-1">)</span><span class="w">
+</span><span class="p" data-group-id="8445601444-6">[</span><span class="p" data-group-id="8445601444-7">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="8445601444-7">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8445601444-8">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8445601444-8">}</span><span class="p" data-group-id="8445601444-6">]</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">List</span><span class="o">.</span><span class="n">zip</span><span class="p" data-group-id="8445601444-9">(</span><span class="p" data-group-id="8445601444-10">[</span><span class="p" data-group-id="8445601444-11">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="8445601444-11">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8445601444-12">[</span><span class="mi">3</span><span class="p" data-group-id="8445601444-12">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8445601444-13">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8445601444-13">]</span><span class="p" data-group-id="8445601444-10">]</span><span class="p" data-group-id="8445601444-9">)</span><span class="w">
+</span><span class="p" data-group-id="8445601444-14">[</span><span class="p" data-group-id="8445601444-15">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="8445601444-15">}</span><span class="p" data-group-id="8445601444-14">]</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

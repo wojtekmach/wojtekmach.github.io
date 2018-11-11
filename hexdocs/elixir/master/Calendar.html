@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Calendar – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Calendar.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Calendar <small>behaviour</small>        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>This module defines the responsibilities for working with
+calendars, dates, times and datetimes in Elixir.</p>
+<p>Currently it defines types and the minimal implementation
+for a calendar behaviour in Elixir. The goal of the Calendar
+features in Elixir is to provide a base for interoperability
+instead of full-featured datetime API.</p>
+<p>For the actual date, time and datetime structures, see <a href="Date.html"><code class="inline">Date</code></a>,
+<a href="Time.html"><code class="inline">Time</code></a>, <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> and <a href="DateTime.html"><code class="inline">DateTime</code></a>.</p>
+<p>Note the year, month, day, etc. designations are overspecified
+(i.e. an integer instead of <code class="inline">1..12</code> for months) because different
+calendars may have a different number of days per month, months per year and so on.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:calendar/0">calendar()</a>
+  </div>
+    <div class="summary-synopsis"><p>A calendar implementation</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:date/0">date()</a>
+  </div>
+    <div class="summary-synopsis"><p>Any map/struct that contains the date fields</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:day/0">day()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:day_fraction/0">day_fraction()</a>
+  </div>
+    <div class="summary-synopsis"><p>The internal time format is used when converting between calendars</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:hour/0">hour()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:iso_days/0">iso_days()</a>
+  </div>
+    <div class="summary-synopsis"><p>The internal date format that is used when converting between calendars</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:microsecond/0">microsecond()</a>
+  </div>
+    <div class="summary-synopsis"><p>Microseconds with stored precision</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:minute/0">minute()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:month/0">month()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:naive_datetime/0">naive_datetime()</a>
+  </div>
+    <div class="summary-synopsis"><p>Any map/struct that contains the naive_datetime fields</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:second/0">second()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:std_offset/0">std_offset()</a>
+  </div>
+    <div class="summary-synopsis"><p>The time zone standard offset in seconds (not zero in summer times)</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:time/0">time()</a>
+  </div>
+    <div class="summary-synopsis"><p>Any map/struct that contains the time fields</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:time_zone/0">time_zone()</a>
+  </div>
+    <div class="summary-synopsis"><p>The time zone ID according to the IANA tz database (e.g. Europe/Zurich)</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:utc_offset/0">utc_offset()</a>
+  </div>
+    <div class="summary-synopsis"><p>The time zone UTC offset in seconds</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:year/0">year()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:zone_abbr/0">zone_abbr()</a>
+  </div>
+    <div class="summary-synopsis"><p>The time zone abbreviation (e.g. CET or CEST or BST etc.)</p>
+</div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#compatible_calendars?/2">compatible_calendars?(calendar, calendar)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns <code class="inline">true</code> if two calendars have the same moment of starting a new day,
+<code class="inline">false</code> otherwise</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#truncate/2">truncate(microsecond_tuple, atom)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a microsecond tuple truncated to a given precision (<code class="inline">:microsecond</code>,
+<code class="inline">:millisecond</code> or <code class="inline">:second</code>)</p>
+</div>
+</div>
+  </div>
+  <div class="summary-callbacks summary">
+    <h2>
+      <a href="#callbacks">Callbacks</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:date_to_string/3">date_to_string(year, month, day)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the date into a string according to the calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:datetime_to_string/11">datetime_to_string(year, month, day, hour, minute, second, microsecond, time_zone, zone_abbr, utc_offset, std_offset)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the datetime (with time zone) into a string according to the calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:day_of_week/3">day_of_week(year, month, day)</a>
+  </div>
+    <div class="summary-synopsis"><p>Calculates the day of the week from the given <code class="inline">year</code>, <code class="inline">month</code>, and <code class="inline">day</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:day_rollover_relative_to_midnight_utc/0">day_rollover_relative_to_midnight_utc()</a>
+  </div>
+    <div class="summary-synopsis"><p>Define the rollover moment for the given calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:days_in_month/2">days_in_month(year, month)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns how many days there are in the given year-month</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:leap_year?/1">leap_year?(year)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns <code class="inline">true</code> if the given year is a leap year</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:months_in_year/1">months_in_year(year)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns how many months there are in the given year</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:naive_datetime_from_iso_days/1">naive_datetime_from_iso_days(iso_days)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts <a href="#t:iso_days/0"><code class="inline">iso_days/0</code></a> to the Calendar’s datetime format</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:naive_datetime_to_iso_days/7">naive_datetime_to_iso_days(year, month, day, hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given datetime (without time zone) into the <a href="#t:iso_days/0"><code class="inline">iso_days/0</code></a> format</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:naive_datetime_to_string/7">naive_datetime_to_string(year, month, day, hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the datetime (without time zone) into a string according to the calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:time_from_day_fraction/1">time_from_day_fraction(day_fraction)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts <a href="#t:day_fraction/0"><code class="inline">day_fraction/0</code></a> to the Calendar’s time format</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:time_to_day_fraction/4">time_to_day_fraction(hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given time to the <a href="#t:day_fraction/0"><code class="inline">day_fraction/0</code></a> format</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:time_to_string/4">time_to_string(hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the time into a string according to the calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:valid_date?/3">valid_date?(year, month, day)</a>
+  </div>
+    <div class="summary-synopsis"><p>Should return <code class="inline">true</code> if the given date describes a proper date in the calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:valid_time?/4">valid_time?(hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Should return <code class="inline">true</code> if the given time describes a proper time in the calendar</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:calendar/0">
+    <div class="detail-header">
+    <a href="#t:calendar/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">calendar()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L54" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>calendar() :: <a href="typespecs.html#built-in-types">module</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>A calendar implementation</p>
+  </section>
+</div>
+<div class="detail" id="t:date/0">
+    <div class="detail-header">
+    <a href="#t:date/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">date()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L69" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>date() :: %{
+  optional(<a href="typespecs.html#basic-types">any</a>()) => <a href="typespecs.html#basic-types">any</a>(),
+  :calendar => <a href="#t:calendar/0">calendar</a>(),
+  :year => <a href="#t:year/0">year</a>(),
+  :month => <a href="#t:month/0">month</a>(),
+  :day => <a href="#t:day/0">day</a>()
+}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Any map/struct that contains the date fields</p>
+  </section>
+</div>
+<div class="detail" id="t:day/0">
+    <div class="detail-header">
+    <a href="#t:day/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">day()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L21" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>day() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:day_fraction/0">
+    <div class="detail-header">
+    <a href="#t:day_fraction/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">day_fraction()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L33" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>day_fraction() ::
+  {parts_in_day :: <a href="typespecs.html#basic-types">non_neg_integer</a>(), parts_per_day :: <a href="typespecs.html#basic-types">pos_integer</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>The internal time format is used when converting between calendars.</p>
+<p>It represents time as a fraction of a day (starting from midnight).
+<code class="inline">parts_in_day</code> specifies how much of the day is already passed,
+while <code class="inline">parts_per_day</code> signifies how many parts there fit in a day.</p>
+  </section>
+</div>
+<div class="detail" id="t:hour/0">
+    <div class="detail-header">
+    <a href="#t:hour/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">hour()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L22" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>hour() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:iso_days/0">
+    <div class="detail-header">
+    <a href="#t:iso_days/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">iso_days()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L42" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>iso_days() :: {days :: <a href="typespecs.html#basic-types">integer</a>(), <a href="#t:day_fraction/0">day_fraction</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>The internal date format that is used when converting between calendars.</p>
+<p>This is the number of days including the fractional part that has passed of
+the last day since 0000-01-01+00:00T00:00.000000 in ISO 8601 notation (also
+known as midnight 1 January BC 1 of the proleptic Gregorian calendar).</p>
+  </section>
+</div>
+<div class="detail" id="t:microsecond/0">
+    <div class="detail-header">
+    <a href="#t:microsecond/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">microsecond()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L51" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>microsecond() :: {0..999_999, 0..6}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Microseconds with stored precision.</p>
+<p>The precision represents the number of digits that must be used when
+representing the microseconds to external format. If the precision is 0,
+it means microseconds must be skipped.</p>
+  </section>
+</div>
+<div class="detail" id="t:minute/0">
+    <div class="detail-header">
+    <a href="#t:minute/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">minute()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L23" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>minute() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:month/0">
+    <div class="detail-header">
+    <a href="#t:month/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">month()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L20" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>month() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:naive_datetime/0">
+    <div class="detail-header">
+    <a href="#t:naive_datetime/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">naive_datetime()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L81" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>naive_datetime() :: %{
+  optional(<a href="typespecs.html#basic-types">any</a>()) => <a href="typespecs.html#basic-types">any</a>(),
+  :calendar => <a href="#t:calendar/0">calendar</a>(),
+  :year => <a href="#t:year/0">year</a>(),
+  :month => <a href="#t:month/0">month</a>(),
+  :day => <a href="#t:day/0">day</a>(),
+  :hour => <a href="#t:hour/0">hour</a>(),
+  :minute => <a href="#t:minute/0">minute</a>(),
+  :second => <a href="#t:second/0">second</a>(),
+  :microsecond => <a href="#t:microsecond/0">microsecond</a>()
+}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Any map/struct that contains the naive_datetime fields</p>
+  </section>
+</div>
+<div class="detail" id="t:second/0">
+    <div class="detail-header">
+    <a href="#t:second/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">second()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L24" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>second() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:std_offset/0">
+    <div class="detail-header">
+    <a href="#t:std_offset/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">std_offset()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L66" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>std_offset() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>The time zone standard offset in seconds (not zero in summer times)</p>
+  </section>
+</div>
+<div class="detail" id="t:time/0">
+    <div class="detail-header">
+    <a href="#t:time/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">time()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L72" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>time() :: %{
+  optional(<a href="typespecs.html#basic-types">any</a>()) => <a href="typespecs.html#basic-types">any</a>(),
+  :hour => <a href="#t:hour/0">hour</a>(),
+  :minute => <a href="#t:minute/0">minute</a>(),
+  :second => <a href="#t:second/0">second</a>(),
+  :microsecond => <a href="#t:microsecond/0">microsecond</a>()
+}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Any map/struct that contains the time fields</p>
+  </section>
+</div>
+<div class="detail" id="t:time_zone/0">
+    <div class="detail-header">
+    <a href="#t:time_zone/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">time_zone()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L57" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>time_zone() :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>The time zone ID according to the IANA tz database (e.g. Europe/Zurich)</p>
+  </section>
+</div>
+<div class="detail" id="t:utc_offset/0">
+    <div class="detail-header">
+    <a href="#t:utc_offset/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">utc_offset()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L63" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>utc_offset() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>The time zone UTC offset in seconds</p>
+  </section>
+</div>
+<div class="detail" id="t:year/0">
+    <div class="detail-header">
+    <a href="#t:year/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">year()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L19" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>year() :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:zone_abbr/0">
+    <div class="detail-header">
+    <a href="#t:zone_abbr/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">zone_abbr()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L60" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>zone_abbr() :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>The time zone abbreviation (e.g. CET or CEST or BST etc.)</p>
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="compatible_calendars?/2">
+    <div class="detail-header">
+    <a href="#compatible_calendars?/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">compatible_calendars?(calendar, calendar)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L217" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>compatible_calendars?(<a href="Calendar.html#t:calendar/0">Calendar.calendar</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns <code class="inline">true</code> if two calendars have the same moment of starting a new day,
+<code class="inline">false</code> otherwise.</p>
+<p>If two calendars are not compatible, we can only convert datetimes and times
+between them. If they are compatible, this means that we can also convert
+dates as well as naive datetimes between them.</p>
+  </section>
+</div>
+<div class="detail" id="truncate/2">
+    <div class="detail-header">
+    <a href="#truncate/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">truncate(microsecond_tuple, atom)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L231" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+    
+      <div class="specs">
+          <pre>truncate(<a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>(), :microsecond | :millisecond | :second) ::
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns a microsecond tuple truncated to a given precision (<code class="inline">:microsecond</code>,
+<code class="inline">:millisecond</code> or <code class="inline">:second</code>).</p>
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="callbacks" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#callbacks">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Callbacks          </h1>
+          <div class="callbacks-list">
+<div class="detail" id="c:date_to_string/3">
+    <div class="detail-header">
+    <a href="#c:date_to_string/3" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">date_to_string(year, month, day)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L120" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>date_to_string(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>(), <a href="#t:day/0">day</a>()) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the date into a string according to the calendar.</p>
+  </section>
+</div>
+<div class="detail" id="c:datetime_to_string/11">
+    <div class="detail-header">
+    <a href="#c:datetime_to_string/11" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">datetime_to_string(year, month, day, hour, minute, second, microsecond, time_zone, zone_abbr, utc_offset, std_offset)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L131" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>datetime_to_string(
+  <a href="#t:year/0">year</a>(),
+  <a href="#t:month/0">month</a>(),
+  <a href="#t:day/0">day</a>(),
+  <a href="#t:hour/0">hour</a>(),
+  <a href="#t:minute/0">minute</a>(),
+  <a href="#t:second/0">second</a>(),
+  <a href="#t:microsecond/0">microsecond</a>(),
+  <a href="#t:time_zone/0">time_zone</a>(),
+  <a href="#t:zone_abbr/0">zone_abbr</a>(),
+  <a href="#t:utc_offset/0">utc_offset</a>(),
+  <a href="#t:std_offset/0">std_offset</a>()
+) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the datetime (with time zone) into a string according to the calendar.</p>
+  </section>
+</div>
+<div class="detail" id="c:day_of_week/3">
+    <div class="detail-header">
+    <a href="#c:day_of_week/3" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">day_of_week(year, month, day)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L115" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>day_of_week(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>(), <a href="#t:day/0">day</a>()) :: <a href="typespecs.html#basic-types">non_neg_integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Calculates the day of the week from the given <code class="inline">year</code>, <code class="inline">month</code>, and <code class="inline">day</code>.</p>
+  </section>
+</div>
+<div class="detail" id="c:day_rollover_relative_to_midnight_utc/0">
+    <div class="detail-header">
+    <a href="#c:day_rollover_relative_to_midnight_utc/0" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">day_rollover_relative_to_midnight_utc()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L193" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>day_rollover_relative_to_midnight_utc() :: <a href="#t:day_fraction/0">day_fraction</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Define the rollover moment for the given calendar.</p>
+<p>This is the moment, in your calendar, when the current day ends
+and the next day starts.</p>
+<p>The result of this function is used to check if two calendars rollover at
+the same time of day. If they do not, we can only convert datetimes and times
+between them. If they do, this means that we can also convert dates as well
+as naive datetimes between them.</p>
+<p>This day fraction should be in its most simplified form possible, to make comparisons fast.</p>
+<h2 id="c:day_rollover_relative_to_midnight_utc/0-examples" class="section-heading">
+  <a href="#c:day_rollover_relative_to_midnight_utc/0-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<ul>
+<li>If, in your Calendar, a new day starts at midnight, return {0, 1}.
+</li>
+<li>If, in your Calendar, a new day starts at sunrise, return {1, 4}.
+</li>
+<li>If, in your Calendar, a new day starts at noon, return {1, 2}.
+</li>
+<li>If, in your Calendar, a new day starts at sunset, return {3, 4}.
+</li>
+</ul>
+  </section>
+</div>
+<div class="detail" id="c:days_in_month/2">
+    <div class="detail-header">
+    <a href="#c:days_in_month/2" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">days_in_month(year, month)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L96" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>days_in_month(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>()) :: <a href="#t:day/0">day</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns how many days there are in the given year-month.</p>
+  </section>
+</div>
+<div class="detail" id="c:leap_year?/1">
+    <div class="detail-header">
+    <a href="#c:leap_year?/1" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">leap_year?(year)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L110" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>leap_year?(<a href="#t:year/0">year</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns <code class="inline">true</code> if the given year is a leap year.</p>
+<p>A leap year is a year of a longer length than normal. The exact meaning
+is up to the calendar. A calendar must return <code class="inline">false</code> if it does not support
+the concept of leap years.</p>
+  </section>
+</div>
+<div class="detail" id="c:months_in_year/1">
+    <div class="detail-header">
+    <a href="#c:months_in_year/1" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">months_in_year(year)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L101" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>months_in_year(<a href="#t:year/0">year</a>()) :: <a href="#t:month/0">month</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns how many months there are in the given year.</p>
+  </section>
+</div>
+<div class="detail" id="c:naive_datetime_from_iso_days/1">
+    <div class="detail-header">
+    <a href="#c:naive_datetime_from_iso_days/1" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">naive_datetime_from_iso_days(iso_days)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L159" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>naive_datetime_from_iso_days(<a href="#t:iso_days/0">iso_days</a>()) ::
+  {<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>(), <a href="#t:day/0">day</a>(), <a href="#t:hour/0">hour</a>(), <a href="#t:minute/0">minute</a>(), <a href="#t:second/0">second</a>(), <a href="#t:microsecond/0">microsecond</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts <a href="#t:iso_days/0"><code class="inline">iso_days/0</code></a> to the Calendar’s datetime format.</p>
+  </section>
+</div>
+<div class="detail" id="c:naive_datetime_to_iso_days/7">
+    <div class="detail-header">
+    <a href="#c:naive_datetime_to_iso_days/7" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">naive_datetime_to_iso_days(year, month, day, hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L153" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>naive_datetime_to_iso_days(
+  <a href="#t:year/0">year</a>(),
+  <a href="#t:month/0">month</a>(),
+  <a href="#t:day/0">day</a>(),
+  <a href="#t:hour/0">hour</a>(),
+  <a href="#t:minute/0">minute</a>(),
+  <a href="#t:second/0">second</a>(),
+  <a href="#t:microsecond/0">microsecond</a>()
+) :: <a href="#t:iso_days/0">iso_days</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given datetime (without time zone) into the <a href="#t:iso_days/0"><code class="inline">iso_days/0</code></a> format.</p>
+  </section>
+</div>
+<div class="detail" id="c:naive_datetime_to_string/7">
+    <div class="detail-header">
+    <a href="#c:naive_datetime_to_string/7" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">naive_datetime_to_string(year, month, day, hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L125" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>naive_datetime_to_string(
+  <a href="#t:year/0">year</a>(),
+  <a href="#t:month/0">month</a>(),
+  <a href="#t:day/0">day</a>(),
+  <a href="#t:hour/0">hour</a>(),
+  <a href="#t:minute/0">minute</a>(),
+  <a href="#t:second/0">second</a>(),
+  <a href="#t:microsecond/0">microsecond</a>()
+) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the datetime (without time zone) into a string according to the calendar.</p>
+  </section>
+</div>
+<div class="detail" id="c:time_from_day_fraction/1">
+    <div class="detail-header">
+    <a href="#c:time_from_day_fraction/1" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">time_from_day_fraction(day_fraction)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L170" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>time_from_day_fraction(<a href="#t:day_fraction/0">day_fraction</a>()) ::
+  {<a href="#t:hour/0">hour</a>(), <a href="#t:minute/0">minute</a>(), <a href="#t:second/0">second</a>(), <a href="#t:microsecond/0">microsecond</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts <a href="#t:day_fraction/0"><code class="inline">day_fraction/0</code></a> to the Calendar’s time format.</p>
+  </section>
+</div>
+<div class="detail" id="c:time_to_day_fraction/4">
+    <div class="detail-header">
+    <a href="#c:time_to_day_fraction/4" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">time_to_day_fraction(hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L165" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>time_to_day_fraction(<a href="#t:hour/0">hour</a>(), <a href="#t:minute/0">minute</a>(), <a href="#t:second/0">second</a>(), <a href="#t:microsecond/0">microsecond</a>()) ::
+  <a href="#t:day_fraction/0">day_fraction</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given time to the <a href="#t:day_fraction/0"><code class="inline">day_fraction/0</code></a> format.</p>
+  </section>
+</div>
+<div class="detail" id="c:time_to_string/4">
+    <div class="detail-header">
+    <a href="#c:time_to_string/4" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">time_to_string(hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L148" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>time_to_string(<a href="#t:hour/0">hour</a>(), <a href="#t:minute/0">minute</a>(), <a href="#t:second/0">second</a>(), <a href="#t:microsecond/0">microsecond</a>()) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the time into a string according to the calendar.</p>
+  </section>
+</div>
+<div class="detail" id="c:valid_date?/3">
+    <div class="detail-header">
+    <a href="#c:valid_date?/3" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">valid_date?(year, month, day)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L198" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>valid_date?(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>(), <a href="#t:day/0">day</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Should return <code class="inline">true</code> if the given date describes a proper date in the calendar.</p>
+  </section>
+</div>
+<div class="detail" id="c:valid_time?/4">
+    <div class="detail-header">
+    <a href="#c:valid_time?/4" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">valid_time?(hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar.ex#L203" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>valid_time?(<a href="#t:hour/0">hour</a>(), <a href="#t:minute/0">minute</a>(), <a href="#t:second/0">second</a>(), <a href="#t:microsecond/0">microsecond</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Should return <code class="inline">true</code> if the given time describes a proper time in the calendar.</p>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>DateTime – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/DateTime.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+DateTime        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>A datetime implementation with a time zone.</p>
+<p>This datetime can be seen as an ephemeral snapshot
+of a datetime at a given time zone. For such purposes,
+it also includes both UTC and Standard offsets, as
+well as the zone abbreviation field used exclusively
+for formatting purposes.</p>
+<p>Remember, comparisons in Elixir using <a href="Kernel.html#==/2"><code class="inline">==/2</code></a>, <a href="Kernel.html#%253E/2"><code class="inline">&gt;/2</code></a>, <a href="Kernel.html#%253C/2"><code class="inline">&lt;/2</code></a> and friends
+are structural and based on the DateTime struct fields. For proper
+comparison between datetimes, use the <a href="#compare/2"><code class="inline">compare/2</code></a> function.</p>
+<p>Developers should avoid creating the <a href="DateTime.html#content"><code class="inline">DateTime</code></a> struct directly
+and instead rely on the functions provided by this module as
+well as the ones in third-party calendar libraries.</p>
+<h2 id="module-where-are-my-functions" class="section-heading">
+  <a href="#module-where-are-my-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Where are my functions?
+</h2>
+
+<p>You will notice this module only contains conversion
+functions as well as functions that work on UTC. This
+is because a proper <a href="DateTime.html#content"><code class="inline">DateTime</code></a> implementation requires a
+time zone database which currently is not provided as part
+of Elixir.</p>
+<p>Such may be addressed in upcoming versions, meanwhile,
+use third-party packages to provide <a href="DateTime.html#content"><code class="inline">DateTime</code></a> building and
+similar functionality with time zone backing.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#compare/2">compare(datetime1, datetime2)</a>
+  </div>
+    <div class="summary-synopsis"><p>Compares two datetime structs</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#convert/2">convert(datetime, calendar)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a given <code class="inline">datetime</code> from one calendar to another</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#convert!/2">convert!(datetime, calendar)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a given <code class="inline">datetime</code> from one calendar to another</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#diff/3">diff(datetime1, datetime2, unit \\ :second)</a>
+  </div>
+    <div class="summary-synopsis"><p>Subtracts <code class="inline">datetime2</code> from <code class="inline">datetime1</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_iso8601/2">from_iso8601(string, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Parses the extended “Date and time of day” format described by
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_naive/2">from_naive(naive_datetime, time_zone)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> to <a href="DateTime.html#content"><code class="inline">DateTime</code></a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_naive!/2">from_naive!(naive_datetime, time_zone)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> to <a href="DateTime.html#content"><code class="inline">DateTime</code></a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_unix/3">from_unix(integer, unit \\ :second, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given Unix time to <a href="DateTime.html#content"><code class="inline">DateTime</code></a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#from_unix!/3">from_unix!(integer, unit \\ :second, calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given Unix time to <a href="DateTime.html#content"><code class="inline">DateTime</code></a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_date/1">to_date(datetime)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a <a href="DateTime.html#content"><code class="inline">DateTime</code></a> into a <a href="Date.html"><code class="inline">Date</code></a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_iso8601/2">to_iso8601(datetime, format \\ :extended)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given datetime to
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a> format</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_naive/1">to_naive(datetime)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given <code class="inline">datetime</code> into a <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_string/1">to_string(datetime)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given <code class="inline">datetime</code> to a string according to its calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_time/1">to_time(datetime)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a <a href="DateTime.html#content"><code class="inline">DateTime</code></a> into <a href="Time.html"><code class="inline">Time</code></a></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#to_unix/2">to_unix(datetime, unit \\ :second)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given <code class="inline">datetime</code> to Unix time</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#truncate/2">truncate(datetime, precision)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the given datetime with the microsecond field truncated to the given
+precision (<code class="inline">:microsecond</code>, <code class="inline">millisecond</code> or <code class="inline">:second</code>)</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#utc_now/1">utc_now(calendar \\ Calendar.ISO)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the current datetime in UTC</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:t/0">
+    <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">t()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L50" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>t() :: %DateTime{
+  calendar: <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>(),
+  day: <a href="Calendar.html#t:day/0">Calendar.day</a>(),
+  hour: <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  microsecond: <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>(),
+  minute: <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  month: <a href="Calendar.html#t:month/0">Calendar.month</a>(),
+  second: <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  std_offset: <a href="Calendar.html#t:std_offset/0">Calendar.std_offset</a>(),
+  time_zone: <a href="Calendar.html#t:time_zone/0">Calendar.time_zone</a>(),
+  utc_offset: <a href="Calendar.html#t:utc_offset/0">Calendar.utc_offset</a>(),
+  year: <a href="Calendar.html#t:year/0">Calendar.year</a>(),
+  zone_abbr: <a href="Calendar.html#t:zone_abbr/0">Calendar.zone_abbr</a>()
+}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="compare/2">
+    <div class="detail-header">
+    <a href="#compare/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">compare(datetime1, datetime2)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L683" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>compare(<a href="#t:t/0">t</a>(), <a href="#t:t/0">t</a>()) :: :lt | :eq | :gt</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Compares two datetime structs.</p>
+<p>Returns <code class="inline">:gt</code> if the first datetime is later than the second
+and <code class="inline">:lt</code> for vice versa. If the two datetimes are equal
+<code class="inline">:eq</code> is returned.</p>
+<p>Note that both UTC and Standard offsets will be taken into
+account when comparison is done.</p>
+<h2 id="compare/2-examples" class="section-heading">
+  <a href="#compare/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="0272854943-1">%</span><span class="nc" data-group-id="0272854943-1">DateTime</span><span class="p" data-group-id="0272854943-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0272854943-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="0272854943-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p" data-group-id="0272854943-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="0272854943-3">%</span><span class="nc" data-group-id="0272854943-3">DateTime</span><span class="p" data-group-id="0272854943-3">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0272854943-4">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="0272854943-4">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Warsaw&quot;</span><span class="p" data-group-id="0272854943-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">compare</span><span class="p" data-group-id="0272854943-5">(</span><span class="n">dt1</span><span class="p">,</span><span class="w"> </span><span class="n">dt2</span><span class="p" data-group-id="0272854943-5">)</span><span class="w">
+</span><span class="ss">:gt</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="convert/2">
+    <div class="detail-header">
+    <a href="#convert/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">convert(datetime, calendar)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L807" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>convert(<a href="#t:t/0">t</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  {:ok, <a href="#t:t/0">t</a>()} | {:error, :incompatible_calendars}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a given <code class="inline">datetime</code> from one calendar to another.</p>
+<p>If it is not possible to convert unambiguously between the calendars
+(see <a href="Calendar.html#compatible_calendars?/2"><code class="inline">Calendar.compatible_calendars?/2</code></a>), an <code class="inline">{:error, :incompatible_calendars}</code> tuple
+is returned.</p>
+<h2 id="convert/2-examples" class="section-heading">
+  <a href="#convert/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<p>Imagine someone implements <code class="inline">Calendar.Holocene</code>, a calendar based on the
+Gregorian calendar that adds exactly 10,000 years to the current Gregorian
+year:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="1796318866-1">%</span><span class="nc" data-group-id="1796318866-1">DateTime</span><span class="p" data-group-id="1796318866-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1796318866-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="1796318866-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p" data-group-id="1796318866-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">convert</span><span class="p" data-group-id="1796318866-3">(</span><span class="n">dt1</span><span class="p">,</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p" data-group-id="1796318866-3">)</span><span class="w">
+</span><span class="p" data-group-id="1796318866-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1796318866-5">%</span><span class="nc" data-group-id="1796318866-5">DateTime</span><span class="p" data-group-id="1796318866-5">{</span><span class="ss">calendar</span><span class="p">:</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w">
+                </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1796318866-6">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="1796318866-6">}</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">12000</span><span class="p">,</span><span class="w">
+                </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p" data-group-id="1796318866-5">}</span><span class="p" data-group-id="1796318866-4">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="convert!/2">
+    <div class="detail-header">
+    <a href="#convert!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">convert!(datetime, calendar)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L848" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>convert!(<a href="#t:t/0">t</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a given <code class="inline">datetime</code> from one calendar to another.</p>
+<p>If it is not possible to convert unambiguously between the calendars
+(see <a href="Calendar.html#compatible_calendars?/2"><code class="inline">Calendar.compatible_calendars?/2</code></a>), an ArgumentError is raised.</p>
+<h2 id="convert!/2-examples" class="section-heading">
+  <a href="#convert!/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<p>Imagine someone implements <code class="inline">Calendar.Holocene</code>, a calendar based on the
+Gregorian calendar that adds exactly 10,000 years to the current Gregorian
+year:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6642815438-1">%</span><span class="nc" data-group-id="6642815438-1">DateTime</span><span class="p" data-group-id="6642815438-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6642815438-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="6642815438-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p" data-group-id="6642815438-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">convert!</span><span class="p" data-group-id="6642815438-3">(</span><span class="n">dt1</span><span class="p">,</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p" data-group-id="6642815438-3">)</span><span class="w">
+</span><span class="p" data-group-id="6642815438-4">%</span><span class="nc" data-group-id="6642815438-4">DateTime</span><span class="p" data-group-id="6642815438-4">{</span><span class="ss">calendar</span><span class="p">:</span><span class="w"> </span><span class="nc">Calendar.Holocene</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w">
+          </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6642815438-5">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="6642815438-5">}</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">12000</span><span class="p">,</span><span class="w">
+          </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p" data-group-id="6642815438-4">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="diff/3">
+  
+    <span id="diff/2"></span>
+  <div class="detail-header">
+    <a href="#diff/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">diff(datetime1, datetime2, unit \\ :second)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L734" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>diff(<a href="#t:t/0">t</a>(), <a href="#t:t/0">t</a>(), <a href="System.html#t:time_unit/0">System.time_unit</a>()) :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Subtracts <code class="inline">datetime2</code> from <code class="inline">datetime1</code>.</p>
+<p>The answer can be returned in any <code class="inline">unit</code> available from <a href="System.html#t:time_unit/0"><code class="inline">System.time_unit/0</code></a>.</p>
+<p>Leap seconds are not taken into account.</p>
+<p>This function returns the difference in seconds where seconds are measured
+according to <a href="Calendar.ISO.html"><code class="inline">Calendar.ISO</code></a>.</p>
+<h2 id="diff/3-examples" class="section-heading">
+  <a href="#diff/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3281945045-1">%</span><span class="nc" data-group-id="3281945045-1">DateTime</span><span class="p" data-group-id="3281945045-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3281945045-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="3281945045-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p" data-group-id="3281945045-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3281945045-3">%</span><span class="nc" data-group-id="3281945045-3">DateTime</span><span class="p" data-group-id="3281945045-3">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3281945045-4">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="3281945045-4">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Warsaw&quot;</span><span class="p" data-group-id="3281945045-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">diff</span><span class="p" data-group-id="3281945045-5">(</span><span class="n">dt1</span><span class="p">,</span><span class="w"> </span><span class="n">dt2</span><span class="p" data-group-id="3281945045-5">)</span><span class="w">
+</span><span class="mi">18000</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">diff</span><span class="p" data-group-id="3281945045-6">(</span><span class="n">dt2</span><span class="p">,</span><span class="w"> </span><span class="n">dt1</span><span class="p" data-group-id="3281945045-6">)</span><span class="w">
+</span><span class="o">-</span><span class="mi">18000</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_iso8601/2">
+  
+    <span id="from_iso8601/1"></span>
+  <div class="detail-header">
+    <a href="#from_iso8601/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_iso8601(string, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L510" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>from_iso8601(<a href="String.html#t:t/0">String.t</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  {:ok, <a href="#t:t/0">t</a>(), <a href="Calendar.html#t:utc_offset/0">Calendar.utc_offset</a>()} | {:error, <a href="typespecs.html#basic-types">atom</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Parses the extended “Date and time of day” format described by
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a>.</p>
+<p>Since ISO 8601 does not include the proper time zone, the given
+string will be converted to UTC and its offset in seconds will be
+returned as part of this function. Therefore offset information
+must be present in the string.</p>
+<p>As specified in the standard, the separator “T” may be omitted if
+desired as there is no ambiguity within this function.</p>
+<p>The year parsed by this function is limited to four digits and,
+while ISO 8601 allows datetimes to specify 24:00:00 as the zero
+hour of the next day, this notation is not supported by Elixir.</p>
+<h2 id="from_iso8601/2-examples" class="section-heading">
+  <a href="#from_iso8601/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6438950383-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="6438950383-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-2">(</span><span class="s">&quot;2015-01-23T23:50:07Z&quot;</span><span class="p" data-group-id="6438950383-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="6438950383-3">#</span><span class="nc" data-group-id="6438950383-3">DateTime</span><span class="p" data-group-id="6438950383-3">&lt;</span><span class="mi">2015</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">23</span><span class="w"> </span><span class="mi">23</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">07</span><span class="nc">Z</span><span class="p" data-group-id="6438950383-3">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6438950383-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="mi">9000</span><span class="p" data-group-id="6438950383-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-5">(</span><span class="s">&quot;2015-01-23T23:50:07.123+02:30&quot;</span><span class="p" data-group-id="6438950383-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="6438950383-6">#</span><span class="nc" data-group-id="6438950383-6">DateTime</span><span class="p" data-group-id="6438950383-6">&lt;</span><span class="mi">2015</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">23</span><span class="w"> </span><span class="mi">21</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">07.123</span><span class="nc">Z</span><span class="p" data-group-id="6438950383-6">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6438950383-7">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="mi">9000</span><span class="p" data-group-id="6438950383-7">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-8">(</span><span class="s">&quot;2015-01-23T23:50:07,123+02:30&quot;</span><span class="p" data-group-id="6438950383-8">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="6438950383-9">#</span><span class="nc" data-group-id="6438950383-9">DateTime</span><span class="p" data-group-id="6438950383-9">&lt;</span><span class="mi">2015</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">23</span><span class="w"> </span><span class="mi">21</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">07.123</span><span class="nc">Z</span><span class="p" data-group-id="6438950383-9">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6438950383-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="6438950383-10">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-11">(</span><span class="s">&quot;-2015-01-23T23:50:07Z&quot;</span><span class="p" data-group-id="6438950383-11">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="6438950383-12">#</span><span class="nc" data-group-id="6438950383-12">DateTime</span><span class="p" data-group-id="6438950383-12">&lt;</span><span class="o">-</span><span class="mi">2015</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">23</span><span class="w"> </span><span class="mi">23</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">07</span><span class="nc">Z</span><span class="p" data-group-id="6438950383-12">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6438950383-13">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="mi">9000</span><span class="p" data-group-id="6438950383-13">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-14">(</span><span class="s">&quot;-2015-01-23T23:50:07,123+02:30&quot;</span><span class="p" data-group-id="6438950383-14">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="6438950383-15">#</span><span class="nc" data-group-id="6438950383-15">DateTime</span><span class="p" data-group-id="6438950383-15">&lt;</span><span class="o">-</span><span class="mi">2015</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">23</span><span class="w"> </span><span class="mi">21</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">07.123</span><span class="nc">Z</span><span class="p" data-group-id="6438950383-15">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-16">(</span><span class="s">&quot;2015-01-23P23:50:07&quot;</span><span class="p" data-group-id="6438950383-16">)</span><span class="w">
+</span><span class="p" data-group-id="6438950383-17">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_format</span><span class="p" data-group-id="6438950383-17">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-18">(</span><span class="s">&quot;2015-01-23 23:50:07A&quot;</span><span class="p" data-group-id="6438950383-18">)</span><span class="w">
+</span><span class="p" data-group-id="6438950383-19">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_format</span><span class="p" data-group-id="6438950383-19">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-20">(</span><span class="s">&quot;2015-01-23T23:50:07&quot;</span><span class="p" data-group-id="6438950383-20">)</span><span class="w">
+</span><span class="p" data-group-id="6438950383-21">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:missing_offset</span><span class="p" data-group-id="6438950383-21">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-22">(</span><span class="s">&quot;2015-01-23 23:50:61&quot;</span><span class="p" data-group-id="6438950383-22">)</span><span class="w">
+</span><span class="p" data-group-id="6438950383-23">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_time</span><span class="p" data-group-id="6438950383-23">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-24">(</span><span class="s">&quot;2015-01-32 23:50:07&quot;</span><span class="p" data-group-id="6438950383-24">)</span><span class="w">
+</span><span class="p" data-group-id="6438950383-25">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_date</span><span class="p" data-group-id="6438950383-25">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-26">(</span><span class="s">&quot;2015-01-23T23:50:07.123-00:00&quot;</span><span class="p" data-group-id="6438950383-26">)</span><span class="w">
+</span><span class="p" data-group-id="6438950383-27">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_format</span><span class="p" data-group-id="6438950383-27">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p" data-group-id="6438950383-28">(</span><span class="s">&quot;2015-01-23T23:50:07.123-00:60&quot;</span><span class="p" data-group-id="6438950383-28">)</span><span class="w">
+</span><span class="p" data-group-id="6438950383-29">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="ss">:invalid_format</span><span class="p" data-group-id="6438950383-29">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_naive/2">
+    <div class="detail-header">
+    <a href="#from_naive/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_naive(naive_datetime, time_zone)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L186" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>from_naive(<a href="NaiveDateTime.html#t:t/0">NaiveDateTime.t</a>(), <a href="Calendar.html#t:time_zone/0">Calendar.time_zone</a>()) :: {:ok, <a href="#t:t/0">t</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> to <a href="DateTime.html#content"><code class="inline">DateTime</code></a>.</p>
+<p>It expects a time zone to put the NaiveDateTime in.
+Currently it only supports “Etc/UTC” as time zone.</p>
+<h2 id="from_naive/2-examples" class="section-heading">
+  <a href="#from_naive/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4563242398-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p" data-group-id="4563242398-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_naive</span><span class="p" data-group-id="4563242398-2">(</span><span class="ld">~N[2016-05-24 13:26:08.003]</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Etc/UTC&quot;</span><span class="p" data-group-id="4563242398-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="4563242398-3">#</span><span class="nc" data-group-id="4563242398-3">DateTime</span><span class="p" data-group-id="4563242398-3">&lt;</span><span class="mi">2016</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">24</span><span class="w"> </span><span class="mi">13</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mf">08.003</span><span class="nc">Z</span><span class="p" data-group-id="4563242398-3">&gt;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_naive!/2">
+    <div class="detail-header">
+    <a href="#from_naive!/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_naive!(naive_datetime, time_zone)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L232" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.4.0)</span>
+    
+      <div class="specs">
+          <pre>from_naive!(<a href="NaiveDateTime.html#t:t/0">NaiveDateTime.t</a>(), <a href="Calendar.html#t:time_zone/0">Calendar.time_zone</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> to <a href="DateTime.html#content"><code class="inline">DateTime</code></a>.</p>
+<p>It expects a time zone to put the NaiveDateTime in.
+Currently it only supports “Etc/UTC” as time zone.</p>
+<h2 id="from_naive!/2-examples" class="section-heading">
+  <a href="#from_naive!/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_naive!</span><span class="p" data-group-id="9780158860-1">(</span><span class="ld">~N[2016-05-24 13:26:08.003]</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Etc/UTC&quot;</span><span class="p" data-group-id="9780158860-1">)</span><span class="w">
+</span><span class="p" data-group-id="9780158860-2">#</span><span class="nc" data-group-id="9780158860-2">DateTime</span><span class="p" data-group-id="9780158860-2">&lt;</span><span class="mi">2016</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">24</span><span class="w"> </span><span class="mi">13</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mf">08.003</span><span class="nc">Z</span><span class="p" data-group-id="9780158860-2">&gt;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="from_unix/3">
+  
+    <span id="from_unix/1"></span>
+
+    <span id="from_unix/2"></span>
+  <div class="detail-header">
+    <a href="#from_unix/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_unix(integer, unit \\ :second, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L113" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>from_unix(<a href="typespecs.html#basic-types">integer</a>(), :native | <a href="System.html#t:time_unit/0">System.time_unit</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  {:ok, <a href="#t:t/0">t</a>()} | {:error, <a href="typespecs.html#basic-types">atom</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given Unix time to <a href="DateTime.html#content"><code class="inline">DateTime</code></a>.</p>
+<p>The integer can be given in different unit
+according to <a href="System.html#convert_time_unit/3"><code class="inline">System.convert_time_unit/3</code></a> and it will
+be converted to microseconds internally.</p>
+<p>Unix times are always in UTC and therefore the DateTime
+will be returned in UTC.</p>
+<h2 id="from_unix/3-examples" class="section-heading">
+  <a href="#from_unix/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8250990090-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p" data-group-id="8250990090-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix</span><span class="p" data-group-id="8250990090-2">(</span><span class="mi">1_464_096_368</span><span class="p" data-group-id="8250990090-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="8250990090-3">#</span><span class="nc" data-group-id="8250990090-3">DateTime</span><span class="p" data-group-id="8250990090-3">&lt;</span><span class="mi">2016</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">24</span><span class="w"> </span><span class="mi">13</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">08</span><span class="nc">Z</span><span class="p" data-group-id="8250990090-3">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8250990090-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p" data-group-id="8250990090-4">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix</span><span class="p" data-group-id="8250990090-5">(</span><span class="mi">1_432_560_368_868_569</span><span class="p">,</span><span class="w"> </span><span class="ss">:microsecond</span><span class="p" data-group-id="8250990090-5">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="8250990090-6">#</span><span class="nc" data-group-id="8250990090-6">DateTime</span><span class="p" data-group-id="8250990090-6">&lt;</span><span class="mi">2015</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">25</span><span class="w"> </span><span class="mi">13</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mf">08.868569</span><span class="nc">Z</span><span class="p" data-group-id="8250990090-6">&gt;</span></code></pre>
+<p>The unit can also be an integer as in <a href="System.html#t:time_unit/0"><code class="inline">System.time_unit/0</code></a>:</p>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="2900856012-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">datetime</span><span class="p" data-group-id="2900856012-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix</span><span class="p" data-group-id="2900856012-2">(</span><span class="mi">143_256_036_886_856</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="p" data-group-id="2900856012-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w">
+</span><span class="p" data-group-id="2900856012-3">#</span><span class="nc" data-group-id="2900856012-3">DateTime</span><span class="p" data-group-id="2900856012-3">&lt;</span><span class="mi">6403</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">17</span><span class="w"> </span><span class="mi">07</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mf">22.320</span><span class="nc">Z</span><span class="p" data-group-id="2900856012-3">&gt;</span></code></pre>
+<p>Negative Unix times are supported, up to -62167219200 seconds,
+which is equivalent to “0000-01-01T00:00:00Z” or 0 Gregorian seconds.</p>
+  </section>
+</div>
+<div class="detail" id="from_unix!/3">
+  
+    <span id="from_unix!/1"></span>
+
+    <span id="from_unix!/2"></span>
+  <div class="detail-header">
+    <a href="#from_unix!/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">from_unix!(integer, unit \\ :second, calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L161" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>from_unix!(<a href="typespecs.html#basic-types">integer</a>(), :native | <a href="System.html#t:time_unit/0">System.time_unit</a>(), <a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) ::
+  <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given Unix time to <a href="DateTime.html#content"><code class="inline">DateTime</code></a>.</p>
+<p>The integer can be given in different unit
+according to <a href="System.html#convert_time_unit/3"><code class="inline">System.convert_time_unit/3</code></a> and it will
+be converted to microseconds internally.</p>
+<p>Unix times are always in UTC and therefore the DateTime
+will be returned in UTC.</p>
+<h2 id="from_unix!/3-examples" class="section-heading">
+  <a href="#from_unix!/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="c1"># An easy way to get the Unix epoch is passing 0 to this function</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix!</span><span class="p" data-group-id="4216775666-1">(</span><span class="mi">0</span><span class="p" data-group-id="4216775666-1">)</span><span class="w">
+</span><span class="p" data-group-id="4216775666-2">#</span><span class="nc" data-group-id="4216775666-2">DateTime</span><span class="p" data-group-id="4216775666-2">&lt;</span><span class="mi">1970</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="w"> </span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="nc">Z</span><span class="p" data-group-id="4216775666-2">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix!</span><span class="p" data-group-id="4216775666-3">(</span><span class="mi">1_464_096_368</span><span class="p" data-group-id="4216775666-3">)</span><span class="w">
+</span><span class="p" data-group-id="4216775666-4">#</span><span class="nc" data-group-id="4216775666-4">DateTime</span><span class="p" data-group-id="4216775666-4">&lt;</span><span class="mi">2016</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">24</span><span class="w"> </span><span class="mi">13</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">08</span><span class="nc">Z</span><span class="p" data-group-id="4216775666-4">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix!</span><span class="p" data-group-id="4216775666-5">(</span><span class="mi">1_432_560_368_868_569</span><span class="p">,</span><span class="w"> </span><span class="ss">:microsecond</span><span class="p" data-group-id="4216775666-5">)</span><span class="w">
+</span><span class="p" data-group-id="4216775666-6">#</span><span class="nc" data-group-id="4216775666-6">DateTime</span><span class="p" data-group-id="4216775666-6">&lt;</span><span class="mi">2015</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">25</span><span class="w"> </span><span class="mi">13</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mf">08.868569</span><span class="nc">Z</span><span class="p" data-group-id="4216775666-6">&gt;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_date/1">
+    <div class="detail-header">
+    <a href="#to_date/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_date(datetime)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L336" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_date(<a href="#t:t/0">t</a>()) :: <a href="Date.html#t:t/0">Date.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a <a href="DateTime.html#content"><code class="inline">DateTime</code></a> into a <a href="Date.html"><code class="inline">Date</code></a>.</p>
+<p>Because <a href="Date.html"><code class="inline">Date</code></a> does not hold time nor time zone information,
+data will be lost during the conversion.</p>
+<h2 id="to_date/1-examples" class="section-heading">
+  <a href="#to_date/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="5041295685-1">%</span><span class="nc" data-group-id="5041295685-1">DateTime</span><span class="p" data-group-id="5041295685-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5041295685-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5041295685-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Warsaw&quot;</span><span class="p" data-group-id="5041295685-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_date</span><span class="p" data-group-id="5041295685-3">(</span><span class="n">dt</span><span class="p" data-group-id="5041295685-3">)</span><span class="w">
+</span><span class="ld">~D[2000-02-29]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_iso8601/2">
+  
+    <span id="to_iso8601/1"></span>
+  <div class="detail-header">
+    <a href="#to_iso8601/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_iso8601(datetime, format \\ :extended)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L412" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_iso8601(<a href="#t:t/0">t</a>(), :extended | :basic) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given datetime to
+<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601:2004</a> format.</p>
+<p>By default, <a href="DateTime.html#to_iso8601/2"><code class="inline">DateTime.to_iso8601/2</code></a> returns datetimes formatted in the “extended”
+format, for human readability. It also supports the “basic” format through passing the <code class="inline">:basic</code> option.</p>
+<p>Only supports converting datetimes which are in the ISO calendar,
+attempting to convert datetimes from other calendars will raise.</p>
+<p>WARNING: the ISO 8601 datetime format does not contain the time zone nor
+its abbreviation, which means information is lost when converting to such
+format.</p>
+<h3 id="to_iso8601/2-examples" class="section-heading">
+  <a href="#to_iso8601/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h3>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="4227986771-1">%</span><span class="nc" data-group-id="4227986771-1">DateTime</span><span class="p" data-group-id="4227986771-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4227986771-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4227986771-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Warsaw&quot;</span><span class="p" data-group-id="4227986771-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="4227986771-3">(</span><span class="n">dt</span><span class="p" data-group-id="4227986771-3">)</span><span class="w">
+</span><span class="s">&quot;2000-02-29T23:00:07+01:00&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="4227986771-4">%</span><span class="nc" data-group-id="4227986771-4">DateTime</span><span class="p" data-group-id="4227986771-4">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UTC&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4227986771-5">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4227986771-5">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Etc/UTC&quot;</span><span class="p" data-group-id="4227986771-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="4227986771-6">(</span><span class="n">dt</span><span class="p" data-group-id="4227986771-6">)</span><span class="w">
+</span><span class="s">&quot;2000-02-29T23:00:07Z&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="4227986771-7">%</span><span class="nc" data-group-id="4227986771-7">DateTime</span><span class="p" data-group-id="4227986771-7">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4227986771-8">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4227986771-8">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p" data-group-id="4227986771-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="4227986771-9">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="ss">:extended</span><span class="p" data-group-id="4227986771-9">)</span><span class="w">
+</span><span class="s">&quot;2000-02-29T23:00:07-04:00&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="4227986771-10">%</span><span class="nc" data-group-id="4227986771-10">DateTime</span><span class="p" data-group-id="4227986771-10">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4227986771-11">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4227986771-11">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p" data-group-id="4227986771-10">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p" data-group-id="4227986771-12">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="ss">:basic</span><span class="p" data-group-id="4227986771-12">)</span><span class="w">
+</span><span class="s">&quot;20000229T230007-0400&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_naive/1">
+    <div class="detail-header">
+    <a href="#to_naive/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_naive(datetime)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L296" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_naive(<a href="#t:t/0">t</a>()) :: <a href="NaiveDateTime.html#t:t/0">NaiveDateTime.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given <code class="inline">datetime</code> into a <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a>.</p>
+<p>Because <a href="NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a> does not hold time zone information,
+any time zone related data will be lost during the conversion.</p>
+<h2 id="to_naive/1-examples" class="section-heading">
+  <a href="#to_naive/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9599553026-1">%</span><span class="nc" data-group-id="9599553026-1">DateTime</span><span class="p" data-group-id="9599553026-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9599553026-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="9599553026-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Warsaw&quot;</span><span class="p" data-group-id="9599553026-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_naive</span><span class="p" data-group-id="9599553026-3">(</span><span class="n">dt</span><span class="p" data-group-id="9599553026-3">)</span><span class="w">
+</span><span class="ld">~N[2000-02-29 23:00:07.0]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_string/1">
+    <div class="detail-header">
+    <a href="#to_string/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_string(datetime)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L629" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_string(<a href="#t:t/0">t</a>()) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given <code class="inline">datetime</code> to a string according to its calendar.</p>
+<h3 id="to_string/1-examples" class="section-heading">
+  <a href="#to_string/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h3>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9470330532-1">%</span><span class="nc" data-group-id="9470330532-1">DateTime</span><span class="p" data-group-id="9470330532-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9470330532-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="9470330532-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Warsaw&quot;</span><span class="p" data-group-id="9470330532-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="9470330532-3">(</span><span class="n">dt</span><span class="p" data-group-id="9470330532-3">)</span><span class="w">
+</span><span class="s">&quot;2000-02-29 23:00:07+01:00 CET Europe/Warsaw&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9470330532-4">%</span><span class="nc" data-group-id="9470330532-4">DateTime</span><span class="p" data-group-id="9470330532-4">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UTC&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9470330532-5">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="9470330532-5">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Etc/UTC&quot;</span><span class="p" data-group-id="9470330532-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="9470330532-6">(</span><span class="n">dt</span><span class="p" data-group-id="9470330532-6">)</span><span class="w">
+</span><span class="s">&quot;2000-02-29 23:00:07Z&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9470330532-7">%</span><span class="nc" data-group-id="9470330532-7">DateTime</span><span class="p" data-group-id="9470330532-7">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AMT&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9470330532-8">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="9470330532-8">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">14400</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Manaus&quot;</span><span class="p" data-group-id="9470330532-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="9470330532-9">(</span><span class="n">dt</span><span class="p" data-group-id="9470330532-9">)</span><span class="w">
+</span><span class="s">&quot;2000-02-29 23:00:07-04:00 AMT America/Manaus&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="9470330532-10">%</span><span class="nc" data-group-id="9470330532-10">DateTime</span><span class="p" data-group-id="9470330532-10">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">19</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9470330532-11">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="9470330532-11">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Stockholm&quot;</span><span class="p" data-group-id="9470330532-10">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_string</span><span class="p" data-group-id="9470330532-12">(</span><span class="n">dt</span><span class="p" data-group-id="9470330532-12">)</span><span class="w">
+</span><span class="s">&quot;-0100-12-19 03:20:31+01:00 CET Europe/Stockholm&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_time/1">
+    <div class="detail-header">
+    <a href="#to_time/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_time(datetime)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L357" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_time(<a href="#t:t/0">t</a>()) :: <a href="Time.html#t:t/0">Time.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a <a href="DateTime.html#content"><code class="inline">DateTime</code></a> into <a href="Time.html"><code class="inline">Time</code></a>.</p>
+<p>Because <a href="Time.html"><code class="inline">Time</code></a> does not hold date nor time zone information,
+data will be lost during the conversion.</p>
+<h2 id="to_time/1-examples" class="section-heading">
+  <a href="#to_time/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="4105555625-1">%</span><span class="nc" data-group-id="4105555625-1">DateTime</span><span class="p" data-group-id="4105555625-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4105555625-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4105555625-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Warsaw&quot;</span><span class="p" data-group-id="4105555625-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_time</span><span class="p" data-group-id="4105555625-3">(</span><span class="n">dt</span><span class="p" data-group-id="4105555625-3">)</span><span class="w">
+</span><span class="sx">~T[23:00:07.0]</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="to_unix/2">
+  
+    <span id="to_unix/1"></span>
+  <div class="detail-header">
+    <a href="#to_unix/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">to_unix(datetime, unit \\ :second)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L271" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>to_unix(<a href="#t:t/0">t</a>(), <a href="System.html#t:time_unit/0">System.time_unit</a>()) :: <a href="typespecs.html#basic-types">integer</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given <code class="inline">datetime</code> to Unix time.</p>
+<p>The <code class="inline">datetime</code> is expected to be using the ISO calendar
+with a year greater than or equal to 0.</p>
+<p>It will return the integer with the given unit,
+according to <a href="System.html#convert_time_unit/3"><code class="inline">System.convert_time_unit/3</code></a>.</p>
+<h2 id="to_unix/2-examples" class="section-heading">
+  <a href="#to_unix/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="mi">1_464_096_368</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix!</span><span class="p" data-group-id="8121495063-1">(</span><span class="p" data-group-id="8121495063-1">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_unix</span><span class="p" data-group-id="8121495063-2">(</span><span class="p" data-group-id="8121495063-2">)</span><span class="w">
+</span><span class="mi">1464096368</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8121495063-3">%</span><span class="nc" data-group-id="8121495063-3">DateTime</span><span class="p" data-group-id="8121495063-3">{</span><span class="ss">calendar</span><span class="p">:</span><span class="w"> </span><span class="nc">Calendar.ISO</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8121495063-4">{</span><span class="mi">273806</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8121495063-4">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">19</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;America/Montevideo&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">10800</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2014</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UYST&quot;</span><span class="p" data-group-id="8121495063-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_unix</span><span class="p" data-group-id="8121495063-5">(</span><span class="n">dt</span><span class="p" data-group-id="8121495063-5">)</span><span class="w">
+</span><span class="mi">1416517099</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">flamel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8121495063-6">%</span><span class="nc" data-group-id="8121495063-6">DateTime</span><span class="p" data-group-id="8121495063-6">{</span><span class="ss">calendar</span><span class="p">:</span><span class="w"> </span><span class="nc">Calendar.ISO</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w"> </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8121495063-7">{</span><span class="mi">527771</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8121495063-7">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Etc/UTC&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">               </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">1418</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UTC&quot;</span><span class="p" data-group-id="8121495063-6">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">to_unix</span><span class="p" data-group-id="8121495063-8">(</span><span class="n">flamel</span><span class="p" data-group-id="8121495063-8">)</span><span class="w">
+</span><span class="o">-</span><span class="mi">17412508655</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="truncate/2">
+    <div class="detail-header">
+    <a href="#truncate/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">truncate(datetime, precision)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L777" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.6.0)</span>
+    
+      <div class="specs">
+          <pre>truncate(<a href="#t:t/0">t</a>(), :microsecond | :millisecond | :second) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the given datetime with the microsecond field truncated to the given
+precision (<code class="inline">:microsecond</code>, <code class="inline">millisecond</code> or <code class="inline">:second</code>).</p>
+<p>The given datetime is returned unchanged if it already has lower precision than
+the given precision.</p>
+<h2 id="truncate/2-examples" class="section-heading">
+  <a href="#truncate/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">dt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="5024352589-1">%</span><span class="nc" data-group-id="5024352589-1">DateTime</span><span class="p" data-group-id="5024352589-1">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2017</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5024352589-2">{</span><span class="mi">123456</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="5024352589-2">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Paris&quot;</span><span class="p" data-group-id="5024352589-1">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">truncate</span><span class="p" data-group-id="5024352589-3">(</span><span class="n">dt1</span><span class="p">,</span><span class="w"> </span><span class="ss">:microsecond</span><span class="p" data-group-id="5024352589-3">)</span><span class="w">
+</span><span class="p" data-group-id="5024352589-4">#</span><span class="nc" data-group-id="5024352589-4">DateTime</span><span class="p" data-group-id="5024352589-4">&lt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">07</span><span class="w"> </span><span class="mi">11</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mf">18.123456</span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w"> </span><span class="nc">CET</span><span class="w"> </span><span class="nc">Europe</span><span class="o">/</span><span class="nc">Paris</span><span class="p" data-group-id="5024352589-4">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="5024352589-5">%</span><span class="nc" data-group-id="5024352589-5">DateTime</span><span class="p" data-group-id="5024352589-5">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2017</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5024352589-6">{</span><span class="mi">123456</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="5024352589-6">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Paris&quot;</span><span class="p" data-group-id="5024352589-5">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">truncate</span><span class="p" data-group-id="5024352589-7">(</span><span class="n">dt2</span><span class="p">,</span><span class="w"> </span><span class="ss">:millisecond</span><span class="p" data-group-id="5024352589-7">)</span><span class="w">
+</span><span class="p" data-group-id="5024352589-8">#</span><span class="nc" data-group-id="5024352589-8">DateTime</span><span class="p" data-group-id="5024352589-8">&lt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">07</span><span class="w"> </span><span class="mi">11</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mf">18.123</span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w"> </span><span class="nc">CET</span><span class="w"> </span><span class="nc">Europe</span><span class="o">/</span><span class="nc">Paris</span><span class="p" data-group-id="5024352589-8">&gt;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">dt3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="5024352589-9">%</span><span class="nc" data-group-id="5024352589-9">DateTime</span><span class="p" data-group-id="5024352589-9">{</span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">2017</span><span class="p">,</span><span class="w"> </span><span class="ss">month</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="ss">day</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="ss">zone_abbr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">hour</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="ss">minute</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="ss">second</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="ss">microsecond</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="5024352589-10">{</span><span class="mi">123456</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="5024352589-10">}</span><span class="p">,</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">                </span><span class="ss">utc_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="ss">std_offset</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">time_zone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Europe/Paris&quot;</span><span class="p" data-group-id="5024352589-9">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">truncate</span><span class="p" data-group-id="5024352589-11">(</span><span class="n">dt3</span><span class="p">,</span><span class="w"> </span><span class="ss">:second</span><span class="p" data-group-id="5024352589-11">)</span><span class="w">
+</span><span class="p" data-group-id="5024352589-12">#</span><span class="nc" data-group-id="5024352589-12">DateTime</span><span class="p" data-group-id="5024352589-12">&lt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">07</span><span class="w"> </span><span class="mi">11</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">18</span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w"> </span><span class="nc">CET</span><span class="w"> </span><span class="nc">Europe</span><span class="o">/</span><span class="nc">Paris</span><span class="p" data-group-id="5024352589-12">&gt;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="utc_now/1">
+  
+    <span id="utc_now/0"></span>
+  <div class="detail-header">
+    <a href="#utc_now/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">utc_now(calendar \\ Calendar.ISO)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/datetime.ex#L78" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>utc_now(<a href="Calendar.html#t:calendar/0">Calendar.calendar</a>()) :: <a href="#t:t/0">t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the current datetime in UTC.</p>
+<h2 id="utc_now/1-examples" class="section-heading">
+  <a href="#utc_now/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">DateTime</span><span class="o">.</span><span class="n">utc_now</span><span class="p" data-group-id="6060426869-1">(</span><span class="p" data-group-id="6060426869-1">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">datetime</span><span class="o">.</span><span class="n">time_zone</span><span class="w">
+</span><span class="s">&quot;Etc/UTC&quot;</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Calendar.ISO – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/Calendar.ISO.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+    <div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">Elixir v1.8.0-dev</small>
+Calendar.ISO        
+          <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+      </h1>
+
+
+        <section id="moduledoc">
+<p>A calendar implementation that follows to ISO 8601.</p>
+<p>This calendar implements the proleptic Gregorian calendar and
+is therefore compatible with the calendar used in most countries
+today. The proleptic means the Gregorian rules for leap years are
+applied for all time, consequently the dates give different results
+before the year 1583 from when the Gregorian calendar was adopted.</p>
+<p>Note that while ISO 8601 allows times and datetimes to specify
+24:00:00 as the zero hour of the next day, this notation is not
+supported by Elixir.</p>
+        </section>
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:day/0">day()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:month/0">month()</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:year/0">year()</a>
+  </div>
+</div>
+  </div>
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#date_to_string/3">date_to_string(year, month, day)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given date into a string</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#datetime_to_string/11">datetime_to_string(year, month, day, hour, minute, second, microsecond, time_zone, zone_abbr, utc_offset, std_offset)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the datetime (with time zone) into a string</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#day_of_week/3">day_of_week(year, month, day)</a>
+  </div>
+    <div class="summary-synopsis"><p>Calculates the day of the week from the given <code class="inline">year</code>, <code class="inline">month</code>, and <code class="inline">day</code></p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#day_rollover_relative_to_midnight_utc/0">day_rollover_relative_to_midnight_utc()</a>
+  </div>
+    <div class="summary-synopsis"><p>See <a href="Calendar.html#c:day_rollover_relative_to_midnight_utc/0"><code class="inline">Calendar.day_rollover_relative_to_midnight_utc/0</code></a> for documentation</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#days_in_month/2">days_in_month(year, month)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns how many days there are in the given year-month</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#leap_year?/1">leap_year?(year)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns if the given year is a leap year</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#months_in_year/1">months_in_year(year)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns how many months there are in the given year</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#naive_datetime_from_iso_days/1">naive_datetime_from_iso_days(arg)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the <a href="Calendar.html#t:iso_days/0"><code class="inline">Calendar.iso_days/0</code></a> format to the datetime format specified by this calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#naive_datetime_to_iso_days/7">naive_datetime_to_iso_days(year, month, day, hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the <a href="Calendar.html#t:iso_days/0"><code class="inline">Calendar.iso_days/0</code></a> format of the specified date</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#naive_datetime_to_string/7">naive_datetime_to_string(year, month, day, hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the datetime (without time zone) into a string</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#time_from_day_fraction/1">time_from_day_fraction(arg)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts a day fraction to this Calendar’s representation of time</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#time_to_day_fraction/4">time_to_day_fraction(hour, minute, second, arg)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns the normalized day fraction of the specified time</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#time_to_string/4">time_to_string(hour, minute, second, microsecond)</a>
+  </div>
+    <div class="summary-synopsis"><p>Converts the given time into a string</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#time_to_string/5">time_to_string(hour, minute, second, arg, format)</a>
+  </div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#valid_date?/3">valid_date?(year, month, day)</a>
+  </div>
+    <div class="summary-synopsis"><p>Determines if the date given is valid according to the proleptic Gregorian calendar</p>
+</div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#valid_time?/4">valid_time?(hour, minute, second, arg)</a>
+  </div>
+    <div class="summary-synopsis"><p>Determines if the date given is valid according to the proleptic Gregorian calendar.
+Note that leap seconds are considered valid, but the use of 24:00:00 as the
+zero hour of the day is considered invalid</p>
+</div>
+</div>
+  </div>
+        </section>
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types          </h1>
+          <div class="types-list">
+<div class="detail" id="t:day/0">
+    <div class="detail-header">
+    <a href="#t:day/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">day()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L25" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>day() :: 1..31</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:month/0">
+    <div class="detail-header">
+    <a href="#t:month/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">month()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L24" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>month() :: 1..12</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="t:year/0">
+    <div class="detail-header">
+    <a href="#t:year/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">year()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L23" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>year() :: -9999..9999</pre>
+      </div>
+  </div>
+  <section class="docstring">
+  </section>
+</div>
+          </div>
+        </section>
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions          </h1>
+          <div class="functions-list">
+<div class="detail" id="date_to_string/3">
+    <div class="detail-header">
+    <a href="#date_to_string/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">date_to_string(year, month, day)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L396" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>date_to_string(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>(), <a href="#t:day/0">day</a>()) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given date into a string.</p>
+<h2 id="date_to_string/3-examples" class="section-heading">
+  <a href="#date_to_string/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">date_to_string</span><span class="p" data-group-id="4522239287-1">(</span><span class="mi">2015</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">28</span><span class="p" data-group-id="4522239287-1">)</span><span class="w">
+</span><span class="s">&quot;2015-02-28&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">date_to_string</span><span class="p" data-group-id="4522239287-2">(</span><span class="mi">2017</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4522239287-2">)</span><span class="w">
+</span><span class="s">&quot;2017-08-01&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">date_to_string</span><span class="p" data-group-id="4522239287-3">(</span><span class="o">-</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p" data-group-id="4522239287-3">)</span><span class="w">
+</span><span class="s">&quot;-0099-01-31&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="datetime_to_string/11">
+    <div class="detail-header">
+    <a href="#datetime_to_string/11" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">datetime_to_string(year, month, day, hour, minute, second, microsecond, time_zone, zone_abbr, utc_offset, std_offset)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L465" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>datetime_to_string(
+  <a href="#t:year/0">year</a>(),
+  <a href="#t:month/0">month</a>(),
+  <a href="#t:day/0">day</a>(),
+  <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>(),
+  <a href="Calendar.html#t:time_zone/0">Calendar.time_zone</a>(),
+  <a href="Calendar.html#t:zone_abbr/0">Calendar.zone_abbr</a>(),
+  <a href="Calendar.html#t:utc_offset/0">Calendar.utc_offset</a>(),
+  <a href="Calendar.html#t:std_offset/0">Calendar.std_offset</a>()
+) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the datetime (with time zone) into a string.</p>
+<h2 id="datetime_to_string/11-examples" class="section-heading">
+  <a href="#datetime_to_string/11-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">time_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Europe/Berlin&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">datetime_to_string</span><span class="p" data-group-id="5827450560-1">(</span><span class="mi">2017</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5827450560-2">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="5827450560-2">}</span><span class="p">,</span><span class="w"> </span><span class="n">time_zone</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CET&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5827450560-1">)</span><span class="w">
+</span><span class="s">&quot;2017-08-01 01:02:03.00000+01:00 CET Europe/Berlin&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">datetime_to_string</span><span class="p" data-group-id="5827450560-3">(</span><span class="mi">2017</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5827450560-4">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="5827450560-4">}</span><span class="p">,</span><span class="w"> </span><span class="n">time_zone</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CDT&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w"> </span><span class="mi">3600</span><span class="p" data-group-id="5827450560-3">)</span><span class="w">
+</span><span class="s">&quot;2017-08-01 01:02:03.00000+02:00 CDT Europe/Berlin&quot;</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">time_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;America/Los_Angeles&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">datetime_to_string</span><span class="p" data-group-id="5827450560-5">(</span><span class="mi">2015</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5827450560-6">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="5827450560-6">}</span><span class="p">,</span><span class="w"> </span><span class="n">time_zone</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PST&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">28800</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="5827450560-5">)</span><span class="w">
+</span><span class="s">&quot;2015-02-28 01:02:03.00000-08:00 PST America/Los_Angeles&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">datetime_to_string</span><span class="p" data-group-id="5827450560-7">(</span><span class="mi">2015</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5827450560-8">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="5827450560-8">}</span><span class="p">,</span><span class="w"> </span><span class="n">time_zone</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PDT&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">28800</span><span class="p">,</span><span class="w"> </span><span class="mi">3600</span><span class="p" data-group-id="5827450560-7">)</span><span class="w">
+</span><span class="s">&quot;2015-02-28 01:02:03.00000-07:00 PDT America/Los_Angeles&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="day_of_week/3">
+    <div class="detail-header">
+    <a href="#day_of_week/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">day_of_week(year, month, day)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L335" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>day_of_week(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>(), <a href="#t:day/0">day</a>()) :: 1..7</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Calculates the day of the week from the given <code class="inline">year</code>, <code class="inline">month</code>, and <code class="inline">day</code>.</p>
+<p>It is an integer from 1 to 7, where 1 is Monday and 7 is Sunday.</p>
+<h2 id="day_of_week/3-examples" class="section-heading">
+  <a href="#day_of_week/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-1">(</span><span class="mi">2016</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p" data-group-id="4401518540-1">)</span><span class="w">
+</span><span class="mi">1</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-2">(</span><span class="mi">2016</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4401518540-2">)</span><span class="w">
+</span><span class="mi">2</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-3">(</span><span class="mi">2016</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4401518540-3">)</span><span class="w">
+</span><span class="mi">3</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-4">(</span><span class="mi">2016</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4401518540-4">)</span><span class="w">
+</span><span class="mi">4</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-5">(</span><span class="mi">2016</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="4401518540-5">)</span><span class="w">
+</span><span class="mi">5</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-6">(</span><span class="mi">2016</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="4401518540-6">)</span><span class="w">
+</span><span class="mi">6</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-7">(</span><span class="mi">2016</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="4401518540-7">)</span><span class="w">
+</span><span class="mi">7</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">day_of_week</span><span class="p" data-group-id="4401518540-8">(</span><span class="o">-</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p" data-group-id="4401518540-8">)</span><span class="w">
+</span><span class="mi">4</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="day_rollover_relative_to_midnight_utc/0">
+    <div class="detail-header">
+    <a href="#day_rollover_relative_to_midnight_utc/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">day_rollover_relative_to_midnight_utc()</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L538" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>day_rollover_relative_to_midnight_utc() :: {0, 1}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>See <a href="Calendar.html#c:day_rollover_relative_to_midnight_utc/0"><code class="inline">Calendar.day_rollover_relative_to_midnight_utc/0</code></a> for documentation.</p>
+  </section>
+</div>
+<div class="detail" id="days_in_month/2">
+    <div class="detail-header">
+    <a href="#days_in_month/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">days_in_month(year, month)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L260" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>days_in_month(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>()) :: 28..31</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns how many days there are in the given year-month.</p>
+<h2 id="days_in_month/2-examples" class="section-heading">
+  <a href="#days_in_month/2-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">days_in_month</span><span class="p" data-group-id="4510147045-1">(</span><span class="mi">1900</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p" data-group-id="4510147045-1">)</span><span class="w">
+</span><span class="mi">31</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">days_in_month</span><span class="p" data-group-id="4510147045-2">(</span><span class="mi">1900</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4510147045-2">)</span><span class="w">
+</span><span class="mi">28</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">days_in_month</span><span class="p" data-group-id="4510147045-3">(</span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4510147045-3">)</span><span class="w">
+</span><span class="mi">29</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">days_in_month</span><span class="p" data-group-id="4510147045-4">(</span><span class="mi">2001</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4510147045-4">)</span><span class="w">
+</span><span class="mi">28</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">days_in_month</span><span class="p" data-group-id="4510147045-5">(</span><span class="mi">2004</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="4510147045-5">)</span><span class="w">
+</span><span class="mi">29</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">days_in_month</span><span class="p" data-group-id="4510147045-6">(</span><span class="mi">2004</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p" data-group-id="4510147045-6">)</span><span class="w">
+</span><span class="mi">30</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">days_in_month</span><span class="p" data-group-id="4510147045-7">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="4510147045-7">)</span><span class="w">
+</span><span class="mi">31</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="leap_year?/1">
+    <div class="detail-header">
+    <a href="#leap_year?/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">leap_year?(year)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L304" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>leap_year?(<a href="#t:year/0">year</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns if the given year is a leap year.</p>
+<h2 id="leap_year?/1-examples" class="section-heading">
+  <a href="#leap_year?/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">leap_year?</span><span class="p" data-group-id="0551409479-1">(</span><span class="mi">2000</span><span class="p" data-group-id="0551409479-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">leap_year?</span><span class="p" data-group-id="0551409479-2">(</span><span class="mi">2001</span><span class="p" data-group-id="0551409479-2">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">leap_year?</span><span class="p" data-group-id="0551409479-3">(</span><span class="mi">2004</span><span class="p" data-group-id="0551409479-3">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">leap_year?</span><span class="p" data-group-id="0551409479-4">(</span><span class="mi">1900</span><span class="p" data-group-id="0551409479-4">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">leap_year?</span><span class="p" data-group-id="0551409479-5">(</span><span class="o">-</span><span class="mi">4</span><span class="p" data-group-id="0551409479-5">)</span><span class="w">
+</span><span class="no">true</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="months_in_year/1">
+    <div class="detail-header">
+    <a href="#months_in_year/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">months_in_year(year)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L281" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.7.0)</span>
+    
+      <div class="specs">
+          <pre>months_in_year(<a href="#t:year/0">year</a>()) :: 12</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns how many months there are in the given year.</p>
+<h2 id="months_in_year/1-example" class="section-heading">
+  <a href="#months_in_year/1-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">months_in_year</span><span class="p" data-group-id="0100406047-1">(</span><span class="mi">2004</span><span class="p" data-group-id="0100406047-1">)</span><span class="w">
+</span><span class="mi">12</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="naive_datetime_from_iso_days/1">
+    <div class="detail-header">
+    <a href="#naive_datetime_from_iso_days/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">naive_datetime_from_iso_days(arg)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L129" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>naive_datetime_from_iso_days(<a href="Calendar.html#t:iso_days/0">Calendar.iso_days</a>()) ::
+  {<a href="Calendar.html#t:year/0">Calendar.year</a>(), <a href="Calendar.html#t:month/0">Calendar.month</a>(), <a href="Calendar.html#t:day/0">Calendar.day</a>(), <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+   <a href="Calendar.html#t:minute/0">Calendar.minute</a>(), <a href="Calendar.html#t:second/0">Calendar.second</a>(), <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the <a href="Calendar.html#t:iso_days/0"><code class="inline">Calendar.iso_days/0</code></a> format to the datetime format specified by this calendar.</p>
+<h2 id="naive_datetime_from_iso_days/1-examples" class="section-heading">
+  <a href="#naive_datetime_from_iso_days/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_from_iso_days</span><span class="p" data-group-id="7035799321-1">(</span><span class="p" data-group-id="7035799321-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-3">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">86400</span><span class="p" data-group-id="7035799321-3">}</span><span class="p" data-group-id="7035799321-2">}</span><span class="p" data-group-id="7035799321-1">)</span><span class="w">
+</span><span class="p" data-group-id="7035799321-4">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-5">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="7035799321-5">}</span><span class="p" data-group-id="7035799321-4">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_from_iso_days</span><span class="p" data-group-id="7035799321-6">(</span><span class="p" data-group-id="7035799321-7">{</span><span class="mi">730_485</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-8">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">86400</span><span class="p" data-group-id="7035799321-8">}</span><span class="p" data-group-id="7035799321-7">}</span><span class="p" data-group-id="7035799321-6">)</span><span class="w">
+</span><span class="p" data-group-id="7035799321-9">{</span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-10">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="7035799321-10">}</span><span class="p" data-group-id="7035799321-9">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_from_iso_days</span><span class="p" data-group-id="7035799321-11">(</span><span class="p" data-group-id="7035799321-12">{</span><span class="mi">730_485</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-13">{</span><span class="mi">43200</span><span class="p">,</span><span class="w"> </span><span class="mi">86400</span><span class="p" data-group-id="7035799321-13">}</span><span class="p" data-group-id="7035799321-12">}</span><span class="p" data-group-id="7035799321-11">)</span><span class="w">
+</span><span class="p" data-group-id="7035799321-14">{</span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-15">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="7035799321-15">}</span><span class="p" data-group-id="7035799321-14">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_from_iso_days</span><span class="p" data-group-id="7035799321-16">(</span><span class="p" data-group-id="7035799321-17">{</span><span class="o">-</span><span class="mi">365</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-18">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">86400000000</span><span class="p" data-group-id="7035799321-18">}</span><span class="p" data-group-id="7035799321-17">}</span><span class="p" data-group-id="7035799321-16">)</span><span class="w">
+</span><span class="p" data-group-id="7035799321-19">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7035799321-20">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="7035799321-20">}</span><span class="p" data-group-id="7035799321-19">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="naive_datetime_to_iso_days/7">
+    <div class="detail-header">
+    <a href="#naive_datetime_to_iso_days/7" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">naive_datetime_to_iso_days(year, month, day, hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L99" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>naive_datetime_to_iso_days(
+  <a href="Calendar.html#t:year/0">Calendar.year</a>(),
+  <a href="Calendar.html#t:month/0">Calendar.month</a>(),
+  <a href="Calendar.html#t:day/0">Calendar.day</a>(),
+  <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()
+) :: <a href="Calendar.html#t:iso_days/0">Calendar.iso_days</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the <a href="Calendar.html#t:iso_days/0"><code class="inline">Calendar.iso_days/0</code></a> format of the specified date.</p>
+<h2 id="naive_datetime_to_iso_days/7-examples" class="section-heading">
+  <a href="#naive_datetime_to_iso_days/7-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_to_iso_days</span><span class="p" data-group-id="1188821023-1">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="1188821023-2">}</span><span class="p" data-group-id="1188821023-1">)</span><span class="w">
+</span><span class="p" data-group-id="1188821023-3">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-4">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">86400000000</span><span class="p" data-group-id="1188821023-4">}</span><span class="p" data-group-id="1188821023-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_to_iso_days</span><span class="p" data-group-id="1188821023-5">(</span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-6">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="1188821023-6">}</span><span class="p" data-group-id="1188821023-5">)</span><span class="w">
+</span><span class="p" data-group-id="1188821023-7">{</span><span class="mi">730485</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-8">{</span><span class="mi">43200000000</span><span class="p">,</span><span class="w"> </span><span class="mi">86400000000</span><span class="p" data-group-id="1188821023-8">}</span><span class="p" data-group-id="1188821023-7">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_to_iso_days</span><span class="p" data-group-id="1188821023-9">(</span><span class="mi">2000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-10">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="1188821023-10">}</span><span class="p" data-group-id="1188821023-9">)</span><span class="w">
+</span><span class="p" data-group-id="1188821023-11">{</span><span class="mi">730485</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-12">{</span><span class="mi">46800000000</span><span class="p">,</span><span class="w"> </span><span class="mi">86400000000</span><span class="p" data-group-id="1188821023-12">}</span><span class="p" data-group-id="1188821023-11">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_to_iso_days</span><span class="p" data-group-id="1188821023-13">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-14">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="1188821023-14">}</span><span class="p" data-group-id="1188821023-13">)</span><span class="w">
+</span><span class="p" data-group-id="1188821023-15">{</span><span class="o">-</span><span class="mi">365</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1188821023-16">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">86400000000</span><span class="p" data-group-id="1188821023-16">}</span><span class="p" data-group-id="1188821023-15">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="naive_datetime_to_string/7">
+    <div class="detail-header">
+    <a href="#naive_datetime_to_string/7" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">naive_datetime_to_string(year, month, day, hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L429" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>naive_datetime_to_string(
+  <a href="#t:year/0">year</a>(),
+  <a href="#t:month/0">month</a>(),
+  <a href="#t:day/0">day</a>(),
+  <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()
+) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the datetime (without time zone) into a string.</p>
+<h2 id="naive_datetime_to_string/7-examples" class="section-heading">
+  <a href="#naive_datetime_to_string/7-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_to_string</span><span class="p" data-group-id="9896010538-1">(</span><span class="mi">2015</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9896010538-2">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="9896010538-2">}</span><span class="p" data-group-id="9896010538-1">)</span><span class="w">
+</span><span class="s">&quot;2015-02-28 01:02:03.000004&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">naive_datetime_to_string</span><span class="p" data-group-id="9896010538-3">(</span><span class="mi">2017</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9896010538-4">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p" data-group-id="9896010538-4">}</span><span class="p" data-group-id="9896010538-3">)</span><span class="w">
+</span><span class="s">&quot;2017-08-01 01:02:03.00000&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="time_from_day_fraction/1">
+    <div class="detail-header">
+    <a href="#time_from_day_fraction/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">time_from_day_fraction(arg)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L178" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>time_from_day_fraction(<a href="Calendar.html#t:day_fraction/0">Calendar.day_fraction</a>()) ::
+  {<a href="Calendar.html#t:hour/0">Calendar.hour</a>(), <a href="Calendar.html#t:minute/0">Calendar.minute</a>(), <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+   <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()}</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts a day fraction to this Calendar’s representation of time.</p>
+<h2 id="time_from_day_fraction/1-examples" class="section-heading">
+  <a href="#time_from_day_fraction/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">time_from_day_fraction</span><span class="p" data-group-id="5204379832-1">(</span><span class="p" data-group-id="5204379832-2">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="5204379832-2">}</span><span class="p" data-group-id="5204379832-1">)</span><span class="w">
+</span><span class="p" data-group-id="5204379832-3">{</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5204379832-4">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="5204379832-4">}</span><span class="p" data-group-id="5204379832-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">time_from_day_fraction</span><span class="p" data-group-id="5204379832-5">(</span><span class="p" data-group-id="5204379832-6">{</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p" data-group-id="5204379832-6">}</span><span class="p" data-group-id="5204379832-5">)</span><span class="w">
+</span><span class="p" data-group-id="5204379832-7">{</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="5204379832-8">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="5204379832-8">}</span><span class="p" data-group-id="5204379832-7">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="time_to_day_fraction/4">
+    <div class="detail-header">
+    <a href="#time_to_day_fraction/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">time_to_day_fraction(hour, minute, second, arg)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L154" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>time_to_day_fraction(
+  <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()
+) :: <a href="Calendar.html#t:day_fraction/0">Calendar.day_fraction</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Returns the normalized day fraction of the specified time.</p>
+<h2 id="time_to_day_fraction/4-examples" class="section-heading">
+  <a href="#time_to_day_fraction/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">time_to_day_fraction</span><span class="p" data-group-id="8472533677-1">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8472533677-2">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8472533677-2">}</span><span class="p" data-group-id="8472533677-1">)</span><span class="w">
+</span><span class="p" data-group-id="8472533677-3">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">86400000000</span><span class="p" data-group-id="8472533677-3">}</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">time_to_day_fraction</span><span class="p" data-group-id="8472533677-4">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8472533677-5">{</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="8472533677-5">}</span><span class="p" data-group-id="8472533677-4">)</span><span class="w">
+</span><span class="p" data-group-id="8472533677-6">{</span><span class="mi">45296000123</span><span class="p">,</span><span class="w"> </span><span class="mi">86400000000</span><span class="p" data-group-id="8472533677-6">}</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="time_to_string/4">
+    <div class="detail-header">
+    <a href="#time_to_string/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">time_to_string(hour, minute, second, microsecond)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L360" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+        
+      <div class="specs">
+          <pre>time_to_string(
+  <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()
+) :: <a href="String.html#t:t/0">String.t</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Converts the given time into a string.</p>
+<h2 id="time_to_string/4-examples" class="section-heading">
+  <a href="#time_to_string/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">time_to_string</span><span class="p" data-group-id="2058663528-1">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2058663528-2">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="2058663528-2">}</span><span class="p" data-group-id="2058663528-1">)</span><span class="w">
+</span><span class="s">&quot;02:02:02.000002&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">time_to_string</span><span class="p" data-group-id="2058663528-3">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2058663528-4">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p" data-group-id="2058663528-4">}</span><span class="p" data-group-id="2058663528-3">)</span><span class="w">
+</span><span class="s">&quot;02:02:02.00&quot;</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">time_to_string</span><span class="p" data-group-id="2058663528-5">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2058663528-6">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="2058663528-6">}</span><span class="p" data-group-id="2058663528-5">)</span><span class="w">
+</span><span class="s">&quot;02:02:02&quot;</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="time_to_string/5">
+    <div class="detail-header">
+    <a href="#time_to_string/5" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">time_to_string(hour, minute, second, arg, format)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L364" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+          </div>
+  <section class="docstring">
+  </section>
+</div>
+<div class="detail" id="valid_date?/3">
+    <div class="detail-header">
+    <a href="#valid_date?/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">valid_date?(year, month, day)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L503" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>valid_date?(<a href="#t:year/0">year</a>(), <a href="#t:month/0">month</a>(), <a href="#t:day/0">day</a>()) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Determines if the date given is valid according to the proleptic Gregorian calendar.</p>
+<h2 id="valid_date?/3-examples" class="section-heading">
+  <a href="#valid_date?/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">valid_date?</span><span class="p" data-group-id="6639034854-1">(</span><span class="mi">2015</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">28</span><span class="p" data-group-id="6639034854-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">valid_date?</span><span class="p" data-group-id="6639034854-2">(</span><span class="mi">2015</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p" data-group-id="6639034854-2">)</span><span class="w">
+</span><span class="no">false</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">valid_date?</span><span class="p" data-group-id="6639034854-3">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p" data-group-id="6639034854-3">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">valid_date?</span><span class="p" data-group-id="6639034854-4">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p" data-group-id="6639034854-4">)</span><span class="w">
+</span><span class="no">false</span></code></pre>
+  </section>
+</div>
+<div class="detail" id="valid_time?/4">
+    <div class="detail-header">
+    <a href="#valid_time?/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">valid_time?(hour, minute, second, arg)</span>
+      <a href="https://github.com/elixir-lang/elixir/blob/28522ccb89ecc5e46c229ed620e7ef003ddebc9a/lib/elixir/lib/calendar/iso.ex#L527" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+      <span class="note">(since 1.5.0)</span>
+    
+      <div class="specs">
+          <pre>valid_time?(
+  <a href="Calendar.html#t:hour/0">Calendar.hour</a>(),
+  <a href="Calendar.html#t:minute/0">Calendar.minute</a>(),
+  <a href="Calendar.html#t:second/0">Calendar.second</a>(),
+  <a href="Calendar.html#t:microsecond/0">Calendar.microsecond</a>()
+) :: <a href="typespecs.html#built-in-types">boolean</a>()</pre>
+      </div>
+  </div>
+  <section class="docstring">
+<p>Determines if the date given is valid according to the proleptic Gregorian calendar.
+Note that leap seconds are considered valid, but the use of 24:00:00 as the
+zero hour of the day is considered invalid.</p>
+<h2 id="valid_time?/4-examples" class="section-heading">
+  <a href="#valid_time?/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">valid_time?</span><span class="p" data-group-id="4463141869-1">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4463141869-2">{</span><span class="mi">3006</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p" data-group-id="4463141869-2">}</span><span class="p" data-group-id="4463141869-1">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">valid_time?</span><span class="p" data-group-id="4463141869-3">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4463141869-4">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4463141869-4">}</span><span class="p" data-group-id="4463141869-3">)</span><span class="w">
+</span><span class="no">true</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="nc">Calendar.ISO</span><span class="o">.</span><span class="n">valid_time?</span><span class="p" data-group-id="4463141869-5">(</span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4463141869-6">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p" data-group-id="4463141869-6">}</span><span class="p" data-group-id="4463141869-5">)</span><span class="w">
+</span><span class="no">false</span></code></pre>
+  </section>
+</div>
+          </div>
+        </section>
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+

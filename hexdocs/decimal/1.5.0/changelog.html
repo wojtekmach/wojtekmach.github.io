@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>CHANGELOG – Decimal v1.5.0</title>
+    <link rel="stylesheet" href="dist/html-f59c25a01bb1b031a495.css" />
+    <script src="dist/sidebar_items-31b5745136.js"></script>
+    
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="readme.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Decimal      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.5.0
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+<h1>CHANGELOG</h1>
+<h2 id="v1-5-0-2018-03-24" class="section-heading">
+  <a href="#v1-5-0-2018-03-24" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  v1.5.0 (2018-03-24)
+</h2>
+
+<h3 id="enhancements" class="section-heading">
+  <a href="#enhancements" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Enhancements
+</h3>
+
+<ul>
+<li>Add <a href="Decimal.html#positive?/1"><code class="inline">Decimal.positive?/1</code></a> and <a href="Decimal.html#negative?/1"><code class="inline">Decimal.negative?/1</code></a>
+</li>
+<li>Accept integers and strings in arithmetic functions, e.g.: <code class="inline">Decimal.add(1, &quot;2.0&quot;)</code>
+</li>
+<li>Add <a href="Decimal.html#from_float/1"><code class="inline">Decimal.from_float/1</code></a>
+</li>
+</ul>
+<h3 id="soft-deprecations-no-warnings-emitted" class="section-heading">
+  <a href="#soft-deprecations-no-warnings-emitted" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Soft deprecations (no warnings emitted)
+</h3>
+
+<ul>
+<li>Soft deprecate passing float to <code class="inline">new/1</code> in favor of <code class="inline">from_float/1</code>
+</li>
+</ul>
+<h2 id="v1-4-1-2017-10-12" class="section-heading">
+  <a href="#v1-4-1-2017-10-12" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  v1.4.1 (2017-10-12)
+</h2>
+
+<h3 id="bugfixes" class="section-heading">
+  <a href="#bugfixes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Bugfixes
+</h3>
+
+<ul>
+<li>Include the given value as part of the error reason
+</li>
+<li>Fix <code class="inline">:half_even</code> <code class="inline">:lists.last</code> bug (empty signif)
+</li>
+<li>Fix error message for round
+</li>
+<li>Fix <code class="inline">:half_down</code> rounding error when remainder is greater than 5
+</li>
+<li>Fix <a href="Decimal.html#new/1"><code class="inline">Decimal.new/1</code></a> float conversion with bigger precision than 4
+</li>
+<li>Fix precision default value
+</li>
+</ul>
+<h2 id="v1-4-0-2017-06-25" class="section-heading">
+  <a href="#v1-4-0-2017-06-25" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  v1.4.0 (2017-06-25)
+</h2>
+
+<h3 id="bugfixes" class="section-heading">
+  <a href="#bugfixes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Bugfixes
+</h3>
+
+<ul>
+<li>Fix <a href="Decimal.html#to_integer/1"><code class="inline">Decimal.to_integer/1</code></a> for large coefficients
+</li>
+<li>Fix rounding of ~0 values
+</li>
+<li>Fix errors when comparing and adding two infinities
+</li>
+</ul>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-f59c25a01bb1b031a495.js"></script>
+  
+  </body>
+</html>
+

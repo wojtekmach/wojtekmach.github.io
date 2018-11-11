@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Changelog for Elixir v1.8 – Elixir v1.8.0-dev</title>
+    <link rel="stylesheet" href="dist/html-2c36aea493b65986bbc5.css" />
+      <link rel="canonical" href="https://hexdocs.pm/elixir/master/changelog.html" />
+    <script src="dist/sidebar_items-658844a919.js"></script>
+    
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://elixir-lang.org/docs.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+Elixir      </h1>
+      <h2 class="sidebar-projectVersion">
+        v1.8.0-dev
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+      <li><a id="exceptions-list" href="#full-list">Exceptions</a></li>
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+<h1>Changelog for Elixir v1.8</h1>
+<h2 id="v1-8-0-dev" class="section-heading">
+  <a href="#v1-8-0-dev" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  v1.8.0-dev
+</h2>
+
+<h3 id="1-enhancements" class="section-heading">
+  <a href="#1-enhancements" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  1. Enhancements
+</h3>
+
+<h4>Elixir</h4>
+<ul>
+<li>[Exception] Exclude deprecated functions in “did you mean?” hints
+</li>
+<li>[File] Allow <code class="inline">:raw</code> option in <a href="File.html#exists?/2"><code class="inline">File.exists?/2</code></a>, <a href="File.html#regular?/2"><code class="inline">File.regular?/2</code></a> and <a href="File.html#dir?/2"><code class="inline">File.dir?/2</code></a>
+</li>
+<li>[Inspect] Allow Inspect protocol to be derivable with the only/except options
+</li>
+<li>[Kernel] Do not propagate counters to variables in quote inside another quote
+</li>
+<li>[Kernel] Warn on ambiguous use of <code class="inline">::</code> and <code class="inline">|</code> in typespecs
+</li>
+<li>[Kernel] Add <code class="inline">:delegate_to</code> <code class="inline">@doc</code> metadata tag when using <code class="inline">defdelegate</code>
+</li>
+<li>[Kernel] Improve compile-time building of ranges via the <code class="inline">..</code> operator
+</li>
+<li>[List] Add <a href="List.html#myers_difference/3"><code class="inline">List.myers_difference/3</code></a>
+</li>
+<li>[Map] Optimize and merge nested maps <code class="inline">put</code> and <code class="inline">merge</code> operations
+</li>
+<li>[Registry] Allow associating a value on <code class="inline">:via</code> tuple
+</li>
+<li>[String] Add <a href="String.html#bag_distance/2"><code class="inline">String.bag_distance/2</code></a>
+</li>
+</ul>
+<h4>ExUnit</h4>
+<ul>
+<li>[ExUnit.Assertions] Show last N messages (instead of first N) from mailbox on <code class="inline">assert_receive</code> fail
+</li>
+</ul>
+<h4>Mix</h4>
+<ul>
+<li>[Mix.Project] Add <code class="inline">:depth</code> and <code class="inline">:parents</code> options to <code class="inline">deps_paths/1</code>
+</li>
+</ul>
+<h3 id="2-bug-fixes" class="section-heading">
+  <a href="#2-bug-fixes" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  2. Bug fixes
+</h3>
+
+<h4>Elixir</h4>
+<ul>
+<li>[Kernel] Remove <code class="inline">Guard test tuple_size(...) can never succeed</code> dialyzer warning on try
+</li>
+</ul>
+<h4>Mix</h4>
+<ul>
+<li>[mix compile.protocols] Reconsolidate protocols if local deps is stale
+</li>
+<li>[mix deps] Properly mark dependencies with different <code class="inline">:system_env</code> as diverged
+</li>
+</ul>
+<h3 id="3-soft-deprecations-no-warnings-emitted" class="section-heading">
+  <a href="#3-soft-deprecations-no-warnings-emitted" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  3. Soft-deprecations (no warnings emitted)
+</h3>
+
+<h3 id="4-hard-deprecations" class="section-heading">
+  <a href="#4-hard-deprecations" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  4. Hard-deprecations
+</h3>
+
+<h4>Elixir</h4>
+<ul>
+<li>[Enum] Passing a non-empty list to <a href="Enum.html#into/2"><code class="inline">Enum.into/2</code></a> was inconsistent with maps and is deprecated in favor of <a href="Kernel.html#++/2"><code class="inline">Kernel.++/2</code></a> or <a href="Keyword.html#merge/2"><code class="inline">Keyword.merge/2</code></a>
+</li>
+<li>[Inspect.Algebra] <code class="inline">surround/3</code> is deprecated in favor of <a href="Inspect.Algebra.html#concat/2"><code class="inline">Inspect.Algebra.concat/2</code></a> and <a href="Inspect.Algebra.html#nest/2"><code class="inline">Inspect.Algebra.nest/2</code></a>
+</li>
+<li>[Inspect.Algebra] <code class="inline">surround_many/6</code> is deprecated in favor of <code class="inline">container_doc/6</code>
+</li>
+<li>[Kernel] Passing a non-empty list as <code class="inline">:into</code> in <code class="inline">for</code> comprehensions was inconsistent with maps and is deprecated in favor of <a href="Kernel.html#++/2"><code class="inline">Kernel.++/2</code></a> or <a href="Keyword.html#merge/2"><code class="inline">Keyword.merge/2</code></a>
+</li>
+<li>[Kernel.ParallelCompiler] <code class="inline">files/2</code> is deprecated in favor of <code class="inline">compile/2</code>
+</li>
+<li>[Kernel.ParallelCompiler] <code class="inline">files_to_path/2</code> is deprecated in favor of <code class="inline">compile_to_path/2</code>
+</li>
+<li>[Kernel.ParallelRequire] <code class="inline">files/2</code> is deprecated in favor of <a href="Kernel.ParallelCompiler.html#require/2"><code class="inline">Kernel.ParallelCompiler.require/2</code></a>
+</li>
+<li>[System] <code class="inline">:seconds</code>, <code class="inline">:milliseconds</code>, etc. as time units is deprecated in favor of <code class="inline">:second</code>, <code class="inline">:millisecond</code>, etc.
+</li>
+<li>[System] <a href="System.html#cwd/0"><code class="inline">System.cwd/0</code></a> and <a href="System.html#cwd!/0"><code class="inline">System.cwd!/0</code></a> are deprecated in favor of <a href="File.html#cwd/0"><code class="inline">File.cwd/0</code></a> and <a href="File.html#cwd!/0"><code class="inline">File.cwd!/0</code></a>
+</li>
+</ul>
+<h4>Mix</h4>
+<ul>
+<li>[mix compile.erlang] Returning <code class="inline">{:ok, contents}</code> or <code class="inline">:error</code> as the callback in <a href="https://hexdocs.pm/mix/Mix.Compilers.Erlang.html#compile/6"><code class="inline">Mix.Compilers.Erlang.compile/6</code></a> is deprecated in favor of returning <code class="inline">{:ok, contents, warnings}</code> or <code class="inline">{:error, errors, warnings}</code>
+</li>
+</ul>
+<h2 id="v1-7" class="section-heading">
+  <a href="#v1-7" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  v1.7
+</h2>
+
+<p>The CHANGELOG for v1.7 releases can be found <a href="https://github.com/elixir-lang/elixir/blob/v1.7/CHANGELOG.md">in the v1.7 branch</a>.</p>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/html-2c36aea493b65986bbc5.js"></script>
+  
+  </body>
+</html>
+
