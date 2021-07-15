@@ -1,0 +1,2 @@
+I"D<p><a href="/blog/2012/07/17/liskov-principle-and-minitest/">Last time</a> I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can’t inherit test methods because the framework forces us to inherit from a test case class like:</p>
+:ET

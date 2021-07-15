@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Sharing examples in Minitest | Wojtek Mach</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Sharing examples in Minitest" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Last time I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can’t inherit test methods because the framework forces us to inherit from a test case class like:" />
+<meta property="og:description" content="Last time I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can’t inherit test methods because the framework forces us to inherit from a test case class like:" />
+<link rel="canonical" href="http://localhost:4000/blog/2013/07/17/sharing-examples-in-minitest/" />
+<meta property="og:url" content="http://localhost:4000/blog/2013/07/17/sharing-examples-in-minitest/" />
+<meta property="og:site_name" content="Wojtek Mach" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-07-17T22:26:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Sharing examples in Minitest" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"Sharing examples in Minitest","dateModified":"2013-07-17T22:26:00+02:00","datePublished":"2013-07-17T22:26:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2013/07/17/sharing-examples-in-minitest/"},"description":"Last time I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can’t inherit test methods because the framework forces us to inherit from a test case class like:","url":"http://localhost:4000/blog/2013/07/17/sharing-examples-in-minitest/","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Wojtek Mach" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Wojtek Mach</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Sharing examples in Minitest</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2013-07-17T22:26:00+02:00" itemprop="datePublished">Jul 17, 2013
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/blog/2012/07/17/liskov-principle-and-minitest/">Last time</a> I wrote about enforcing Liskov principle via tests. It was pretty simple to do in Minitest using just class inheritance. Sometimes, however, we can’t inherit test methods because the framework forces us to inherit from a test case class like:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">ActiveSupport::TestCase</code></li>
+  <li><code class="highlighter-rouge">ActionDispatch::IntegrationTest</code></li>
+</ul>
+
+<p>etc. In these cases we need to find some other way to share behavior and with Minitest’s design the answer is pretty simple - modules.</p>
+
+<h2 id="example">Example</h2>
+
+<p>Let’s write a simple data store library inspired by <a href="https://github.com/minad/moneta">Moneta</a></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DataStore</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
+    <span class="vi">@adapter</span> <span class="o">=</span> <span class="n">adapter</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="vi">@adapter</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="vi">@adapter</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Now let’s write an adapter:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DataStore::InMemoryAdapter</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@hash</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="vi">@hash</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="vi">@hash</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Let’s write a test for this. Knowing we will later reuse test methods, we start with a module:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span> <span class="nn">DataStore::AdapterTest</span>
+  <span class="k">def</span> <span class="nf">test_get_not_found</span>
+    <span class="n">assert_equal</span> <span class="kp">nil</span><span class="p">,</span> <span class="vi">@adapter</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:invalid</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_set</span>
+    <span class="vi">@adapter</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="ss">:foo</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+    <span class="n">assert_equal</span> <span class="mi">42</span><span class="p">,</span> <span class="vi">@adapter</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Now the actual <code class="highlighter-rouge">DataStore::InMemoryAdapter</code> test (note, I’m using <code class="highlighter-rouge">Minitest::Test</code> which comes from minitest 5):</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DataStore::InMemoryAdapterTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span> 
+  <span class="kp">include</span> <span class="no">DataStore</span><span class="o">::</span><span class="no">AdapterTest</span>
+
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="vi">@adapter</span> <span class="o">=</span> <span class="no">DataStore</span><span class="o">::</span><span class="no">InMemoryAdapter</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Running this we see that two examples have been “inherited” from the shared module:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~% ruby shared.rb
+Run options: <span class="nt">--seed</span> 18221
+
+<span class="c"># Running:</span>
+
+..
+
+Finished <span class="k">in </span>0.001126s, 1776.1989 runs/s, 1776.1989 assertions/s.
+
+2 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div>
+
+<p>With this foundation it’s pretty easy to add new adapters and we don’t really have to write new tests. Including shared module in the test is enough to have confidence that an adapter is conforming to an interface.</p>
+
+<p>Let’s say we package the data store as a gem. We can ship the <code class="highlighter-rouge">AdapterTest</code> as an integral part of the gem distribution and let the users write their own application specific adapters. Just as Rails ships with <code class="highlighter-rouge">ActionDsipatch::IntegrationTest</code>.</p>
+
+<h2 id="minitestspec">minitest/spec</h2>
+
+<p>It’s actually pretty easy to use shared modules with minitest/spec. It’s simple because minitest/spec is really just a DSL on top of minitest/test (minitest/unit). A <code class="highlighter-rouge">describe</code> block creates a new <code class="highlighter-rouge">Minitest::Test</code> class, an <code class="highlighter-rouge">it</code> block defines a new <code class="highlighter-rouge">test_</code> method. With this in mind we can start with our custom DSL like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span> <span class="nn">DataStore::AdapterSpec</span>
+  <span class="n">it</span> <span class="s2">"returns nil for an invalid key"</span> <span class="k">do</span>
+    <span class="vi">@adapter</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:invalid</span><span class="p">).</span><span class="nf">must_equal</span> <span class="kp">nil</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">"can set a value"</span> <span class="k">do</span>
+    <span class="vi">@adapter</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="ss">:foo</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+    <span class="vi">@adapter</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:foo</span><span class="p">).</span><span class="nf">must_equal</span> <span class="mi">42</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>And the spec:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">describe</span> <span class="no">DataStore</span><span class="o">::</span><span class="no">InMemoryAdapter</span> <span class="k">do</span>
+  <span class="kp">include</span> <span class="no">DataStore</span><span class="o">::</span><span class="no">AdapterSpec</span>
+
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="vi">@adapter</span> <span class="o">=</span> <span class="no">DataStore</span><span class="o">::</span><span class="no">InMemoryAdapter</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Running this will result in error like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;module:AdapterSpec&gt;: undefined method <span class="s1">'it'</span> <span class="k">for </span>DataStore::AdapterSpec:Module <span class="o">(</span>NoMethodError<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Let’s fix this; we basically have to implement <code class="highlighter-rouge">Module#it</code> for it to work:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Module</span>
+  <span class="k">def</span> <span class="nf">it</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="n">define_method</span> <span class="s2">"test_</span><span class="si">#{</span><span class="n">description</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Tests should be passing now.</p>
+
+<p>I mentioned before that minitest/spec is just a DSL. In fact, there’s literally a <a href="https://github.com/seattlerb/minitest/blob/363ff3fe7c0144f6d02d04dabad9ceee5d252fa7/lib/minitest/spec.rb#L96">Minitest::Spec::DSL module</a> that <code class="highlighter-rouge">Minitest::Spec</code> is including. The DSL module is so good in fact that it can be included both in classes and in other modules:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Module</span>
+  <span class="kp">include</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Spec</span><span class="o">::</span><span class="no">DSL</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>and it just works! We now can do stuff like:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span> <span class="nn">SomeTest</span>
+  <span class="n">before</span> <span class="p">{</span> <span class="s2">"..."</span> <span class="p">}</span>
+  <span class="n">after</span> <span class="p">{</span> <span class="s2">"..."</span> <span class="p">}</span>
+
+  <span class="n">let</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"..."</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="s2">"returns this"</span> <span class="k">do</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">"returns that"</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>etc.</p>
+
+<p>The way <code class="highlighter-rouge">Minitest::Spec::DSL</code> is implemented is actually pretty simple. It doesn’t do anything special; it just defines a bunch of methods like <code class="highlighter-rouge">setup</code>, <code class="highlighter-rouge">teardown</code>, <code class="highlighter-rouge">foo</code>, <code class="highlighter-rouge">test_returns_this</code> etc. It means that after the “DSL” phase we end up with just a ruby module that we can include (or not), and nothing is evaluated until the module is included somewhere.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Minitest’s simple design allows us to extend it with standard tools we use in day to day ruby programming. We can use the same exact constructs like classes, modules, inheritance &amp; mixins for both the production &amp; test code. As a consequence of this design writing minitest extensions is imho pretty easy too!</p>
+
+  </div><a class="u-url" href="/blog/2013/07/17/sharing-examples-in-minitest/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        Copyright &copy; 2021 Wojtek Mach.
+      </div>
+
+      <div class="footer-col footer-col-1"><ul class="social-media-list"><li><a href="https://github.com/wojtekmach"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">wojtekmach</span></a></li><li><a href="https://www.twitter.com/wojtekmach"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">wojtekmach</span></a></li></ul>
+</div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

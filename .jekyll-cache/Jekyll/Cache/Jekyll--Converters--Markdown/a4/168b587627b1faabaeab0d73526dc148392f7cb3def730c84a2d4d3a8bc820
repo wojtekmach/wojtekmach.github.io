@@ -1,0 +1,3 @@
+I"<p>In the <a href="/blog/2015/07/17/testing-shape-of-data">last</a> <a href="/blog/2014/07/17/integration-testing-on-different-levels/">few</a> <a href="/blog/2013/07/17/sharing-examples-in-minitest/">blog</a> <a href="/blog/2012/07/17/liskov-principle-and-minitest/">posts</a> I wrote about my experiments with Minitest in the last few years.
+For today’s blog post I thought I’d write how some of Minitest’s design decision affected how I write tests these days and in general how my approach to testing have changed.</p>
+:ET

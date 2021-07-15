@@ -1,0 +1,165 @@
+I"k0<h2 id="what-is-liskov-principle">What is Liskov Principle?</h2>
+
+<p>In layman’s terms Liskov Substitution Principle says that if class <code class="highlighter-rouge">Foo</code> inherits from class <code class="highlighter-rouge">Bar</code>, then you should be able to use (<em>substitute</em>) derived class in every place that the base class is used. For a better definition and further references check out <a href="http://www.objectmentor.com/resources/articles/lsp.pdf">The Liskov Substitution Principle</a> by Uncle Bob.</p>
+
+<h2 id="testing-lsp-with-minitest">Testing LSP with MiniTest</h2>
+
+<p>MiniTest has a really simple design. A test case is a class and an example is a method of that class. After requiring minitest/autorun every subclass of <code class="highlighter-rouge">MiniTest::Unit::TestCase</code> is instantiated and test methods are executed one by one.</p>
+
+<p>One very nice result of this design, which is kind of obvious when you think about it, is that you can not only inherit helper methods (eg. you subclass <code class="highlighter-rouge">ActionController::TestCase</code> to have get, post etc) but you may as well inherit whole examples! This is a perfect way to test LSP because, again, you should be able to substitute base class with a derived class.</p>
+
+<h2 id="example">Example</h2>
+
+<p>Let’s re-implement Ruby’s built-in <code class="highlighter-rouge">Set</code> class. I’ll write a test first:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'minitest/autorun'</span>
+
+<span class="k">class</span> <span class="nc">SetTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="vi">@set</span> <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_size</span>
+    <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">size</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">42</span>
+    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">size</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_include?</span>
+    <span class="n">refute</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">include?</span> <span class="mi">42</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">42</span>
+    <span class="n">assert</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">include?</span> <span class="mi">42</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_add</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">13</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">13</span>
+    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">size</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_to_a</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">1</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">4</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">2</span>
+
+    <span class="n">ary</span> <span class="o">=</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">to_a</span>
+
+    <span class="n">assert_equal</span> <span class="mi">3</span><span class="p">,</span> <span class="n">ary</span><span class="p">.</span><span class="nf">size</span>
+    <span class="n">assert</span> <span class="n">ary</span><span class="p">.</span><span class="nf">include?</span> <span class="mi">1</span>
+    <span class="n">assert</span> <span class="n">ary</span><span class="p">.</span><span class="nf">include?</span> <span class="mi">2</span>
+    <span class="n">assert</span> <span class="n">ary</span><span class="p">.</span><span class="nf">include?</span> <span class="mi">4</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Note I didn’t write the exact result of <code class="highlighter-rouge">Set#to_a</code> because a cannonical set is unordered. A Ruby 1.9 built-in Set is actually ordered, it simply preserves the order of insertion.</p>
+
+<p>A basic implementation is very easy using Hash like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Set</span>
+  <span class="kp">include</span> <span class="no">Enumerable</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@hash</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">size</span>
+    <span class="vi">@hash</span><span class="p">.</span><span class="nf">size</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="vi">@hash</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">include?</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="vi">@hash</span><span class="p">.</span><span class="nf">include?</span> <span class="n">obj</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="vi">@hash</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Let’s run it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~% ruby set.rb
+Run options: <span class="nt">--seed</span> 59316
+
+<span class="c"># Running tests:</span>
+
+....
+
+Finished tests <span class="k">in </span>0.000589s, 6791.1715 tests/s, 15280.1358 assertions/s.
+
+4 tests, 9 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div>
+
+<p>Now, let’s write a <code class="highlighter-rouge">SortedSet</code> that will keep values sorted. Again let’s write a test and run it first:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~% ruby set.rb
+Run options: <span class="nt">--seed</span> 54235
+
+<span class="c"># Running tests:</span>
+
+........
+
+Finished tests <span class="k">in </span>0.000944s, 8474.5763 tests/s, 19067.7966 assertions/s.
+
+8 tests, 18 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div>
+
+<p>We now have exactly twice assertions because all test methods have been inherited. Let’s now build a simple <code class="highlighter-rouge">SortedSet</code> class and adjust the test, so that we actually use the derived class:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="vi">@set</span> <span class="o">=</span> <span class="no">SortedSet</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">SortedSet</span> <span class="o">&lt;</span> <span class="no">Set</span>
+  <span class="k">def</span> <span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="vi">@hash</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">sort</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Sure enough all tests passes and we’re now certain that a <code class="highlighter-rouge">Set</code> object can be substituted with a <code class="highlighter-rouge">SortedSet</code> object.</p>
+
+<p>Let’s also test the unique behaviour of the SortedSet. We won’t just define <code class="highlighter-rouge">test_to_a</code> method, because we would overwrite assertions from the base test. We’ll pick a different name instead:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="vi">@set</span> <span class="o">=</span> <span class="no">SortedSet</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_to_a_sorted</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">1</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">4</span>
+    <span class="vi">@set</span><span class="p">.</span><span class="nf">add</span> <span class="mi">2</span>
+
+    <span class="n">assert_equal</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">to_a</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Now, we could stop it right here, but you propably noticed some duplication between <code class="highlighter-rouge">test_to_a</code> and <code class="highlighter-rouge">test_to_a_sorted</code>. Again, because we’re using just classes and methods, we can actually write:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SortedSetTest</span> <span class="o">&lt;</span> <span class="no">SetTest</span>
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="vi">@set</span> <span class="o">=</span> <span class="no">SortedSet</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_to_a</span>
+    <span class="k">super</span>
+    <span class="n">assert_equal</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="vi">@set</span><span class="p">.</span><span class="nf">to_a</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>I’m not sure if it’s that useful and you should use it, but you must agree it’s pretty neat!</p>
+:ET
