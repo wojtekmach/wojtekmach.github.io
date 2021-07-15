@@ -132,7 +132,7 @@ end
 
 What's an `@app`? It's an _object_ that knows how to construct _object_ that can play a role of a `Signup`. Object that can play role of `@app` need only to implement `#signup` _message_. For `Signup` _role_ they need `#submit`, `#valid?` and `#error_messages`. Here are possible implementations:
 
-```
+```ruby
 class WebClient
   def signup(attributes)
     Signup.new(attributes)
