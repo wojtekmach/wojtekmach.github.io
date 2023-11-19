@@ -18,7 +18,10 @@ erl.exe -noshell -eval "io:put_chars(erlang:system_info(system_version)), halt()
 call :install_elixir
 echo checking Elixir...
 !elixir_dir!\bin\elixir --version
-echo ok
+echo.
+echo Add this to your shell:
+echo.
+echo    set PATH=!otp_dir!\bin;!elixir_dir!\bin;%%PATH%%
 goto :eof
 
 :install_otp
