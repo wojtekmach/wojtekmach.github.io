@@ -52,6 +52,7 @@ install_otp() {
         curl --fail -LO $url
       fi
 
+      mkdir $otp_dir
       ./$otp_exe //D=`pwd -W`/$otp_dir
       rm $otp_exe
     else
