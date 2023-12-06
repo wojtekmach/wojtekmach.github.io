@@ -53,6 +53,7 @@ install_otp() {
       fi
 
       mkdir $otp_dir
+      echo running $otp_exe
       ./$otp_exe //D=`pwd -W`/$otp_dir
       rm $otp_exe
     else
