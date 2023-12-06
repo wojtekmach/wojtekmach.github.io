@@ -53,8 +53,8 @@ install_otp() {
       fi
 
       mkdir $otp_dir
-      echo running $otp_exe
-      ./$otp_exe //D=`pwd -W`/$otp_dir
+      echo running $otp_exj
+      sh -c "$otp_exe //D=`pwd -W`/$otp_dir"
       rm $otp_exe
     else
       otp_tgz="otp_${otp_version}_${os}_${arch}_ssl_1.1.1s.tar.gz"
