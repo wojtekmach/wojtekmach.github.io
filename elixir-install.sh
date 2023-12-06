@@ -50,9 +50,10 @@ install_otp() {
         url="https://github.com/erlang/otp/releases/download/OTP-$otp_version/$otp_exe"
         echo "downloading $url"
         curl --fail -LO $url
-        ./$otp_exe //D=`pwd -W`/$otp_dir
-        rm $otp_exe
       fi
+
+      ./$otp_exe //D=`pwd -W`/$otp_dir
+      rm $otp_exe
     else
       otp_tgz="otp_${otp_version}_${os}_${arch}_ssl_1.1.1s.tar.gz"
 
