@@ -15,16 +15,19 @@ case $arch in
   *) true
 esac
 
+root_dir="$HOME/.elixir-install"
+mkdir -p $root_dir
+
 if [ "$os" = "darwin" ] && [ "$arch" = "x86_64" ]; then
   otp_version="25.3.2.3"
 else
   otp_version="26.1.2"
 fi
 otp_release="${otp_version%%.*}"
-otp_dir="otp-$otp_version"
+otp_dir="$root_dir/otp-$otp_version"
 
 elixir_version="1.15.7"
-elixir_dir="elixir-$elixir_version-otp-$otp_release"
+elixir_dir="$root_dir/elixir-$elixir_version-otp-$otp_release"
 
 main() {
   install_otp
