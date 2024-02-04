@@ -26,7 +26,7 @@ fi
 otp_release="${otp_version%%.*}"
 otp_dir="$root_dir/otp-$otp_version"
 
-elixir_version="1.15.7"
+elixir_version="1.16.1"
 elixir_dir="$root_dir/elixir-$elixir_version-otp-$otp_release"
 
 main() {
