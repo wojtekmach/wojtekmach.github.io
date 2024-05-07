@@ -1,15 +1,14 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set otp_version=26.1.2
-for /f "delims=." %%a in ("%otp_version%") do set otp_release=%%a
+set otp_version=26.2.5
+set elixir_version=1.16.2
+
 set root_dir=%USERPROFILE%\.elixir-install
-if not exist "%root_dir%" (
-    mkdir "%root_dir%"
-)
-set otp_dir=%root_dir\otp-%otp_version%
-set elixir_version=1.16.1
-set elixir_dir=%root_dir\elixir-%elixir_version%-otp-%otp_release%
+
+for /f "delims=." %%a in ("%otp_version%") do set otp_release=%%a
+set otp_dir=%root_dir%\otp\%otp_version%
+set elixir_dir=%root_dir%\elixir\%elixir_version%-otp-%otp_release%
 
 call :main
 goto :eof
@@ -20,6 +19,8 @@ echo checking OTP...
 set PATH=%otp_dir%\bin;%PATH%
 erl.exe -noshell -eval "io:put_chars(erlang:system_info(system_version)), halt()."
 call :install_elixir
+echo checking Elixir...
+!elixir_dir!\bin\elixir --version
 echo.
 echo Add this to your shell:
 echo.

@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+otp_version="26.2.2"
+elixir_version="1.16.2"
+
 os=`uname -s`
 case $os in
   Darwin) os=darwin ;;
@@ -18,15 +21,9 @@ esac
 root_dir="$HOME/.elixir-install"
 mkdir -p $root_dir
 
-if [ "$os" = "darwin" ] && [ "$arch" = "x86_64" ]; then
-  otp_version="25.3.2.3"
-else
-  otp_version="26.1.2"
-fi
 otp_release="${otp_version%%.*}"
 otp_dir="$root_dir/otp-$otp_version"
 
-elixir_version="1.16.1"
 elixir_dir="$root_dir/elixir-$elixir_version-otp-$otp_release"
 
 main() {
@@ -45,6 +42,7 @@ main() {
 }
 
 install_otp() {
+  echo $otp_dir
   if [ ! -d $otp_dir ]; then
     if [ "$os" = "windows" ]; then
       otp_exe="otp_win64_$otp_version.exe"
@@ -59,18 +57,20 @@ install_otp() {
       echo running $otp_exe
       cmd //c "$otp_exe //D=`pwd -W`/$otp_dir"
       rm $otp_exe
-    else
-      otp_tgz="otp_${otp_version}_${os}_${arch}_ssl_1.1.1s.tar.gz"
+    fi
+
+    if [ "$os" = "darwin" ]; then
+      otp_tgz="otp-${otp_version}-macos-universal.tar.gz"
 
       if [ ! -f $otp_tgz ]; then
-        url="https://github.com/wojtekmach/beam_builds/releases/download/OTP-$otp_version/$otp_tgz"
+        url="https://github.com/elixir-install/otp_builds/releases/download/OTP-$otp_version/$otp_tgz"
         echo "downloading $url"
         curl --fail -LO $url
       fi
 
       echo "unpacking $otp_tgz to $otp_dir..."
       mkdir $otp_dir
-      tar xzf $otp_tgz --strip-components 2 -C $otp_dir
+      tar xzf $otp_tgz --strip-components 1 -C $otp_dir
       (cd $otp_dir && ./Install -sasl $PWD)
       rm $otp_tgz
     fi
