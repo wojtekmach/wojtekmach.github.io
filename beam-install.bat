@@ -1,11 +1,14 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set otp_version=26.1.2
+set otp_version=26.2.5
+set elixir_version=1.16.2
+
+set root_dir=%USERPROFILE%\.elixir-install
+
 for /f "delims=." %%a in ("%otp_version%") do set otp_release=%%a
-set otp_dir=otp-%otp_version%
-set elixir_version=1.15.7
-set elixir_dir=elixir-%elixir_version%-otp-%otp_release%
+set otp_dir=%root_dir%\otp\%otp_version%
+set elixir_dir=%root_dir%\elixir\%elixir_version%-otp-%otp_release%
 
 call :main
 goto :eof

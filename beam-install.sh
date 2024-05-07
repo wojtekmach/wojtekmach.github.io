@@ -1,11 +1,30 @@
 #!/bin/bash
 set -euo pipefail
 
-otp_version="26.1.2"
+otp_version="26.2.2"
+elixir_version="1.16.2"
+
+os=`uname -s`
+case $os in
+  Darwin) os=darwin ;;
+  Linux) os=linux ;;
+  MINGW64*) os=windows ;;
+  *) echo "error: unsupported OS: $os." && exit 1
+esac
+
+arch=`uname -m`
+case $arch in
+  "arm64") arch=aarch64 ;;
+  *) true
+esac
+
+root_dir="$HOME/.elixir-install"
+mkdir -p $root_dir
+
 otp_release="${otp_version%%.*}"
-otp_dir="otp-$otp_version"
-elixir_version="1.15.7"
-elixir_dir="elixir-$elixir_version-otp-$otp_release"
+otp_dir="$root_dir/otp-$otp_version"
+
+elixir_dir="$root_dir/elixir-$elixir_version-otp-$otp_release"
 
 main() {
   install_otp
@@ -23,40 +42,54 @@ main() {
 }
 
 install_otp() {
-  os=`uname -s`
-  case $os in
-    Darwin) os=darwin ;;
-    Linux) os=linux ;;
-    *) echo "error: unsupported OS: $os." && exit 1
-  esac
-
-  arch=`uname -m`
-  case $arch in
-    "arm64") arch=aarch64 ;;
-    *) true
-  esac
-
-  otp_basename="otp_${otp_version}_${os}_${arch}_ssl_1.1.1s"
-
+  echo $otp_dir
   if [ ! -d $otp_dir ]; then
-    url="https://github.com/wojtekmach/beam_builds/releases/download/OTP-$otp_version/$otp_basename.tar.gz"
-    echo "downloading $url"
-    curl --fail -LO $url
-    tar xvzf $otp_basename.tar.gz
-    mv $otp_basename $otp_dir
-    (cd $otp_dir && ./Install -sasl $PWD)
+    if [ "$os" = "windows" ]; then
+      otp_exe="otp_win64_$otp_version.exe"
+
+      if [ ! -f $otp_exe ]; then
+        url="https://github.com/erlang/otp/releases/download/OTP-$otp_version/$otp_exe"
+        echo "downloading $url"
+        curl --fail -LO $url
+      fi
+
+      mkdir $otp_dir
+      echo running $otp_exe
+      cmd //c "$otp_exe //D=`pwd -W`/$otp_dir"
+      rm $otp_exe
+    fi
+
+    if [ "$os" = "darwin" ]; then
+      otp_tgz="otp-${otp_version}-macos-universal.tar.gz"
+
+      if [ ! -f $otp_tgz ]; then
+        url="https://github.com/elixir-install/otp_builds/releases/download/OTP-$otp_version/$otp_tgz"
+        echo "downloading $url"
+        curl --fail -LO $url
+      fi
+
+      echo "unpacking $otp_tgz to $otp_dir..."
+      mkdir $otp_dir
+      tar xzf $otp_tgz --strip-components 1 -C $otp_dir
+      (cd $otp_dir && ./Install -sasl $PWD)
+      rm $otp_tgz
+    fi
   fi
 }
 
 install_elixir() {
-  elixir_basename="elixir-otp-$otp_release.zip"
+  elixir_zip="elixir-otp-$otp_release.zip"
 
   if [ ! -d $elixir_dir ]; then
-    url="https://github.com/elixir-lang/elixir/releases/download/v$elixir_version/elixir-otp-$otp_release.zip"
-    echo "downloading $url"
-    curl --fail -LO $url
+    if [ ! -f $elixir_zip ]; then
+      url="https://github.com/elixir-lang/elixir/releases/download/v$elixir_version/$elixir_zip"
+      echo "downloading $url"
+      curl --fail -LO $url
+    fi
+    echo "unpacking $elixir_zip to $elixir_dir..."
     mkdir $elixir_dir
-    unzip $elixir_basename -d $elixir_dir
+    unzip -q $elixir_zip -d $elixir_dir
+    rm $elixir_zip
   fi
 }
 
