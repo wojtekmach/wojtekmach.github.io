@@ -17,10 +17,10 @@ goto :eof
 call :install_otp
 echo checking OTP...
 set PATH=%otp_dir%\bin;%PATH%
-erl.exe -noshell -eval "io:put_chars(erlang:system_info(system_version)), halt()."
+%otp_dir%\bin\erl.exe -noshell -eval "io:put_chars(erlang:system_info(system_version)), halt()."
 call :install_elixir
 echo checking Elixir...
-!elixir_dir!\bin\elixir --version
+call %elixir_dir%\bin\elixir.bat --version
 echo.
 echo Add this to your shell:
 echo.
@@ -35,7 +35,7 @@ if not exist "%otp_dir%" (
     echo downloading !otp_url!...
     curl --fail -LO !otp_url!
     echo running %otp_exe%...
-    .\%otp_exe% /S /D=%CD%\%otp_dir%
+    .\%otp_exe% /S /D=%otp_dir%
 )
 goto :eof
 
