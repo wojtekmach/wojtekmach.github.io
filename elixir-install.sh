@@ -19,7 +19,8 @@ case $arch in
 esac
 
 root_dir="$HOME/.elixir-install"
-mkdir -p $root_dir
+tmp_dir="$root_dir/tmp"
+mkdir -p $tmp_dir
 
 otp_release="${otp_version%%.*}"
 otp_dir="$root_dir/otp-$otp_version"
@@ -62,17 +63,17 @@ install_otp() {
     if [ "$os" = "darwin" ]; then
       otp_tgz="otp-${otp_version}-macos-universal.tar.gz"
 
-      if [ ! -f $otp_tgz ]; then
+      if [ ! -f $tmp_dir/$otp_tgz ]; then
         url="https://github.com/elixir-install/otp_builds/releases/download/OTP-$otp_version/$otp_tgz"
         echo "downloading $url"
-        curl --fail -LO $url
+        curl --fail -L -o "$tmp_dir/$otp_tgz" $url
       fi
 
       echo "unpacking $otp_tgz to $otp_dir..."
       mkdir $otp_dir
-      tar xzf $otp_tgz --strip-components 1 -C $otp_dir
+      tar xzf "$tmp_dir/$otp_tgz" --strip-components 1 -C $otp_dir
       (cd $otp_dir && ./Install -sasl $PWD)
-      rm $otp_tgz
+      rm "$tmp_dir/$otp_tgz"
     fi
   fi
 }
