@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-otp_version="26.2.5"
-elixir_version="1.16.2"
+otp_version="27.0"
+elixir_version="1.16.3"
 
 os=`uname -s`
 case $os in
