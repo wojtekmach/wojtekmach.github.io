@@ -24,13 +24,13 @@ tmp_dir="$root_dir/tmp"
 mkdir -p $tmp_dir
 
 otp_release="${otp_version%%.*}"
-otp_dir="$root_dir/otp-$otp_version"
+otp_dir="$root_dir/otp/$otp_version"
 
 if [[ "$otp_version" =~ ^27\..*$ ]]; then
-  elixir_dir="$root_dir/elixir-$elixir_version-otp-26"
+  elixir_dir="$root_dir/elixir/$elixir_version-otp-26"
   elixir_zip="elixir-otp-26.zip"
 else
-  elixir_dir="$root_dir/elixir-$elixir_version-otp-$otp_release"
+  elixir_dir="$root_dir/elixir/$elixir_version-otp-$otp_release"
   elixir_zip="elixir-otp-$otp_release.zip"
 fi
 
