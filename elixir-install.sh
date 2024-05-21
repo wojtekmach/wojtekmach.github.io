@@ -4,6 +4,7 @@ set -euo pipefail
 otp_version="27.0"
 elixir_version="1.16.3"
 
+
 os=`uname -s`
 case $os in
   Darwin) os=darwin ;;
@@ -25,7 +26,13 @@ mkdir -p $tmp_dir
 otp_release="${otp_version%%.*}"
 otp_dir="$root_dir/otp-$otp_version"
 
-elixir_dir="$root_dir/elixir-$elixir_version-otp-$otp_release"
+if [[ "$otp_version" =~ ^27\..*$ ]]; then
+  elixir_dir="$root_dir/elixir-$elixir_version-otp-26"
+  elixir_zip="elixir-otp-26.zip"
+else
+  elixir_dir="$root_dir/elixir-$elixir_version-otp-$otp_release"
+  elixir_zip="elixir-otp-$otp_release.zip"
+fi
 
 main() {
   install_otp
@@ -79,8 +86,6 @@ install_otp() {
 }
 
 install_elixir() {
-  elixir_zip="elixir-otp-$otp_release.zip"
-
   if [ ! -d $elixir_dir ]; then
     if [ ! -f $elixir_zip ]; then
       url="https://github.com/elixir-lang/elixir/releases/download/v$elixir_version/$elixir_zip"
